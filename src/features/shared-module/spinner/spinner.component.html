@@ -1,0 +1,11 @@
+<ng-container *ngIf="!fullscreen; else fullscreenSpinner">
+    <div class="container">
+      <div class="la-ball-clip-rotate la-dark">
+        <div></div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #fullscreenSpinner>
+      <ngx-spinner type="ball-clip-rotate" size="medium"></ngx-spinner>
+  </ng-template>
+  

@@ -1,0 +1,55 @@
+<nz-layout>
+  <nz-header>
+    <div nz-col nz-menu-group [nzSpan]="6" class="left">
+      <img class="logo" src="../../../assets/images/logo.png" />
+    </div>
+    <div nz-menu-group class="center" nz-col [nzSpan]="12">
+      <ul nz-menu [nzMode]="'horizontal'" [nzTheme]="'light'">
+        <li nz-menu-item nzMatchRouter *ngFor="let item of displayedNavLinks">
+          <a [routerLink]="item.path" routerLinkActive="active">{{
+            item.label
+          }}</a>
+        </li>
+      </ul>
+    </div>
+    <div
+      *ngIf="!isAuthenticated"
+      nz-menu-group
+      class="right"
+      nz-col
+      [nzSpan]="6"
+    >
+      <swp-button
+        [nzType]="'primary'"
+        [routerLink]="['/auth/login']"
+        [nzSize]="'large'"
+        [content]="'Log in'"
+      ></swp-button>
+      <swp-button
+        [nzType]="'primary'"
+        [nzSize]="'large'"
+        [routerLink]="['/auth/sign-up']"
+        [content]="'Get Started'"
+      ></swp-button>
+    </div>
+    <div
+      *ngIf="isAuthenticated"
+      nz-menu-group
+      class="right right-auth"
+      nz-col
+      [nzSpan]="6"
+    >
+      <a nz-dropdown [nzDropdownMenu]="menu">
+        {{ sessionUserName$ | async }}
+        <span nz-icon nzType="down"></span>
+      </a>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu nzSelectable>
+          <li nz-menu-item>Account Settings</li>
+          <li nz-menu-item>Dashboard</li>
+          <li nz-menu-item nzDanger (click)="handleSignOut()">Sign Out</li>
+        </ul>
+      </nz-dropdown-menu>
+    </div>
+  </nz-header>
+</nz-layout>

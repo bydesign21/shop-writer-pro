@@ -1,0 +1,17 @@
+.contact-container-col {
+  display: inline-flex;
+  padding: 3rem;
+  height: 1000px;
+
+  .contact-form {
+    padding: 0.75rem;
+
+    ::ng-deep .ant-col-sm-14 {
+      max-width: 100%;
+    }
+  }
+
+  .contact-info-container-col {
+    padding: 0.75rem;
+  }
+}

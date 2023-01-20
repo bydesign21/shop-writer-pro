@@ -1,0 +1,84 @@
+$color-dark: #333;
+$color-white: #fff;
+
+.container {
+  display: flex;
+  position: relative;
+  height: inherit;
+  width: inherit;
+  justify-content: center;
+}
+
+.la-ball-clip-rotate,
+.la-ball-clip-rotate > div {
+    position: relative;
+    box-sizing: border-box;
+}
+.la-ball-clip-rotate {
+    display: block;
+    font-size: 0;
+    color: $color-white;
+}
+.la-ball-clip-rotate.la-dark {
+    color: $color-dark;
+}
+.la-ball-clip-rotate > div {
+    display: inline-block;
+    float: none;
+    background-color: currentColor;
+    border: 0 solid currentColor;
+}
+.la-ball-clip-rotate {
+    width: 3.2rem;
+    height: 3.2rem;
+}
+.la-ball-clip-rotate > div {
+    width: 3.2rem;
+    height: 3.2rem;
+    background: transparent;
+    border-width: .2rem;
+    border-bottom-color: transparent;
+    border-radius: 100%;
+    animation: ball-clip-rotate .75s linear infinite;
+}
+.la-ball-clip-rotate.la-sm {
+    width: 1.6rem;
+    height: 1.6rem;
+}
+.la-ball-clip-rotate.la-sm > div {
+    width: 1.6rem;
+    height: 1.6rem;
+    border-width: .1rem;
+}
+.la-ball-clip-rotate.la-2x {
+    width: 6.4rem;
+    height: 6.4rem;
+}
+.la-ball-clip-rotate.la-2x > div {
+    width: 6.4rem;
+    height: 6.4rem;
+    border-width: .4rem;
+}
+.la-ball-clip-rotate.la-3x {
+    width: 9.6rem;
+    height: 9.6rem;
+}
+.la-ball-clip-rotate.la-3x > div {
+    width: 9.6rem;
+    height: 9.6rem;
+    border-width: .6rem;
+}
+/*
+ * Animation
+ */
+@keyframes ball-clip-rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    50% {
+      transform: rotate(180deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+}

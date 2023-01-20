@@ -1,7 +1,19 @@
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-
+import awsmobile from './aws-exports';
+import { Amplify, Auth } from 'aws-amplify';
 import { AppModule } from './app/app.module';
+import { persistState } from '@datorama/akita';
+import { debounceTime } from 'rxjs';
 
+const storage = persistState({
+  include: ['session']
+});
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+const providers = [{ provide: 'persistStorage', useValue: storage }];
+
+platformBrowserDynamic(providers)
+  .bootstrapModule(AppModule)
+  .catch((err) => console.log(err));
+
+Amplify.configure(awsmobile);
+Auth.configure(awsmobile);

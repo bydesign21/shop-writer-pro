@@ -1,1 +1,33 @@
 /* You can add global styles to this file, and also import other style files */
+@import "../node_modules/ng-zorro-antd/ng-zorro-antd.min.css";
+@import '~@aws-amplify/ui-angular/theme.css';
+
+body,
+span,
+a,
+p {
+  font-family: "Muli" !important;
+  h1 {
+    font-weight: 500;
+  }
+}
+
+html {
+  height: 100%;
+  overflow-x: hidden;
+}
+body {
+  min-height: 100%;
+}
+
+input,
+textarea {
+  width: 100%;
+}
+input {
+  min-height: 2.5rem;
+}
+textarea {
+  min-height: 4rem;
+}
+

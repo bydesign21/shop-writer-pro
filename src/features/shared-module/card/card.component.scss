@@ -1,0 +1,25 @@
+.card-center {
+  display: block;
+  align-items: center;
+}
+
+.card-image {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  max-width: 120;
+  max-height: 120px;
+  color: black;
+}
+
+::ng-deep {
+  .ant-card-head-title {
+    text-align: center;
+  }
+  .ant-card-meta-description {
+    padding: 0.5rem;
+    text-align: center;
+    margin-top: 2rem;
+    height: 6rem;
+  }
+}

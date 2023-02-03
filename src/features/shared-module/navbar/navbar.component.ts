@@ -1,9 +1,12 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { Observable, Subject, take, takeUntil } from 'rxjs';
 import { SessionQuery } from 'src/app/session-store/domain-state/session.query';
 import { SessionService } from 'src/app/session-store/domain-state/session.service';
 import { AuthServiceService } from 'src/features/auth-module/auth-service.service';
+import { SpinnerService } from '../spinner/spinner.service';
 
 @Component({
   selector: 'app-navbar',
@@ -38,7 +41,9 @@ export class NavbarComponent implements OnDestroy {
     private authService: AuthServiceService,
     private messageService: NzMessageService,
     private sessionService: SessionService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private spinner: SpinnerService,
+    private router: Router
   ) {
     this.sessionUserName$ = this.sessionQuery.name$;
     this.sessionQuery.isAuthenticated$
@@ -57,24 +62,24 @@ export class NavbarComponent implements OnDestroy {
 
 
   handleSignOut() {
+    this.spinner.show();
     this.authService.handleSignOut()
       .pipe(
         take(1)
       )
       .subscribe(
         signOutRes => {
-          console.log('signout', signOutRes)
         },
         error => {
           return this.messageService.error(error.message)
         },
         () => {
           this.sessionService.endSession();
-          this.displayedNavLinks = this.defaultNavLinks;
-          this.isAuthenticated = false;
-          this.cd.detectChanges();
+          this.router.navigate(['/home']);
+          setTimeout(() => this.spinner.hide(), 2000)
         }
       )
+
   }
 
   ngOnDestroy(): void {

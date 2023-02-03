@@ -8,16 +8,10 @@ import { NzSizeLDSType } from 'ng-zorro-antd/core/types';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SpinnerComponent {
-
-  constructor(
-
-  ) {}
+  
   @Input()
   fullscreen?: boolean;
 
-  @Input() size: NzSizeLDSType;
-  @Input() spinning: boolean;
-  @Input() simple: boolean;
-  @Input() indicator: TemplateRef<void>;
+  constructor() {}
 
 }

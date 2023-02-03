@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SpinnerComponent } from './spinner.component';
-import { NgxSpinnerModule } from 'ngx-spinner'
+import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner'
+import { SpinnerService } from './spinner.service';
 
 
 
@@ -11,6 +12,7 @@ import { NgxSpinnerModule } from 'ngx-spinner'
     CommonModule,
     NgxSpinnerModule
   ],
-  exports: [SpinnerComponent]
+  exports: [SpinnerComponent],
+  providers: []
 })
 export class SpinnerModule { }

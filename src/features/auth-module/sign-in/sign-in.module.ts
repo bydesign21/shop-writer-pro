@@ -8,6 +8,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { SpinnerModule } from 'src/features/shared-module/spinner/spinner.module';
 
 
 
@@ -22,6 +24,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     NzCheckboxModule,
     NzInputModule,
     ReactiveFormsModule,
+    SpinnerModule,
+    NgxSpinnerModule
   ],
   exports: [
     SignInComponent

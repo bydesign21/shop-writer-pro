@@ -1,3 +1,4 @@
+@import '../../../../node_modules/ngx-spinner/animations/ball-clip-rotate.css';
 $color-dark: #333;
 $color-white: #fff;
 
@@ -7,6 +8,11 @@ $color-white: #fff;
   height: inherit;
   width: inherit;
   justify-content: center;
+  color: white;
+}
+
+.spinner-description {
+    color: #fff;
 }
 
 .la-ball-clip-rotate,
@@ -39,7 +45,7 @@ $color-white: #fff;
     border-width: .2rem;
     border-bottom-color: transparent;
     border-radius: 100%;
-    animation: ball-clip-rotate .75s linear infinite;
+    animation: la-ball-clip-rotate .75s linear infinite;
 }
 .la-ball-clip-rotate.la-sm {
     width: 1.6rem;
@@ -71,7 +77,7 @@ $color-white: #fff;
 /*
  * Animation
  */
-@keyframes ball-clip-rotate {
+@keyframes la-ball-clip-rotate {
     0% {
       transform: rotate(0deg);
     }

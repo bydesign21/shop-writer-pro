@@ -119,13 +119,61 @@
   justify-content: space-evenly;
 }
 
+:host ::ng-deep .upload-list-inline .ant-upload-list-item {
+  float: left;
+  width: 200px;
+  margin-right: 8px;
+}
+
+:host
+  ::ng-deep
+  .upload-list-inline
+  [class*="-upload-list-rtl"]
+  .ant-upload-list-item {
+  float: right;
+}
+
+:host ::ng-deep .upload-list-inline .ant-upload-animate-enter {
+  animation-name: uploadAnimateInlineIn;
+}
+
+:host ::ng-deep .upload-list-inline .ant-upload-animate-leave {
+  animation-name: uploadAnimateInlineOut;
+}
+
+.form-inner {
+  .review-form {
+    text-align: left;
+    padding-left: 7.5% !important;
+    padding-right: 7.5%;
+    p {
+      padding-left: 10% !important;
+    }
+    &__img {
+      max-height: 100% !important;
+      max-width: 100% !important;
+    }
+  }
+}
+
+.submit-payment {
+  &__button {
+    ::ng-deep .ant-btn {
+      margin-top: 1rem;
+      width: 100% !important;
+      background-color: black;
+      color: white;
+    }
+  }
+}
+
 @media (max-width: 768px) {
-    .plan-group {
-        display: block;
-        align-items: center;
-      
-        ::ng-deep span.ant-radio {
-          display: none;
-        }
-      }
+  .plan-group {
+    display: block;
+    align-items: center;
+
+    ::ng-deep span.ant-radio {
+      display: none;
+    }
+  }
 }

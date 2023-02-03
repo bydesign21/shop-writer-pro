@@ -14,8 +14,9 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NzInputModule } from 'ng-zorro-antd/input';
-
-
+import { NzCollapseModule } from 'ng-zorro-antd/collapse'
+import { NzImageModule } from 'ng-zorro-antd/image'
+import { NzCardModule } from 'ng-zorro-antd/card';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,10 @@ import { NzInputModule } from 'ng-zorro-antd/input';
     NzUploadModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    NzInputModule
-  ]
+    NzInputModule,
+    NzCollapseModule,
+    NzImageModule,
+    NzCardModule
+  ],
 })
 export class TicketingModuleModule { }

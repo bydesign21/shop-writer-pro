@@ -6,6 +6,8 @@ import { Subject, take, takeUntil } from 'rxjs';
 import { AuthServiceService } from '../auth-service.service';
 import { SessionService } from 'src/app/session-store/domain-state/session.service';
 import { SessionState } from 'src/app/session-store/domain-state/session.store';
+import { SpinnerService } from 'src/features/shared-module/spinner/spinner.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-sign-in',
@@ -22,7 +24,8 @@ export class SignInComponent implements OnInit, OnDestroy {
     private messageService: NzMessageService,
     private router: Router,
     private session: SessionService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private spinner: SpinnerService
   ) { }
 
   ngOnDestroy(): void {
@@ -35,6 +38,7 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    this.spinner.show();
     const { username, password, rememberMe } = this.form.getRawValue();
     this.authService.handleLogIn({ username, password })
       .pipe(
@@ -54,6 +58,7 @@ export class SignInComponent implements OnInit, OnDestroy {
         },
         () => {
           this.router.navigate(['/home']);
+            setTimeout(() => this.spinner.hide(), 2000)
         });
   }
 

@@ -14,6 +14,8 @@ import { AkitaNgDevtools } from '@datorama/akita-ngdevtools'
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { SessionService } from './session-store/domain-state/session.service';
+import { SpinnerModule } from 'src/features/shared-module/spinner/spinner.module';
+import { NgxSpinnerModule } from 'ngx-spinner';
 @NgModule({
   declarations: [
     AppComponent
@@ -29,7 +31,8 @@ import { SessionService } from './session-store/domain-state/session.service';
     NzIconModule,
     GooglePlaceModule,
     NzMessageModule,
-    AkitaNgDevtools.forRoot()
+    AkitaNgDevtools.forRoot({}),
+    SpinnerModule,
   ],
   entryComponents: [
     HomeComponent

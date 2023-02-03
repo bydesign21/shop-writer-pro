@@ -8,6 +8,7 @@ import { CardModule } from '../shared-module/card/card.module';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzTableModule } from 'ng-zorro-antd/table';
+import { SpinnerModule } from '../shared-module/spinner/spinner.module';
 
 
 
@@ -23,7 +24,8 @@ import { NzTableModule } from 'ng-zorro-antd/table';
     NzLayoutModule,
     NzGridModule,
     NzTableModule,
-    NavbarModule
+    NavbarModule,
+    SpinnerModule
   ],
   exports: [
     HomeComponent,

@@ -1,46 +1,86 @@
 <app-navbar></app-navbar>
 <nz-layout>
-  <nz-content>
+  <nz-content class="contact-container">
     <nz-row>
-      <nz-col nzSpan="24" class="contact-container-col">
-          <nz-col nzSpan="12" class="contact-form">
-            <h1>Get in touch</h1>
-            <p>Have a question? We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
-            <form nz-form [nzLayout]="'vertical'">
-              <nz-form-item>
-                <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Full Name</nz-form-label>
-                <nz-form-control [nzSm]="14" [nzXs]="24">
-                  <input nz-input>
-                </nz-form-control>
-              </nz-form-item>
-              <nz-form-item>
-                <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Email</nz-form-label>
-                <nz-form-control [nzSm]="14" [nzXs]="24">
-                  <input nz-input>
-                </nz-form-control>
-              </nz-form-item>
-              <nz-form-item>
-                <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Message</nz-form-label>
-                <nz-form-control [nzSm]="14" [nzXs]="24">
-                  <textarea nz-input></textarea>
-                </nz-form-control>
-              </nz-form-item>
-              <nz-form-item>
-                <nz-form-control [nzSpan]="14">
-                  <swp-button nzType="primary" content="Submit"></swp-button>
-                </nz-form-control>
-              </nz-form-item>
-            </form>
-          </nz-col>
-          <nz-col nzSpan="12" class="contact-info-container-col">
-            <h1>Our Location</h1>
-            <p>Shop Writer Pro</p>
-            <p>1234 Main Street</p>
-            <p>Anytown, USA 12345</p>
-            <p>Phone: 555-555-5555</p>
-            <p>Email: admin@shopwriterpro.com</p>
-            </nz-col>
+      <nz-col nzSpan="24" class="contact-form">
+        <h1>Get in touch</h1>
+        <p>
+          Have a question? We'd love to hear from you. Send us a message and<br>
+          we'll respond as soon as possible.
+        </p>
+        <form nz-form [nzLayout]="'vertical'">
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired
+              >Full Name</nz-form-label
+            >
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+              <input nz-input />
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired
+              >Email</nz-form-label
+            >
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+              <input nz-input />
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired
+              >Message</nz-form-label
+            >
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+              <textarea nz-input></textarea>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control [nzSpan]="14">
+              <swp-button nzType="primary" content="Submit"></swp-button>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
       </nz-col>
     </nz-row>
+    <nz-row nzJustify="center" nzAlign="middle">
+      <nz-col nzSpan="24">
+        <h1>Have Questions?</h1>
+      </nz-col>
+    </nz-row>
+    <div class="contact-info">
+      <nz-row nzGutter="8" nzAlign="middle" nzJustify="space-around">
+        <div nz-col nzSpan="8">
+          <nz-card [nzCover]="coverTemplate">
+            <nz-card-meta [nzTitle]="'Phone'" [nzDescription]="'555-555-5555'">
+            </nz-card-meta>
+          </nz-card>
+        </div>
+        <div nz-col nzSpan="8">
+          <nz-card [nzCover]="coverTemplate">
+            <nz-card-meta
+              [nzTitle]="'Address'"
+              [nzDescription]="'1234 Main Street \n Anytown, USA. 12345'"
+            >
+            </nz-card-meta>
+          </nz-card>
+        </div>
+        <div nz-col nzSpan="8">
+          <nz-card [nzCover]="coverTemplate">
+            <nz-card-meta
+              [nzTitle]="'Email'"
+              [nzDescription]="'admin@shopwriterpro.com'"
+            >
+            </nz-card-meta>
+          </nz-card>
+        </div>
+      </nz-row>
+    </div>
   </nz-content>
 </nz-layout>
+
+<ng-template #coverTemplate>
+  <img
+    style="scale: 0.5"
+    alt="example"
+    src="../../assets/images/email-icon.svg"
+  />
+</ng-template>

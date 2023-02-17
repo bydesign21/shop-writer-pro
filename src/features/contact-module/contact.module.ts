@@ -12,6 +12,8 @@ import { FormsModule } from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NavbarComponent } from '../shared-module/navbar/navbar.component';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 
 
@@ -29,7 +31,9 @@ import { NzInputModule } from 'ng-zorro-antd/input';
     NzTableModule,
     NzFormModule,
     NavbarModule,
-    NzInputModule
+    NzInputModule,
+    NzCardModule,
+    NzIconModule
   ],
   exports: [
     ContactComponent,

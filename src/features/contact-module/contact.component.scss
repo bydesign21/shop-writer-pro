@@ -15,3 +15,20 @@
     padding: 0.75rem;
   }
 }
+
+.contact-container {
+  margin-left: 10vw;
+  margin-right: 10vw;
+}
+
+@media (max-width: 768px) {
+  .contact-info {
+   ::ng-deep .ant-row {
+      flex-flow: column !important;
+    }
+    .ant-col-8 {
+      max-width: none;
+      width: 100%;
+    }
+  }
+}

@@ -10,6 +10,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SpinnerModule } from 'src/features/shared-module/spinner/spinner.module';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -25,7 +26,8 @@ import { SpinnerModule } from 'src/features/shared-module/spinner/spinner.module
     NzInputModule,
     ReactiveFormsModule,
     SpinnerModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    RouterModule
   ],
   exports: [
     SignInComponent

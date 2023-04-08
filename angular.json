@@ -39,7 +39,8 @@
               "src/styles.scss",
               "node_modules/ngx-spinner/animations/ball-clip-rotate.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": []
           },
           "configurations": {
             "production": {
@@ -107,5 +108,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

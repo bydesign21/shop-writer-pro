@@ -1,8 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { Options } from 'ngx-google-places-autocomplete/objects/options/options';
 import { map, Subject, take, takeUntil } from 'rxjs';
-import { AuthServiceService } from '../auth-service.service';
+import { AuthService } from '../auth-service.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -15,10 +17,12 @@ export class SignUpComponent implements OnInit, OnDestroy {
   destroy$ = new Subject();
 
   constructor(
-    private authService: AuthServiceService
-  ) {
+    private authService: AuthService,
+    private messageService: NzMessageService,
+    private cd: ChangeDetectorRef,
+    private router: Router
+  ) { }
 
-  }
   ngOnInit(): void {
     this.initForm();
     this.authService.handleSignOut();
@@ -55,13 +59,50 @@ export class SignUpComponent implements OnInit, OnDestroy {
       this.authService.handleSignUp({
         email,
         password,
-        attributes: { email, phoneNumber, address, name }
+        attributes: {
+          email,
+          phone_number: phoneNumber,
+          address,
+          name
+        }
       })
         .pipe(
           take(1),
           takeUntil(this.destroy$)
         )
-        .subscribe(res => console.log(res))
+        .subscribe(signUpRes => {
+          this.messageService.success(`A code has been sent to ${signUpRes?.user['username']}`);
+          this.router.navigate(['auth/login/confirm-account'], { queryParams: { userId: signUpRes.user['username'] } });
+        },
+          err => {
+            this.messageService.error(err.message)
+            // this.handleErrorResponse(err.code);
+          })
     }
   }
+
+  // handleErrorResponse(errorCode: string) {
+  //   if (!errorCode) {
+  //     //TODO write logic to handle userUnauthExcep
+  //   }
+
+  //   switch (errorCode) {
+  //     case 'AuthError':
+  //       // this.handleAuthError();
+  //       break;
+  //     case 'UserNotFoundException':
+  //       // this.handleUserNotFoundError();
+  //       this.form.setErrors({})
+  //       break;
+  //     case 'InvalidParameterException':
+  //       console.log(errorCode);
+  //       break;
+  //     case 'UserNotConfirmedException':
+  //       // this.handleUserNotConfirmedError();
+  //       break;
+  //     default:
+  //       // this.handleLoginFail();
+  //       break;
+  //   }
+  // }
 }

@@ -27,7 +27,14 @@ textarea {
 input {
   min-height: 2.5rem;
 }
+input:-internal-autofill-selected {
+  appearance: menulist-button;
+  background-image: none !important;
+  background-color: white !important;
+  color: fieldtext !important;
+}
 textarea {
   min-height: 4rem;
 }
+
 

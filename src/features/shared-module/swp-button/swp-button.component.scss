@@ -6,7 +6,6 @@
   font-size: 4rem;
   font-weight: 600;
   height: 3rem;
-  line-height: 3rem;
   width: 4.5rem;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -71,9 +70,7 @@
 ::ng-deep {
   .ant-btn {
     span {
-      padding: 0.25rem;
       position: relative;
-      bottom: 0.25rem;
       display: unset;
     }
   }

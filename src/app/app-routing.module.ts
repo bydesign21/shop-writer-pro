@@ -2,16 +2,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from 'src/features/home-module/home.component';
 import { ContactComponent } from 'src/features/contact-module/contact.component';
-import { TicketingContainerComponent } from 'src/features/ticketing-module/ticketing-container/ticketing-container.component';
-import { SignInComponent, SignUpComponent } from '@aws-amplify/ui-angular';
-import { AuthModuleModule } from 'src/features/auth-module/auth-module.module';
-import { AuthRoutingModule } from 'src/features/auth-module/auth-routing.module';
 
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: '/home',
     pathMatch: 'full'
   },
   {
@@ -23,12 +19,12 @@ const routes: Routes = [
     component: ContactComponent
   },
   {
-    path: 'tickets',
-    component: TicketingContainerComponent,
+    path: 'dashboard',
+    loadChildren: () => import('src/features/dashboard-module/dashboard-module.module').then(m => m.DashboardModule)
   },
   {
     path: 'auth',
-    loadChildren: () => import('src/features/auth-module/auth-module.module').then(m => m.AuthModuleModule)
+    loadChildren: () => import('src/features/auth-module/auth-module.module').then(m => m.AuthModule)
   }
 ];
 @NgModule({

@@ -8,15 +8,10 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { Auth } from 'aws-amplify';
 import awsmobile from 'src/aws-exports';
-import { NzFormModule } from 'ng-zorro-antd/form';
 import {NzInputModule} from 'ng-zorro-antd/input'
-import { SwpButtonComponent } from '../shared-module/swp-button/swp-button.component';
-import { SwpButtonModule } from '../shared-module/swp-button/swp-button.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SignInModule } from './sign-in/sign-in.module';
-import { SignUpComponent } from './sign-up/sign-up.component';
 import { SignUpModule } from './sign-up/sign-up.module';
-import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { ConfirmAccountModule } from './confirm-account/confirm-account.module';
 
 Auth.configure(awsmobile);
 
@@ -32,10 +27,10 @@ Auth.configure(awsmobile);
     NzLayoutModule,
     NzGridModule,
     AmplifyAuthenticatorModule,
-    SwpButtonModule,
     NzInputModule,
     SignInModule,
     SignUpModule,
+    ConfirmAccountModule
   ],
   providers: [
     AuthenticatorService,
@@ -43,4 +38,4 @@ Auth.configure(awsmobile);
   exports: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class AuthModuleModule { }
+export class AuthModule { }

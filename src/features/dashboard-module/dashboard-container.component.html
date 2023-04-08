@@ -1,0 +1,67 @@
+<nz-layout class="layout">
+  <nz-drawer
+    (nzOnClose)="menuIsVisible = !menuIsVisible"
+    [nzVisible]="menuIsVisible"
+    nzPlacement="left"
+    [nzWidth]="'200px'"
+    [nzClosable]="true"
+  >
+    <ng-container *nzDrawerContent #navigationMenu>
+      <ul class="navigation-menu-list" nz-menu nzTheme="dark" nzMode="inline">
+        <li nz-menu-item nzMatchRouter>
+          <a [routerLink]="'home'" routerLinkActive="true">
+            <span nz-icon nzType="home"></span>
+            <span>Home</span>
+          </a>
+        </li>
+        <li nz-menu-item nzMatchRouter>
+          <a [routerLink]="'profile'" routerLinkActive="true">
+            <span nz-icon nzType="user"></span>
+            <span>Profile</span>
+          </a>
+        </li>
+        <li nz-menu-item nzMatchRouter>
+          <a [routerLink]="'transactions'" routerLinkActive="true">
+            <span nz-icon nzType="unordered-list"></span>
+            <span>Transactions</span>
+          </a>
+        </li>
+        <li nz-menu-item nzMatchRouter>
+          <a [routerLink]="'settings'" routerLinkActive="true">
+            <span nz-icon nzType="setting"></span>
+            <span>Settings</span>
+          </a>
+        </li>
+        <li nz-menu-item nzMatchRouter>
+          <a (click)="handleLogoutClicked($event)" routerLinkActive="true">
+            <span nz-icon nzType="poweroff"></span>
+            <span>Logout</span>
+          </a>
+        </li>
+      </ul>
+    </ng-container>
+  </nz-drawer>
+
+  <nz-layout>
+    <nz-header>
+      <div class="header">
+        <div class="__logo">
+          <img src="../../assets/images/logo.png" />
+        </div>
+        <div class="__menu-button">
+          <span
+            (click)="handleMenuButtonClicked()"
+            nz-icon
+            nzType="menu"
+          ></span>
+        </div>
+      </div>
+    </nz-header>
+    <nz-content>
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+    <nz-footer>ShopWriterPro ©2023 Designed By Logan Vasquez</nz-footer>
+  </nz-layout>
+</nz-layout>

@@ -4,8 +4,8 @@
       <nz-col class="authentication-modal" nzSpan="24">
         <nz-row nzJustify="center" nzAlign="middle">
           <nz-col class="authentication-modal" nzSpan="24">
-            <router-outlet>
-              <img class="logo" src="../../../assets/images/logo.png" />
+            <img class="logo" src="../../../assets/images/logo.png" />
+            <router-outlet *ngIf="!(isAuthenticated$ | async)">
             </router-outlet>
           </nz-col>
         </nz-row>

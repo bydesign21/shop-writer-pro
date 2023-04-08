@@ -1,0 +1,130 @@
+<nz-collapse class="review-form" nzGhost>
+  <nz-collapse-panel
+    *ngFor="let panel of panels"
+    [nzHeader]="panel.name"
+    [nzActive]="panel.active"
+    [nzDisabled]="panel.disabled"
+  >
+    <div *ngIf="panel.id === 1">
+      <nz-card
+        [nzTitle]="updatedTicket.plan"
+        [nzExtra]="'$' + updatedTicket.totalUSD"
+      >
+        <nz-form-item>
+          <p>Summary: {{ updatedTicket.description }}</p>
+        </nz-form-item>
+      </nz-card>
+    </div>
+    <div *ngIf="panel.id === 2">
+      <span
+        nz-icon
+        nzType="edit"
+        (click)="handleEditButtonTrigger($event)"
+        class="edit-button"
+      ></span>
+      <nz-card
+        style="display: flex; flex-direction: column"
+        [nzTitle]="'Vehicle Details'"
+      >
+        <nz-form-item>
+          <nz-form-label>Vin</nz-form-label>
+          <input
+            nz-input
+            required="true"
+            [disabled]="!editVehicleInfo"
+            [placeholder]="updatedTicket.vin"
+            [(ngModel)]="updatedTicket.vin"
+          />
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label>Year</nz-form-label>
+          <input
+            nz-input
+            required="true"
+            [disabled]="!editVehicleInfo"
+            [placeholder]="updatedTicket.year"
+            [(ngModel)]="updatedTicket.year"
+          />
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label>Make</nz-form-label>
+          <input
+            nz-input
+            required="true"
+            [disabled]="!editVehicleInfo"
+            [placeholder]="updatedTicket.make"
+            [(ngModel)]="updatedTicket.make"
+          />
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label>Model</nz-form-label>
+          <input
+            nz-input
+            required="true"
+            [disabled]="!editVehicleInfo"
+            [placeholder]="updatedTicket.model"
+            [(ngModel)]="updatedTicket.model"
+          />
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label>Mileage</nz-form-label>
+          <input
+            nz-input
+            required="true"
+            [disabled]="!editVehicleInfo"
+            [placeholder]="updatedTicket.mileage | number : '1.0-0'"
+            [ngModel]="updatedTicket.mileage | number : '1.0-0'"
+            (ngModelChange)="
+              updatedTicket.mileage = $event.replaceAll(',', '')
+            "
+          />
+        </nz-form-item>
+        <nz-button-group *ngIf="editVehicleInfo" class="">
+          <button nz-button (click)="handleEditVehicleInfo($event)" type="submit">Save Changes</button>
+        </nz-button-group>
+      </nz-card>
+    </div>
+    <div *ngIf="panel.id === 3">
+      <span
+        nz-icon
+        nzType="edit"
+        (click)="handleEditButtonTrigger($event)"
+        class="edit-button"
+      ></span>
+      <nz-card
+        style="display: flex; flex-direction: column"
+        [nzTitle]="'Vehicle Damage'"
+      >
+        <nz-form-item>
+          <nz-form-label>Damage Description</nz-form-label>
+          <textarea
+            nz-input
+            rows="10"
+            required="true"
+            [disabled]="!editVehicleInfo"
+            [(ngModel)]="updatedTicket.description"
+            (ngModelChange)="updatedTicket.description = $event"
+          ></textarea>
+        </nz-form-item>
+        <nz-button-group *ngIf="editVehicleInfo">
+          <button nz-button (click)="handleEditVehicleInfo($event)" type="button">Save Changes</button>
+        </nz-button-group>
+      </nz-card>
+    </div>
+    <div *ngIf="panel.id === 4">
+      <nz-card [nzTitle]="'Uploaded Images'">
+        <div>
+          <nz-image-group>
+            <img
+              nz-image
+              class="review-form__img"
+              *ngFor="let img of updatedTicket.images"
+              nzSrc="{{ img }}"
+            />
+          </nz-image-group>
+        </div>
+      </nz-card>
+    </div>
+  </nz-collapse-panel>
+</nz-collapse>

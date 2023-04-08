@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subject, take, takeUntil } from 'rxjs';
-import { AuthServiceService } from '../auth-service.service';
+import { AuthService } from '../auth-service.service';
 import { SessionService } from 'src/app/session-store/domain-state/session.service';
 import { SessionState } from 'src/app/session-store/domain-state/session.store';
 import { SpinnerService } from 'src/features/shared-module/spinner/spinner.service';
@@ -18,14 +18,16 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class SignInComponent implements OnInit, OnDestroy {
   form: FormGroup = new FormGroup({});
   destroy$ = new Subject();
+  loggedUsername: string;
 
   constructor(
-    private authService: AuthServiceService,
+    private authService: AuthService,
     private messageService: NzMessageService,
     private router: Router,
     private session: SessionService,
     private cd: ChangeDetectorRef,
-    private spinner: SpinnerService
+    private spinner: SpinnerService,
+    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnDestroy(): void {
@@ -40,6 +42,7 @@ export class SignInComponent implements OnInit, OnDestroy {
   onSubmit() {
     this.spinner.show();
     const { username, password, rememberMe } = this.form.getRawValue();
+    this.loggedUsername = username;
     this.authService.handleLogIn({ username, password })
       .pipe(
         takeUntil(this.destroy$),
@@ -52,14 +55,16 @@ export class SignInComponent implements OnInit, OnDestroy {
           this.cd.detectChanges();
         },
         error => {
-          console.log('error', error)
+          console.log(error)
           this.handleErrorResponse(error?.name);
+          this.spinner.hide();
           this.messageService.error(error.message);
         },
         () => {
-          this.router.navigate(['/home']);
-            setTimeout(() => this.spinner.hide(), 2000)
+          this.router.navigate(['/dashboard']);
+          this.spinner.hide();
         });
+
   }
 
   initForm() {
@@ -109,7 +114,7 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   handleUserNotConfirmedError() {
-    console.log('userNotConfirmed')
+    this.router.navigate(['confirm-account'], { queryParams: {userId: this.loggedUsername.trim().toLowerCase()}, relativeTo: this.activatedRoute });
   }
 
   handleLoginFail() {
@@ -117,7 +122,7 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   public mapLoginResToSession(loginRes: any): SessionState {
-    console.log(loginRes.attributes)
+    console.log(loginRes)
     return {
       id: loginRes?.attributes?.sub,
       name: loginRes?.attributes?.name,

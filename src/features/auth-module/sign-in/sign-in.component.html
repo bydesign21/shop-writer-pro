@@ -43,6 +43,7 @@
           nz-button
           class="login-form-button login-form-margin"
           [nzType]="'default'"
+          [routerLink]="['/auth/sign-up']"
         >
           Sign Up
         </button>
@@ -70,6 +71,7 @@
     </div>
     <div *ngIf="form.hasError('required')"  >
       name is required
-  </div>  
+  </div>
   </nz-form>
+  <router-outlet></router-outlet>
 </div>

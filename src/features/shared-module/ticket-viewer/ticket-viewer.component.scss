@@ -1,0 +1,35 @@
+img.review-form__img {
+  width: -webkit-fill-available;
+  max-width: 500px;
+}
+
+.review-form {
+  display: flex;
+  flex-direction: column;
+  vertical-align: middle;
+  position: relative;
+  top: 2rem;
+}
+
+.edit-button {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  z-index: 1000;
+  top: 2.5rem;
+  right: 2rem;
+  font-size: large;
+  color: grey;
+}
+
+::ng-deep {
+  .ant-modal-footer {
+    display: none;
+  }
+  .ant-form-item {
+    margin-bottom: 5px;
+  }
+  button.ant-btn {
+    margin-top: 12px;
+  }
+}

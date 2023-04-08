@@ -11,10 +11,10 @@ export class SpinnerService {
       ) {}
 
       public show(name?: string): Observable<unknown> {
-        return from(this.spinner.show(name));
+        return from(this.spinner.show(name || 'app-spinner'));
       }
-    
+
       public hide(name?: string): Observable<unknown> {
-       return from(this.spinner.hide(name))
+       return from(this.spinner.hide(name || 'app-spinner'))
       }
 }

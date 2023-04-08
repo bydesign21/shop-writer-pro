@@ -1,0 +1,100 @@
+::ng-deep .layout {
+  min-height: 100vh;
+}
+
+::ng-deep {
+  .navigation-menu-list li:last-child {
+    margin-top: 100%;
+  }
+  .ant-drawer-wrapper-body {
+    background-color: black;
+  }
+  .ant-menu-dark .ant-menu-sub,
+  .ant-menu.ant-menu-dark,
+  .ant-menu.ant-menu-dark .ant-menu-sub {
+    background-color: black;
+    span > svg {
+      font-size: 25px;
+    }
+  }
+  .ant-drawer-close {
+    color: white !important;
+  }
+  .ant-drawer-header-close-only {
+    background: black;
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  & .__logo {
+    height: 32px;
+    margin: 16px;
+    margin-right: 0px;
+    max-width: 30px;
+
+    img {
+      scale: 0.5;
+      display: flex;
+      justify-content: flex-start;
+      position: relative;
+      bottom: 2rem;
+      right: 6rem;
+    }
+  }
+
+  & .__menu-button {
+    margin-right: 2rem;
+    margin-top: 0.25rem;
+
+    ::ng-deep span {
+      font-size: x-large;
+      border: 1px solid #f0f2f5;
+    }
+    span:hover {
+      border: 1px solid black;
+    }
+  }
+}
+
+nz-header {
+  background: #fff;
+  padding: 0;
+}
+
+nz-content {
+  margin: 24px 16px 0;
+}
+
+.inner-content {
+  padding: 24px;
+  background: #fff;
+  min-height: 360px;
+}
+
+nz-footer {
+  text-align: center;
+}
+
+::ng-deep .ticket-viewer-modal > .ant-modal-content > .ant-modal-body {
+  height: 600px;
+  overflow-y: scroll;
+}
+
+::ng-deep .ant-menu-item {
+  padding-left: 0.75rem !important;
+
+  svg {
+    position: relative;
+    top: 0.3rem;
+  }
+}
+
+.dashboard-content-spinner {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  top: 20vh;
+}

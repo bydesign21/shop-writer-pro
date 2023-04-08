@@ -13,7 +13,6 @@
       </ul>
     </div>
     <div
-      *ngIf="!isAuthenticated"
       nz-menu-group
       class="right"
       nz-col
@@ -31,25 +30,6 @@
         [routerLink]="['/auth/sign-up']"
         [content]="'Get Started'"
       ></swp-button>
-    </div>
-    <div
-      *ngIf="isAuthenticated"
-      nz-menu-group
-      class="right right-auth"
-      nz-col
-      [nzSpan]="6"
-    >
-      <a nz-dropdown [nzDropdownMenu]="menu">
-        {{ sessionUserName$ | async }}
-        <span nz-icon nzType="down"></span>
-      </a>
-      <nz-dropdown-menu #menu="nzDropdownMenu">
-        <ul nz-menu nzSelectable>
-          <li nz-menu-item>Account Settings</li>
-          <li nz-menu-item>Dashboard</li>
-          <li nz-menu-item nzDanger (click)="handleSignOut()">Sign Out</li>
-        </ul>
-      </nz-dropdown-menu>
     </div>
   </nz-header>
 </nz-layout>

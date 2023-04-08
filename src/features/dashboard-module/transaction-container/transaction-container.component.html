@@ -1,0 +1,66 @@
+<nz-row>
+  <nz-col nzSpan="24">
+    <nz-breadcrumb nz-page-header-breadcrumb>
+      <nz-breadcrumb-item>
+        <a [routerLink]="['../home']">Dashboard-Home</a>
+      </nz-breadcrumb-item>
+      <nz-breadcrumb-item>
+        <a>Transaction List</a>
+      </nz-breadcrumb-item>
+    </nz-breadcrumb>
+  </nz-col>
+</nz-row>
+<nz-row *ngIf="openOrders.length > 0" class="__first-row">
+  <nz-col class="open-orders" nzSpan="24">
+    <nz-card class="__card">
+      <nz-table
+        [nzPageIndex]="openOrderPageIndex"
+        [nzLoading]="(dataLoading$ | async)"
+        [nzLoadingIndicator]="loadingIndicator"
+        [nzTotal]="openOrders?.length"
+        [nzNoResult]="'No results'"
+        (nzPageIndexChange)="handleOpenOrderPageChange($event)"
+        [nzPageSize]="openOrderTableLimit"
+        [nzData]="openOrders"
+      >
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Status</th>
+            <th>VIN</th>
+            <th>Model</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of openOrderPagedData">
+            <td>{{ item.date | date : "MMM, dd. yyyy." }}</td>
+            <td>
+              <nz-tag
+                style="border-radius: 0.8rem"
+                [nzColor]="
+                  item.status === 'processing' ? 'processing' : 'warning'
+                "
+                >{{ item.status }}</nz-tag
+              >
+            </td>
+            <td>{{ item.vin }}</td>
+            <td>{{ item.model }}</td>
+            <td>
+              <a (click)="handleViewTicket(item)">View</a>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </nz-card>
+  </nz-col>
+</nz-row>
+<ng-template #nzModalContent>
+  <app-ticket-viewer
+    class="ticket-viewer"
+    [ticket]="selectedTicket"
+  ></app-ticket-viewer>
+</ng-template>
+<ng-template #loadingIndicator>
+  <span style="position: relative; top: 10vh; font-size: xxx-large;" nz-icon nzType="loading"></span>
+</ng-template>

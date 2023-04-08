@@ -1,0 +1,14 @@
+::ng-deep form {
+  width: 45vw;
+  max-width: 500px;
+}
+
+.control-row {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+.code-form-item {
+  display: inline;
+}

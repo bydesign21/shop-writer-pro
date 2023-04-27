@@ -2,8 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Options } from 'ngx-google-places-autocomplete/objects/options/options';
-import { map, Subject, take, takeUntil } from 'rxjs';
+import { Subject, take, takeUntil } from 'rxjs';
 import { AuthService } from '../auth-service.service';
 
 @Component({
@@ -26,7 +25,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initForm();
     this.authService.handleSignOut();
-    this.authService.loggedInUser$.subscribe(res => console.log(res))
   }
 
   ngOnDestroy(): void {

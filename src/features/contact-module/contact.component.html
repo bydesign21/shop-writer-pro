@@ -1,9 +1,10 @@
 <app-navbar></app-navbar>
 <nz-layout>
   <nz-content>
-    <nz-row>
-      <nz-col nzSpan="24" class="contact-container-col">
-          <nz-col nzSpan="12" class="contact-form">
+    <nz-row class="contact-container">
+      <nz-col nzSpan="24">
+        <nz-row>
+          <nz-col nzSpan="24" [nzLg]="12" class="contact-form">
             <h1>Get in touch</h1>
             <p>Have a question? We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
             <form nz-form [nzLayout]="'vertical'">
@@ -32,14 +33,15 @@
               </nz-form-item>
             </form>
           </nz-col>
-          <nz-col nzSpan="12" class="contact-info-container-col">
+          <nz-col nzSpan="24" [nzLg]="12" class="contact-info-container">
             <h1>Our Location</h1>
             <p>Shop Writer Pro</p>
             <p>1234 Main Street</p>
             <p>Anytown, USA 12345</p>
             <p>Phone: 555-555-5555</p>
             <p>Email: admin@shopwriterpro.com</p>
-            </nz-col>
+          </nz-col>
+        </nz-row>
       </nz-col>
     </nz-row>
   </nz-content>

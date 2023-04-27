@@ -1,10 +1,11 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { from, map, of, take } from 'rxjs';
+import { from, take } from 'rxjs';
 import { Ticket } from 'src/features/dashboard-module/ticketing/store/ticket.model';
 import { TicketService } from 'src/features/dashboard-module/ticketing/ticket.service';
 import { SharedUtilsService } from '../shared-utils/shared-utils.service';
+import { insuranceList } from '../shared-utils/shared.model';
 
 @Component({
   selector: 'app-ticket-viewer',
@@ -21,7 +22,8 @@ constructor(
 ) {}
 @Input() ticket: Ticket;
 updatedTicket: Ticket;
-editVehicleInfo: boolean = false;
+editVehicleInfo = false;
+insuranceList = insuranceList;
 panels = [
   {
     active: true,
@@ -62,6 +64,7 @@ handleEditVehicleInfo(event: any) {
     const vehicleInfo: Ticket = {
       ...this.updatedTicket,
       lastUpdated: new Date().toISOString(),
+      insurance: this.updatedTicket.insurance['value'] ? this.updatedTicket.insurance['value'] : this.updatedTicket.insurance
     };
     from(this.ticketService.updateTicket(vehicleInfo))
     .pipe(

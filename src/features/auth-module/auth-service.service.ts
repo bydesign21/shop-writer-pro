@@ -1,6 +1,7 @@
-import { ChangeDetectorRef, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Auth } from 'aws-amplify';
-import { catchError, from, iif, map, Observable, of, switchMap } from 'rxjs';
+import { catchError, from, iif, map, Observable, of, switchMap, tap } from 'rxjs';
+import { SessionService } from 'src/app/session-store/domain-state/session.service';
 import awsmobile from 'src/aws-exports';
 
 @Injectable({
@@ -9,24 +10,31 @@ import awsmobile from 'src/aws-exports';
 export class AuthService {
   public get loggedInUser$(): Observable<any> {
     if (!Auth) {
+      this.sessionService.endSession();
       return of(false);
     }
     return from(
       Auth
         .currentAuthenticatedUser()
         .then(res => res)
-        .catch(e => false)
-    ).pipe(catchError(_ => of(false)));
+        .catch(e => {
+          this.sessionService.endSession();
+          return false
+        })
+    ).pipe(catchError(_ => {
+      return of(false);
+    }));
   }
 
-  public get currentSession$(): Observable<any> {
-    return this.loggedInUser$.pipe(
-      switchMap(user => iif(() => Boolean(user), from(Auth.currentSession()), of(false))),
-      catchError(_ => of(false))
-    );
-  }
+  // public get currentSession$(): Observable<any> {
+  //   return this.loggedInUser$.pipe(
+  //     switchMap(user => iif(() => Boolean(user), from(Auth.currentSession()), of(false))),
+  //     catchError(_ => of(false))
+  //   );
+  // }
 
   constructor(
+    private sessionService: SessionService
   ) {
     Auth.configure(awsmobile);
   }
@@ -44,10 +52,13 @@ export class AuthService {
       password,
       attributes
     }));
-  };
+  }
 
   public handleSignOut() {
-    return from(Auth.signOut()).pipe(map(res => res));
+    return from(Auth.signOut()).pipe(tap(_ => {
+      this.sessionService.endSession();
+    }
+    ));
   }
 
   public handleLogIn(params: { username: string, password: string }) {
@@ -89,7 +100,18 @@ export class AuthService {
     }
   }
 
-  ngOnInit() {
-
+  public handleUpdateProfile(params: any): Observable<any> {
+    const user = from(Auth.currentAuthenticatedUser());
+    return user.pipe(switchMap(user => {
+      return from(Auth.updateUserAttributes(user, {
+        ...params
+      })).pipe(map(res => {
+        this.sessionService.updateSession({...params});
+        return res;
+      },
+        catchError(err => {
+          return of(err);
+        })));
+    }));
   }
 }

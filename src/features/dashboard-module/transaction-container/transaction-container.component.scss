@@ -1,0 +1,9 @@
+.table-responsive {
+  overflow-x: auto;
+}
+
+@media (max-width: 767px) {
+  .table-responsive {
+    -webkit-overflow-scrolling: touch;
+  }
+}

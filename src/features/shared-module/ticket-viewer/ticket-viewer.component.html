@@ -26,6 +26,20 @@
         style="display: flex; flex-direction: column"
         [nzTitle]="'Vehicle Details'"
       >
+
+      <nz-form-item>
+        <nz-form-label>Insurance</nz-form-label>
+        <input
+          nz-input
+          required="true"
+          [disabled]="!editVehicleInfo"
+          [placeholder]="updatedTicket.insurance || 'N/A'"
+          [(ngModel)]="updatedTicket.insurance"
+          [nzAutocomplete]="auto"
+        />
+        <nz-autocomplete [nzDataSource]="insuranceList" nzBackfill #auto></nz-autocomplete>
+      </nz-form-item>
+
         <nz-form-item>
           <nz-form-label>Vin</nz-form-label>
           <input

@@ -13,6 +13,7 @@
 <nz-row *ngIf="openOrders.length > 0" class="__first-row">
   <nz-col class="open-orders" nzSpan="24">
     <nz-card class="__card">
+      <div class="table-responsive">
       <nz-table
         [nzPageIndex]="openOrderPageIndex"
         [nzLoading]="(dataLoading$ | async)"
@@ -52,6 +53,7 @@
           </tr>
         </tbody>
       </nz-table>
+      </div>
     </nz-card>
   </nz-col>
 </nz-row>

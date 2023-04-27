@@ -24,6 +24,10 @@
       font-size: .8rem;
     }
 
+    ::ng-deep .ant-table-content {
+      min-height: 10rem;
+    }
+
     & .__control-card {
       margin-bottom: 1rem;
     }
@@ -58,4 +62,16 @@
       background-color: black;
     }
   }
+}
+
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+@media (max-width: 767px) {
+  .table-responsive {
+    -webkit-overflow-scrolling: touch;
+  }
+
 }

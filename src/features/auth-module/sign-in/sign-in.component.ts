@@ -127,11 +127,13 @@ export class SignInComponent implements OnInit, OnDestroy {
       id: loginRes?.attributes?.sub,
       name: loginRes?.attributes?.name,
       email: loginRes?.attributes?.email,
-      phoneNumber: loginRes?.attributes?.phone_number,
+      phone_number: loginRes?.attributes?.phone_number,
       emailVerified: loginRes?.attributes?.email_verified,
       phoneVerified: loginRes?.attributes?.phone_number_verified,
       address: loginRes?.attributes?.address,
-      isAuthenticated: true
+      isAuthenticated: true,
+      'custom:avatarUrl': loginRes.attributes['custom:avatarUrl'],
+      'custom:companyName': loginRes.attributes['custom:companyName']
     }
   }
 }

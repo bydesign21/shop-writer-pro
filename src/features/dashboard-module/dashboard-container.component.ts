@@ -14,7 +14,7 @@ import { SpinnerService } from '../shared-module/spinner/spinner.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardContainerComponent implements OnInit {
-  menuIsVisible: boolean = false;
+  menuIsVisible = false;
   destroy$ = new Subject();
   constructor(
     private authService: AuthService,
@@ -23,37 +23,30 @@ export class DashboardContainerComponent implements OnInit {
     private sessionService: SessionService,
     private router: Router,
     private location: Location
-  ) {}
+  ) { }
 
   handleMenuButtonClicked() {
     this.menuIsVisible = !this.menuIsVisible;
   }
 
-  handleLogoutClicked(event: any) {
+  handleSignOutClicked(event: any) {
     this.spinner.show();
     this.authService.handleSignOut()
       .pipe(
         take(1)
       )
-      .subscribe(
-        signOutRes => {
-          this.messageService.success('Successfully Signed Out')
-        },
-        error => {
-          return this.messageService.error(error.message)
-        },
-        () => {
-          this.sessionService.endSession();
+      .subscribe({
+        next: res => this.messageService.success('Successfully Signed Out'),
+        error: err => this.messageService.error(err.message),
+        complete: () => {
           this.router.navigate(['/home']);
           setTimeout(() => this.spinner.hide(), 2000)
-        }
-      )
+        }});
   }
 
   ngOnInit(): void {
     this.location.onUrlChange(url => {
       this.menuIsVisible = false;
     });
-    from(this.authService.checkSession()).subscribe(res => console.log(res, 'session checked'))
   }
 }

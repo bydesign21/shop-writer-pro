@@ -1,12 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, first, from, Observable, of, shareReplay, Subject, take, takeUntil, tap } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 import { SessionQuery } from 'src/app/session-store/domain-state/session.query';
-import { SpinnerService } from 'src/features/shared-module/spinner/spinner.service';
 import { TicketViewerComponent } from 'src/features/shared-module/ticket-viewer/ticket-viewer.component';
 import { Ticket } from '../ticketing/store/ticket.model';
 import { TicketQuery } from '../ticketing/store/ticket.query';
-import { TicketStore } from '../ticketing/store/tickets.store';
 import { TicketService } from '../ticketing/ticket.service';
 import { TicketingComponent } from '../ticketing/ticketing.component';
 
@@ -38,7 +36,6 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
     private modalService: NzModalService,
     private ticketService: TicketService,
     private cd: ChangeDetectorRef,
-    private spinnerService: SpinnerService,
     private sessionQuery: SessionQuery,
     private ticketQuery: TicketQuery
   ) {}
@@ -48,6 +45,8 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
       nzContent: this.submitTicket,
       nzWidth: 580,
       nzFooter: null,
+      nzCentered: true,
+      nzMask: true,
       nzClassName: 'ticketing-modal',
     })
   }

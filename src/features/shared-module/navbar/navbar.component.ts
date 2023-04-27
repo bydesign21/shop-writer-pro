@@ -1,13 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { Observable, Subject, take, takeUntil } from 'rxjs';
-import { SessionQuery } from 'src/app/session-store/domain-state/session.query';
-import { SessionService } from 'src/app/session-store/domain-state/session.service';
-import { AuthService } from 'src/features/auth-module/auth-service.service';
-import { SpinnerService } from '../spinner/spinner.service';
-
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -15,6 +6,8 @@ import { SpinnerService } from '../spinner/spinner.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavbarComponent {
+  isMobile = false;
+  isMenuVisible = false;
 
   private defaultNavLinks: { path: string, label: string }[] = [
     { path: '/home', label: 'Home' },
@@ -24,8 +17,5 @@ export class NavbarComponent {
 
   @Input()
   displayedNavLinks: { path: string, label: string }[] = this.defaultNavLinks;
-
-  constructor(
-  ) {}
 
 }

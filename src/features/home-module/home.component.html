@@ -1,225 +1,113 @@
 <app-navbar></app-navbar>
-<div class="app-hero-wrapper">
-  <div class="hero-banner-overlay"></div>
-  <div class="hero-banner-content">
-    <div class="hero-banner-text-container">
-      <h1 class="hero-banner-title">Estimates Made Easy</h1>
-      <p class="hero-banner-description">
-        At Shopwriterpro, we offer an excellent alternative to paying the salary
-        of an in-house estimator at your collision shop. With our licensed and
-        experienced team of adjusters, we provide accurate and beneficial
-        estimates for bodyshops to maximize their profits and customer
-        satisfaction when dealing with insurance companies. Have your estimates
-        written more efficiently, accurate, and cost effective with no
-        appointment needed.
-      </p>
-      <swp-button
-        class="hero-banner-button"
-        [routerLink]="['/auth/login']"
-        [nzSize]="'large'"
-        [nzType]="'primary'"
-        [content]="'Log In'"
-      ></swp-button>
-      <swp-button
-        class="hero-banner-button"
-        (click)="onLearnMoreClick()"
-        [nzSize]="'large'"
-        [content]="'Pricing'"
-      ></swp-button>
-    </div>
-  </div>
-</div>
-
 <nz-layout>
-  <nz-row nzJustify="center" nzGutter="3">
-    <div class="card-container">
-      <app-card
-        [title]="'Enter VIN'"
-        [photo]="'../../assets/images/barcode-icon.png'"
-        [description]="
-          'Enter the VIN number of your vehicle to help us accurately diagnose any issues.'
-        "
-      >
-      </app-card>
-      <app-card
-        [title]="'Describe Issues'"
-        [photo]="'../../assets/images/notepad-icon.png'"
-        [description]="
-          'Describe the issues you are experiencing in detail to help us better understand the problem.'
-        "
-      >
-      </app-card>
-      <app-card
-        [title]="'Submit Photos'"
-        [photo]="'../../assets/images/upload-icon.png'"
-        [description]="
-          'Easily submit photos of any issues you are experiencing with your vehicle.'
-        "
-      >
-      </app-card>
-      <app-card
-        [title]="'Make Payment'"
-        [photo]="'../../assets/images/payment-icon.png'"
-        [description]="
-          'Easily make a payment to finalize the submission of your ticket.'
-        "
-      >
-      </app-card>
-    </div>
-    <nz-layout>
-      <nz-content>
-        <nz-row class="two-col-row">
-          <nz-col nzSpan="15" class="col-left">
-            <div class="left-content">
-              <h1>No More Hassle</h1>
-              <h4>
-                Oftentimes, writing up estimate sheets for incoming damaged cars can
-                become very tedious.
-              </h4>
-              <p>
-                If done incorrectly, insurance companies will reward you less money,
-                especially with only an insurance adjuster appraising the car, who's
-                job is to assess the car in an attempt to reward as little money as
-                possible (often at the risk of labor profits).
+  <nz-layout>
+    <nz-content>
+      <nz-row class="app-hero-wrapper">
+        <nz-col [nzXs]="24" [nzSm]="24" [nzMd]="24" [nzLg]="24" [nzXl]="24">
+          <div class="hero-banner-overlay"></div>
+          <div class="hero-banner-content">
+            <div class="hero-banner-text-container">
+              <h1 class="hero-banner-title">Estimates Made Easy</h1>
+              <p class="hero-banner-description">
+                At Shopwriterpro, we offer an excellent alternative to paying
+                the salary of an in-house estimator at your collision shop. With
+                our licensed and experienced team of adjusters, we provide
+                accurate and beneficial estimates for bodyshops to maximize
+                their profits and customer satisfaction when dealing with
+                insurance companies. Have your estimates written more
+                efficiently, accurate, and cost effective with no appointment
+                needed.
               </p>
-              <p>
-                If you’re constantly struggling with organizing public adjuster
-                visits, paying over priced freelance writers, or worried about your
-                employees spending time on write ups rather than working on cars then
-                Shop Writer Pro is for you!
-              </p>
-            </div>
-          </nz-col>
-          <nz-col nzSpan="9" class="col-right">
-          </nz-col>
-        </nz-row>
-      </nz-content>
-    </nz-layout>
-    <nz-layout>
-      <nz-content>
-        <div nz-row class="call-to-action-row">
-          <div nz-col class="call-to-action-container">
-            <div class="call-to-action-content">
-              <h1 class="call-to-action-title">Estimates Made Easy</h1>
-              <p class="call-to-action-description">
-                At Shopwriterpro, we offer an excellent alternative to paying the
-                salary of an in-house estimator at your collision shop. With our
-                licensed and experienced team of adjusters, we provide accurate and
-                beneficial estimates for bodyshops to maximize their profits and
-                customer satisfaction when dealing with insurance companies. Have
-                your estimates written more efficiently, accurate, and cost
-                effective with no appointment needed.
-              </p>
-              <div class="call-to-action-button-container">
-                <swp-button
-                  class="call-to-action-button"
-                  [nzSize]="'large'"
-                  [nzType]="'primary'"
-                  [content]="'Log In'"
-                ></swp-button>
-                <swp-button
-                  class="call-to-action-button"
-                  [nzSize]="'large'"
-                  [content]="'Pricing'"
-                ></swp-button>
-              </div>
+              <swp-button
+                class="hero-banner-button"
+                [routerLink]="['/auth/login']"
+                [nzSize]="'large'"
+                [nzType]="'primary'"
+                [content]="'Log In'"
+              ></swp-button>
+              <swp-button
+                class="hero-banner-button"
+                (click)="onLearnMoreClick()"
+                [nzSize]="'large'"
+                [content]="'Pricing'"
+              ></swp-button>
             </div>
           </div>
-        </div>
-      </nz-content>
-    </nz-layout>
-    <nz-layout>
-      <nz-content>
-        <nz-row class="table-content-row">
-          <nz-col nzSpan="6" class="table-content-left">
-            <h1>Made with Shop Owners in Mind</h1>
-            <p>
-              Spend more time working on cars, and less time writing estimates. Pay
-              per car and never overpay for an estimate again.
-            </p>
-          </nz-col>
-          <nz-col nzSpan="18" class="table-content-right">
-            <nz-table [nzNoResult]="' '">
-              <thead>
-                <tr>
-                  <th>Type of Estimate</th>
-                  <th>Price</th>
-                  <th>Completed Within</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Standard Estimate</td>
-                  <td>$199</td>
-                  <td>2 Hours</td>
-                </tr>
-                <tr>
-                  <td>Standard Supplement</td>
-                  <td>$149</td>
-                  <td>2 Hours</td>
-                </tr>
-              </tbody>
-            </nz-table>
-          </nz-col>
-        </nz-row>
-      </nz-content>
-    </nz-layout>
-    <nz-layout>
-      <nz-row nzJustify="center" class="content-list-container">
-        <div class="col-container">
-          <nz-col nzSpan="12" class="content-list-left">
-            <div>
-              <h1>What this platform solves better than anyone else:</h1>
-              <p>
-                Gain leverage over insurance companies with Shop Writer Pro and
-                improve your relationship with your customers providing them with
-                better coverage than your competitors.
-              </p>
-            </div>
-          </nz-col>
-          <nz-col nzSpan="12" class="content-list-right">
-            <div>
-              <ul>
-                <li>
-                  <strong>Save Money</strong>
-                  <p>Say goodbye to freelance and in house estimators.</p>
-                </li>
-                <br />
-                <li>
-                  <strong>Cancel your subscription with CCC</strong>
-                  <p>Our estimates are designed to maximize profits.</p>
-                </li>
-                <br />
-                <li>
-                  <strong>Maximize Convienence</strong>
-                  <p>
-                    Spend more time repairing vehicles, and less time writing
-                    estimates.
-                  </p>
-                </li>
-                <br />
-                <li>
-                  <strong>Acquire higher rewards from insurance companies</strong>
-                  <p>
-                    No more scheduling appointments with freelance appraisers. The
-                    whole process is completed in less than 3 minutes!
-                  </p>
-                </li>
-                <br />
-                <li>
-                  <strong>Cancel your subscription with CCC</strong>
-                  <p>
-                    Our technology directly syncs with CCC eliminating your need for
-                    a subscription.
-                  </p>
-                </li>
-              </ul>
-            </div>
-          </nz-col>
-        </div>
+        </nz-col>
       </nz-row>
-    </nz-layout>
-  </nz-row>
-
+      <nz-row nzGutter="16" class="card-container">
+        <nz-col [nzXs]="24" [nzSm]="12" [nzMd]="6" [nzLg]="6" [nzXl]="6">
+          <app-card
+            [title]="'Enter VIN'"
+            [photo]="'../../assets/images/barcode-icon.png'"
+            [description]="
+              'Enter the VIN number of your vehicle to help us accurately diagnose any issues.'
+            "
+          >
+          </app-card>
+        </nz-col>
+        <nz-col [nzXs]="24" [nzSm]="12" [nzMd]="6" [nzLg]="6" [nzXl]="6">
+          <app-card
+            [title]="'Describe Issues'"
+            [photo]="'../../assets/images/notepad-icon.png'"
+            [description]="
+              'Describe the issues you are experiencing in detail to help us better understand the problem.'
+            "
+          >
+          </app-card>
+        </nz-col>
+        <nz-col [nzXs]="24" [nzSm]="12" [nzMd]="6" [nzLg]="6" [nzXl]="6">
+          <app-card
+            [title]="'Submit Photos'"
+            [photo]="'../../assets/images/upload-icon.png'"
+            [description]="
+              'Easily submit photos of any issues you are experiencing with your vehicle.'
+            "
+          >
+          </app-card>
+        </nz-col>
+        <nz-col [nzXs]="24" [nzSm]="12" [nzMd]="6" [nzLg]="6" [nzXl]="6">
+          <app-card
+            [title]="'Make Payment'"
+            [photo]="'../../assets/images/payment-icon.png'"
+            [description]="
+              'Easily make a payment to finalize the submission of your ticket.'
+            "
+          >
+          </app-card>
+        </nz-col>
+      </nz-row>
+      <nz-row nzGutter="24">
+        <nz-col class="two-col-section" nzSpan="24" nzLg="12">
+          <div class="left-text">
+            <h2>No More Hassle</h2>
+            <h3>
+              Oftentimes, writing up estimate sheets for incoming damaged cars
+              can become very tedious.
+            </h3>
+            <p>
+              If done incorrectly, insurance companies will reward you less
+              money, especially with only an insurance adjuster appraising the
+              car, who's job is to assess the car in an attempt to reward as
+              little money as possible (often at the risk of labor profits).
+            </p>
+            <p>
+              If you’re constantly struggling with organizing public adjuster
+              visits, paying over priced freelance writers, or worried about
+              your employees spending time on write ups rather than working on
+              cars then Shop Writer Pro is for you!
+            </p>
+          </div>
+        </nz-col>
+        <nz-col class="two-col-section" nzSpan="24" nzLg="12">
+          <div class="right-image">
+            <img
+              src="../../assets/images/content1.png"
+              alt="Fast Estimates With Shopwriterpro"
+            />
+          </div>
+        </nz-col>
+      </nz-row>
+    </nz-content>
+  </nz-layout>
 </nz-layout>
-

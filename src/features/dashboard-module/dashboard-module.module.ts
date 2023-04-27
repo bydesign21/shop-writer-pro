@@ -14,6 +14,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { TransactionContainerComponent } from './transaction-container/transaction-container.component';
 import { TransactionContainerModule } from './transaction-container/transaction-container.module';
 import { SpinnerModule } from '../shared-module/spinner/spinner.module';
+import { ProfileModule } from './profile/profile.module';
 
 
 
@@ -34,7 +35,8 @@ import { SpinnerModule } from '../shared-module/spinner/spinner.module';
     NzDrawerModule,
     NzButtonModule,
     TransactionContainerModule,
-    SpinnerModule
+    SpinnerModule,
+    ProfileModule
   ],
 })
 export class DashboardModule { }

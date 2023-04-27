@@ -11,6 +11,6 @@ export class SwpButtonComponent {
   @Input() content?: string;
   @Input() nzType: NzButtonType = 'default';
   @Input() nzSize: NzButtonSize = 'large';
-  @Input() disabled: boolean = false; 
+  @Input() disabled = false; 
 }
 

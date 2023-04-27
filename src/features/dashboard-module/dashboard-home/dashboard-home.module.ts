@@ -14,6 +14,7 @@ import {NzTagModule} from 'ng-zorro-antd/tag'
 import { SpinnerModule } from 'src/features/shared-module/spinner/spinner.module';
 import { TicketViewerModule } from 'src/features/shared-module/ticket-viewer/ticket-viewer.module';
 import { TicketStore } from '../ticketing/store/tickets.store';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { TicketStore } from '../ticketing/store/tickets.store';
     NzDividerModule,
     SpinnerModule,
     NzTagModule,
-    TicketViewerModule
+    TicketViewerModule,
+    NzSpinModule
   ],
   providers: [TicketStore]
 })

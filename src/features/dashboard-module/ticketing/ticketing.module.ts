@@ -21,6 +21,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { RouterModule } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { SharedUtilsService } from 'src/features/shared-module/shared-utils/shared-utils.service';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { SharedUtilsService } from 'src/features/shared-module/shared-utils/shar
     NzGridModule,
     NzFormModule,
     NzStepsModule,
+    NzButtonModule,
     NzProgressModule,
     SwpButtonModule,
     NzRadioModule,

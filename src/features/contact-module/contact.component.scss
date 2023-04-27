@@ -1,7 +1,5 @@
-.contact-container-col {
-  display: inline-flex;
+.contact-container {
   padding: 3rem;
-  height: 1000px;
 
   .contact-form {
     padding: 0.75rem;
@@ -9,26 +7,29 @@
     ::ng-deep .ant-col-sm-14 {
       max-width: 100%;
     }
+
+    h1, p {
+      margin-bottom: 1.5rem;
+    }
   }
 
-  .contact-info-container-col {
+  .contact-info-container {
     padding: 0.75rem;
+
+    h1, p {
+      margin-bottom: 1rem;
+    }
   }
 }
 
-.contact-container {
-  margin-left: 10vw;
-  margin-right: 10vw;
+@media (max-width: 992px) {
+  .contact-container {
+    padding: 2rem;
+  }
 }
 
-@media (max-width: 768px) {
-  .contact-info {
-   ::ng-deep .ant-row {
-      flex-flow: column !important;
-    }
-    .ant-col-8 {
-      max-width: none;
-      width: 100%;
-    }
+@media (max-width: 576px) {
+  .contact-container {
+    padding: 1rem;
   }
 }

@@ -2,3 +2,76 @@
   font-size: 1rem;
   padding: 0.2rem;
 }
+
+::ng-deep {
+  .navigation-menu-list li:last-child {
+    margin-top: 100%;
+  }
+  .ant-menu-light .ant-menu-sub,
+  .ant-menu.ant-menu-light,
+  .ant-menu.ant-menu-light .ant-menu-sub {
+    span > svg {
+      font-size: 25px;
+    }
+  }
+  .ant-menu-inline .ant-menu-item-selected::after,
+  .ant-menu-inline .ant-menu-selected::after {
+    display: none;
+  }
+  .ant-menu-inline,
+  .ant-menu-vertical,
+  .ant-menu-vertical-left {
+    border: none;
+  }
+  .ant-drawer-close {
+    color: black !important;
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    & .__logo {
+      height: 32px;
+      margin: 16px;
+      margin-right: 0px;
+      max-width: 30px;
+
+      img {
+        scale: 0.5;
+        display: flex;
+        justify-content: flex-start;
+        position: relative;
+        bottom: 2rem;
+        right: 6rem;
+      }
+    }
+
+    & .__menu-button {
+      margin-right: 2rem;
+      margin-top: 0.25rem;
+
+      ::ng-deep span {
+        font-size: x-large;
+        border: 1px solid #f0f2f5;
+      }
+      span:hover {
+        border: 1px solid black;
+      }
+    }
+  }
+
+  ::ng-deep .ant-menu-item {
+    padding-left: 0.75rem !important;
+
+    svg {
+      position: relative;
+      top: 0.3rem;
+    }
+  }
+
+  nz-header {
+    background: #fff;
+    padding: 0;
+  }
+
+}

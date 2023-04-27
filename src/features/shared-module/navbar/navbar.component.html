@@ -1,7 +1,13 @@
 <nz-layout>
   <nz-header>
-    <div nz-col nz-menu-group [nzSpan]="6" class="left">
+    <div nz-col [nzSpan]="6" class="left">
       <img class="logo" src="../../../assets/images/logo.png" />
+      <div (click)="isMenuVisible = !isMenuVisible" class="__menu-button">
+        <span
+          nz-icon
+          nzType="menu"
+        ></span>
+      </div>
     </div>
     <div nz-menu-group class="center" nz-col [nzSpan]="12">
       <ul nz-menu [nzMode]="'horizontal'" [nzTheme]="'light'">
@@ -31,5 +37,47 @@
         [content]="'Get Started'"
       ></swp-button>
     </div>
+    <nz-drawer
+    (nzOnClose)="isMenuVisible = !isMenuVisible"
+    [nzVisible]="isMenuVisible"
+    nzPlacement="left"
+    [nzWidth]="'200px'"
+    [nzClosable]="true"
+  >
+    <ng-container *nzDrawerContent #navigationMenu>
+      <ul class="navigation-menu-list" nz-menu nzTheme="light" nzMode="inline">
+        <li nz-menu-item nzMatchRouter>
+          <a [routerLink]="'/home'" routerLinkActive="true">
+            <span nz-icon nzType="home"></span>
+            <span>Home</span>
+          </a>
+        </li>
+        <li nz-menu-item nzMatchRouter>
+          <a [routerLink]="'/about'" routerLinkActive="true">
+            <span nz-icon nzType="user"></span>
+            <span>About</span>
+          </a>
+        </li>
+        <li nz-menu-item nzMatchRouter>
+          <a [routerLink]="'/contact'" routerLinkActive="true">
+            <span nz-icon nzType="unordered-list"></span>
+            <span>Contact</span>
+          </a>
+        </li>
+        <li nz-menu-item nzMatchRouter>
+          <a  routerLinkActive="true">
+            <span nz-icon nzType="poweroff"></span>
+            <span>Login</span>
+          </a>
+        </li>
+        <li nz-menu-item nzMatchRouter>
+          <a  routerLinkActive="true">
+            <span nz-icon nzType="poweroff"></span>
+            <span>Register</span>
+          </a>
+        </li>
+      </ul>
+    </ng-container>
+  </nz-drawer>
   </nz-header>
 </nz-layout>

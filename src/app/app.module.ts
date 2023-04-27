@@ -6,7 +6,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeModule } from 'src/features/home-module/home-module.module';
 import { NavbarModule } from 'src/features/shared-module/navbar/navbar.module';
-import { TicketingModule } from 'src/features/dashboard-module/ticketing/ticketing.module';
 import { HomeComponent } from 'src/features/home-module/home.component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { AkitaNgDevtools } from '@datorama/akita-ngdevtools'
@@ -21,6 +20,12 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { TicketStore } from 'src/features/dashboard-module/ticketing/store/tickets.store';
+
+/** config angular i18n **/
+import { registerLocaleData } from '@angular/common';
+import en from '@angular/common/locales/en';
+import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
+registerLocaleData(en);
 
 @NgModule({
   declarations: [
@@ -44,11 +49,16 @@ import { TicketStore } from 'src/features/dashboard-module/ticketing/store/ticke
     NzMenuModule,
     BrowserAnimationsModule,
     HttpClientModule,
+
   ],
   entryComponents: [
     HomeComponent
   ],
-  providers: [SessionService, TicketStore],
+  providers: [
+    SessionService,
+    TicketStore,
+    { provide: NZ_I18N, useValue: en_US }
+  ],
   // providers: [AuthGuard],
   bootstrap: [AppComponent]
 })

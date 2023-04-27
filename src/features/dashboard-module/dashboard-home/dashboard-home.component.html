@@ -1,8 +1,10 @@
 <h2 *ngIf="userName$ | async as userName">Welcome, {{ userName }}</h2>
 <div *ngIf="tickets$ | async" class="dashboard-home">
   <nz-row class="__first-row">
-    <nz-col class="open-orders" nzSpan="16">
+    <nz-col class="open-orders" nzSpan="24" nzLg="16">
       <nz-card class="__card" [nzTitle]="'Open Orders'">
+        <div class="table-responsive">
+          <nz-spin class="table-spinner" [nzSpinning]="dataLoading$ | async" [nzIndicator]="loadingIndicator">
         <nz-table
           [nzLoading]="dataLoading$ | async"
           [nzLoadingIndicator]="loadingIndicator"
@@ -42,9 +44,11 @@
             </tr>
           </tbody>
         </nz-table>
+        </nz-spin>
+        </div>
       </nz-card>
     </nz-col>
-    <nz-col nzSpan="7">
+    <nz-col nzSpan="24" nzLg="7">
       <div>
         <nz-card
           (click)="handleSubmitTicketClicked()"
@@ -62,7 +66,9 @@
             View Transactions<span nz-icon nzType="unordered-list"></span>
           </h2>
         </nz-card>
-        <nz-card class="__submit-ticket-card __control-card">
+        <nz-card
+        routerLink="../profile"
+        class="__submit-ticket-card __control-card">
           <h2 class="__content">
             View Profile<span nz-icon nzType="user"></span>
           </h2>
@@ -73,6 +79,8 @@
   <nz-row class="__second-row">
     <nz-col nzSpan="24">
       <nz-card class="__card" [nzTitle]="'Recent Orders'">
+        <div class="table-responsive">
+          <nz-spin class="table-spinner" [nzSpinning]="dataLoading$ | async" [nzIndicator]="loadingIndicator">
         <nz-table
           #basicTable
           [nzPageIndex]="recentOrderPageIndex"
@@ -108,16 +116,18 @@
             </tr>
           </tbody>
         </nz-table>
+        </nz-spin>
+        </div>
       </nz-card>
     </nz-col>
   </nz-row>
 </div>
 <ng-template #submitTicketModal>
-  <app-ticketing></app-ticketing>
+  <app-ticketing (ticketSubmitted)="loadData()"></app-ticketing>
 </ng-template>
 <ng-template #viewTicketModal>
   <app-ticket-viewer [ticket]="selectedTicket"></app-ticket-viewer>
 </ng-template>
 <ng-template #loadingIndicator>
-  <span style="position: relative; top: 4.5vh; font-size: xxx-large;" nz-icon nzType="loading"></span>
+  <span nz-icon nzType="loading" nzTheme="outline" style="font-size: 3rem;"></span>
 </ng-template>

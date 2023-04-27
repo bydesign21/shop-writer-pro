@@ -11,6 +11,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 
 
 
@@ -28,7 +29,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     NzFormModule,
     FormsModule,
     NzIconModule,
-    NzButtonModule
+    NzButtonModule,
+    NzAutocompleteModule
   ],
   exports: [TicketViewerComponent]
 })

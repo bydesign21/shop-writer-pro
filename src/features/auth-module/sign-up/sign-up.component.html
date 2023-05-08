@@ -1,56 +1,90 @@
 <div class="form">
   <form nz-form [formGroup]="form">
     <nz-form-item>
-      <nz-form-control
-        nzErrorTip="Please input your email!"
-      >
+      <nz-form-control nzErrorTip="Please input your email!">
         <nz-input-group nzPrefixIcon="mail">
-          <input type="text" formControlName="email" nz-input placeholder="Email" />
+          <input
+            type="text"
+            formControlName="email"
+            nz-input
+            placeholder="Email"
+          />
         </nz-input-group>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-control
-        nzErrorTip="Please input your full name!"
-      >
-        <nz-input-group nzPrefixIcon="user" >
-          <input type="text" formControlName="name" nz-input placeholder="Full Name" />
+      <nz-form-control nzErrorTip="Please input your full name!">
+        <nz-input-group nzPrefixIcon="user">
+          <input
+            type="text"
+            formControlName="name"
+            nz-input
+            placeholder="Full Name"
+          />
         </nz-input-group>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-control
-        nzErrorTip="Please input phone number!"
-      >
-      <nz-input-group nzPrefixIcon="location" >
-        <input id="address" type="text" ngx-google-places-autocomplete formControlName="address" nz-input placeholder="Address" />
-      </nz-input-group>
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-control
-      nzErrorTip="Please input phone number!"
-    >
+      <nz-form-control nzErrorTip="Please input address!">
+        <nz-input-group nzPrefixIcon="environment">
+          <input
+            id="address"
+            type="text"
+            ngx-google-places-autocomplete
+            formControlName="address"
+            nz-input
+            placeholder="Address"
+          />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <nz-input-group nzPrefixIcon="global">
+          <input
+            id="company"
+            type="text"
+            ngx-google-places-autocomplete
+            formControlName="company"
+            nz-input
+            placeholder="Company"
+          />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control nzErrorTip="Please input phone number!">
         <nz-input-group nzPrefixIcon="phone">
-          <input type="tel" formControlName="phoneNumber" nz-input placeholder="Phone Number" />
+          <input
+            type="tel"
+            formControlName="phoneNumber"
+            nz-input
+            placeholder="Phone Number"
+          />
         </nz-input-group>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-control
-        nzErrorTip="Please input your password!"
-      >
+      <nz-form-control nzErrorTip="Please input your password!">
         <nz-input-group nzPrefixIcon="lock">
-          <input type="password" formControlName="password" nz-input placeholder="Password" />
+          <input
+            type="password"
+            formControlName="password"
+            nz-input
+            placeholder="Password"
+          />
         </nz-input-group>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-control
-        nzErrorTip="Please confirm your password!"
-      >
+      <nz-form-control nzErrorTip="Please confirm your password!">
         <nz-input-group nzPrefixIcon="lock">
-          <input type="password" formControlName="passwordConfirm" nz-input placeholder="Confirm Password" />
+          <input
+            type="password"
+            formControlName="passwordConfirm"
+            nz-input
+            placeholder="Confirm Password"
+          />
         </nz-input-group>
       </nz-form-control>
     </nz-form-item>

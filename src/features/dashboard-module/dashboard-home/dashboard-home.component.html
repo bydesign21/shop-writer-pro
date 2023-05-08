@@ -1,133 +1,74 @@
-<h2 *ngIf="userName$ | async as userName">Welcome, {{ userName }}</h2>
-<div *ngIf="tickets$ | async" class="dashboard-home">
-  <nz-row class="__first-row">
-    <nz-col class="open-orders" nzSpan="24" nzLg="16">
-      <nz-card class="__card" [nzTitle]="'Open Orders'">
-        <div class="table-responsive">
-          <nz-spin class="table-spinner" [nzSpinning]="dataLoading$ | async" [nzIndicator]="loadingIndicator">
-        <nz-table
-          [nzLoading]="dataLoading$ | async"
-          [nzLoadingIndicator]="loadingIndicator"
-          [nzPageIndex]="openOrderPageIndex"
-          [nzTotal]="openOrders?.length"
-          [nzNoResult]="(dataLoading$ | async) ? null : 'No results'"
-          (nzPageIndexChange)="handleOpenOrderPageChange($event)"
-          [nzPageSize]="openOrderTableLimit"
-          [nzData]="openOrders"
+<h2 *ngIf="userSession">Welcome, {{ userSession.name }}</h2>
+<div [ngSwitch]="userSession.role">
+  <div *ngSwitchCase="'employee'" class="dashboard-home">Employee works!</div>
+  <div *ngSwitchCase="'admin'" class="dashboard-home">Admin View Works</div>
+  <div *ngSwitchDefault class="dashboard-home">
+    <nz-row class="__first-row">
+      <nz-col class="open-orders" nzSpan="24" nzLg="16">
+        <swp-table-card
+          *ngIf="(dataLoading$ | async) === false && openOrders"
+          [cardTitle]="userSession.role === 'user' ? 'Open Orders' : 'Open Tickets'"
+          [loadingIndicatorRef]="loadingIndicator"
+          [isLoading]="dataLoading$ | async"
+          [pageLimit]="tableLimit"
+          [data]="openOrders"
+          [noResultRef]="(dataLoading$ | async) ? null : 'No results'"
         >
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Status</th>
-              <th>VIN</th>
-              <th>Model</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of openOrderPagedData">
-              <td>{{ item.date | date : "MMM, dd. yyyy." }}</td>
-              <td>
-                <nz-tag
-                  style="border-radius: 0.8rem"
-                  [nzColor]="
-                    item.status === 'processing' ? 'processing' : 'warning'
-                  "
-                  >{{ item.status }}</nz-tag
-                >
-              </td>
-              <td>{{ item.vin }}</td>
-              <td>{{ item.model }}</td>
-              <td>
-                <a (click)="handleViewTicket(item)">View</a>
-              </td>
-            </tr>
-          </tbody>
-        </nz-table>
-        </nz-spin>
+        </swp-table-card>
+      </nz-col>
+      <nz-col nzSpan="24" nzLg="7">
+        <div class="action-controls">
+          <nz-card
+            (click)="handleSubmitTicketClicked()"
+            class="__submit-ticket-card __control-card"
+          >
+            <h2 class="__content">
+              Submit a Ticket<span nz-icon nzType="plus"></span>
+            </h2>
+          </nz-card>
+          <nz-card
+            routerLink="../transactions"
+            class="__submit-ticket-card __control-card"
+          >
+            <h2 class="__content">
+              View Transactions<span nz-icon nzType="unordered-list"></span>
+            </h2>
+          </nz-card>
+          <nz-card
+            routerLink="../profile"
+            class="__submit-ticket-card __control-card"
+          >
+            <h2 class="__content">
+              View Profile<span nz-icon nzType="user"></span>
+            </h2>
+          </nz-card>
         </div>
-      </nz-card>
-    </nz-col>
-    <nz-col nzSpan="24" nzLg="7">
-      <div>
-        <nz-card
-          (click)="handleSubmitTicketClicked()"
-          class="__submit-ticket-card __control-card"
+      </nz-col>
+    </nz-row>
+    <nz-row class="__second-row">
+      <nz-col nzSpan="24">
+        <swp-table-card
+          *ngIf="(dataLoading$ | async) === false && recentOrders"
+          [cardTitle]="userSession.role === 'user' ? 'Recent Orders' : 'Recent Tickets'"
+          [loadingIndicatorRef]="loadingIndicator"
+          [isLoading]="dataLoading$ | async"
+          [pageLimit]="tableLimit"
+          [data]="recentOrders"
+          [noResultRef]="(dataLoading$ | async) ? null : 'No results'"
         >
-          <h2 class="__content">
-            Submit a Ticket<span nz-icon nzType="plus"></span>
-          </h2>
-        </nz-card>
-        <nz-card
-          routerLink="../transactions"
-          class="__submit-ticket-card __control-card"
-        >
-          <h2 class="__content">
-            View Transactions<span nz-icon nzType="unordered-list"></span>
-          </h2>
-        </nz-card>
-        <nz-card
-        routerLink="../profile"
-        class="__submit-ticket-card __control-card">
-          <h2 class="__content">
-            View Profile<span nz-icon nzType="user"></span>
-          </h2>
-        </nz-card>
-      </div>
-    </nz-col>
-  </nz-row>
-  <nz-row class="__second-row">
-    <nz-col nzSpan="24">
-      <nz-card class="__card" [nzTitle]="'Recent Orders'">
-        <div class="table-responsive">
-          <nz-spin class="table-spinner" [nzSpinning]="dataLoading$ | async" [nzIndicator]="loadingIndicator">
-        <nz-table
-          #basicTable
-          [nzPageIndex]="recentOrderPageIndex"
-          (nzPageIndexChange)="handleRecentOrderPageChange($event)"
-          [nzLoading]="dataLoading$ | async"
-          [nzLoadingIndicator]="loadingIndicator"
-          [nzPageSize]="recentOrderTableLimit"
-          [nzNoResult]="(dataLoading$ | async) ? null : 'No results'"
-          [nzData]="recentOrders"
-        >
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Status</th>
-              <th>VIN</th>
-              <th>Model</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of recentOrderPagedData">
-              <td>{{ item.date | date : "MMM, dd. yyyy." }}</td>
-              <td>
-                <nz-tag style="border-radius: 0.8rem" [nzColor]="'success'">
-                  {{ item.status }}</nz-tag
-                >
-              </td>
-              <td>{{ item.vin }}</td>
-              <td>{{ item.model }}</td>
-              <td>
-                <a (click)="handleViewTicket(item)">View</a>
-              </td>
-            </tr>
-          </tbody>
-        </nz-table>
-        </nz-spin>
-        </div>
-      </nz-card>
-    </nz-col>
-  </nz-row>
+        </swp-table-card>
+      </nz-col>
+    </nz-row>
+  </div>
 </div>
 <ng-template #submitTicketModal>
   <app-ticketing (ticketSubmitted)="loadData()"></app-ticketing>
 </ng-template>
-<ng-template #viewTicketModal>
-  <app-ticket-viewer [ticket]="selectedTicket"></app-ticket-viewer>
-</ng-template>
 <ng-template #loadingIndicator>
-  <span nz-icon nzType="loading" nzTheme="outline" style="font-size: 3rem;"></span>
+  <span
+    nz-icon
+    nzType="loading"
+    nzTheme="outline"
+    style="font-size: 3rem"
+  ></span>
 </ng-template>

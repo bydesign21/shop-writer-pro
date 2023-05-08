@@ -12,6 +12,7 @@ export class SessionQuery extends Query<SessionState> {
     emailVerified$ = this.select('emailVerified');
     name$ = this.select('name');
     email$ = this.select('email');
+    role$ = this.select('role');
 
   constructor(protected sessionStore: SessionStore) {
     super(sessionStore);

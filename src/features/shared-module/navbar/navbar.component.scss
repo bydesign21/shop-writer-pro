@@ -45,10 +45,11 @@ nz-layout {
 
     .left {
       justify-content: flex-start;
-      width: fit-content;
+      width: 100%;
 
       img {
         scale: 0.625;
+        max-width: 300px;
       }
     }
 
@@ -59,8 +60,8 @@ nz-layout {
     .right {
       justify-content: flex-end;
       ::ng-deep button.ant-btn.ant-btn-primary.ant-btn-lg {
-        line-height: 4rem;
-        height: 4rem;
+        line-height: 2rem;
+        height: 64px;
       }
     }
 
@@ -128,9 +129,24 @@ nz-layout {
   }
   nz-layout {
     nz-header {
-      flex-flow: column;
+      flex-flow: row;
       height: auto;
       padding: 20px;
+
+      .ant-col-6 {
+        flex: unset;
+        max-width: unset;
+      }
+
+      .left {
+        justify-content: space-between;
+        width: 100%;
+
+        img {
+          scale: 0.625;
+          max-width: 300px;
+        }
+      }
     }
   }
 }

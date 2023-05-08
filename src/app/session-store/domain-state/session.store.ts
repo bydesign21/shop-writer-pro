@@ -13,7 +13,7 @@ export interface SessionState {
   isAuthenticated: boolean;
   'custom:avatarUrl': string;
   'custom:companyName': string;
-
+  role: string;
 }
 
 export function createInitialState(): SessionState {
@@ -27,7 +27,8 @@ export function createInitialState(): SessionState {
     address: '',
     isAuthenticated: false,
     'custom:avatarUrl': '',
-    'custom:companyName': ''
+    'custom:companyName': '',
+    role: ''
   };
 }
 

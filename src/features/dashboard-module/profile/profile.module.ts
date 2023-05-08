@@ -7,9 +7,8 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
-import { NzColDirective, NzGridModule } from 'ng-zorro-antd/grid';
+import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
-import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
@@ -27,7 +26,6 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     NzGridModule,
     FormsModule,
     NzUploadModule,
-    GooglePlaceModule,
     NzAutocompleteModule,
     NzIconModule,
     NzToolTipModule,

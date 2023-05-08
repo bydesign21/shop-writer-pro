@@ -1,9 +1,8 @@
 import { Location } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationStart, Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { from, of, Subject, take, takeUntil } from 'rxjs';
-import { SessionService } from 'src/app/session-store/domain-state/session.service';
+import { Subject, take } from 'rxjs';
 import { AuthService } from '../auth-module/auth-service.service';
 import { SpinnerService } from '../shared-module/spinner/spinner.service';
 
@@ -20,10 +19,9 @@ export class DashboardContainerComponent implements OnInit {
     private authService: AuthService,
     private spinner: SpinnerService,
     private messageService: NzMessageService,
-    private sessionService: SessionService,
     private router: Router,
     private location: Location
-  ) { }
+  ) {}
 
   handleMenuButtonClicked() {
     this.menuIsVisible = !this.menuIsVisible;
@@ -36,7 +34,7 @@ export class DashboardContainerComponent implements OnInit {
         take(1)
       )
       .subscribe({
-        next: res => this.messageService.success('Successfully Signed Out'),
+        next: _ => this.messageService.success('Successfully Signed Out'),
         error: err => this.messageService.error(err.message),
         complete: () => {
           this.router.navigate(['/home']);
@@ -45,7 +43,7 @@ export class DashboardContainerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.location.onUrlChange(url => {
+    this.location.onUrlChange(_ => {
       this.menuIsVisible = false;
     });
   }

@@ -8,7 +8,7 @@ import { SharedUtilsService } from '../shared-utils/shared-utils.service';
 import { insuranceList } from '../shared-utils/shared.model';
 
 @Component({
-  selector: 'app-ticket-viewer',
+  selector: 'swp-ticket-viewer',
   templateUrl: './ticket-viewer.component.html',
   styleUrls: ['./ticket-viewer.component.scss'],
   providers: [DecimalPipe]
@@ -52,6 +52,7 @@ panels = [
 ];
 
 ngOnInit(): void {
+  console.log(this.ticket, 'ticket')
   this.updatedTicket = {...this.ticket};
 }
 

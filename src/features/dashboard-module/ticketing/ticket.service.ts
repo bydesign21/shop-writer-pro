@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpEvent, HttpEventType, HttpRequest, H
 import { Injectable } from '@angular/core';
 import { NzUploadXHRArgs } from 'ng-zorro-antd/upload';
 import { lastValueFrom, map } from 'rxjs';
+import { SessionState } from 'src/app/session-store/domain-state/session.store';
 import { Ticket } from './store/ticket.model';
 import { TicketStore } from './store/tickets.store';
 
@@ -14,7 +15,7 @@ export class TicketService {
   constructor(
     private http: HttpClient,
     private ticketStore: TicketStore
-  ) {}
+  ) { }
 
   uploadPhotos(item: NzUploadXHRArgs) {
     const formData = new FormData();
@@ -45,7 +46,23 @@ export class TicketService {
   }
 
   async getTicketsByUserId(userId: string): Promise<Ticket[]> {
-    const req = new HttpRequest('GET', `https://5dy63k615f.execute-api.us-east-1.amazonaws.com/dev/core/query/users?userId=${userId}&entryId=ticket`);
+    const req = new HttpRequest('GET', `https://5dy63k615f.execute-api.us-east-1.amazonaws.com/dev/core/query/users?userId=${userId}&entryId=ticket`, {
+    }, {withCredentials: true});
+    return await lastValueFrom(
+      this.http.request(req)
+        .pipe(
+          map((res: any) => res.body as Ticket[])
+        ))
+      .then((tickets) => {
+        this.ticketStore.set(tickets)
+        return tickets;
+      });
+  }
+
+  async getUserTickets(user: SessionState): Promise<Ticket[]> {
+    const req = new HttpRequest('GET', `https://5dy63k615f.execute-api.us-east-1.amazonaws.com/dev/core/query/users`, user, {
+      withCredentials: true
+    });
     return await lastValueFrom(
       this.http.request(req)
         .pipe(
@@ -66,17 +83,28 @@ export class TicketService {
             return res?.body?.data?.Attributes as Ticket;
           })
         )
-      )
-    .then(
-      (updatedTicket) => {
-        if (updatedTicket) {
-          this.ticketStore.update(ticket?.ticketId, updatedTicket);
-          return updatedTicket;
-        } else {
-          return null;
+    )
+      .then(
+        (updatedTicket) => {
+          if (updatedTicket) {
+            this.ticketStore.update(ticket?.ticketId, updatedTicket);
+            return updatedTicket;
+          } else {
+            return null;
+          }
         }
-      }
-    );
+      );
+  }
+
+  async updateUserRecordEntryId(oldEntryId: string, newEntryId: string) {
+    const req = new HttpRequest('POST', 'https://5dy63k615f.execute-api.us-east-1.amazonaws.com/dev/core/update-entryId/username', {
+      oldUsername: oldEntryId,
+      newUsername: newEntryId
+    });
+    return lastValueFrom(
+      this.http.request(req)
+        .pipe(map(_ => _, err => console.log(err))
+        ));
   }
 
   async getVehichleByVin(vin: string): Promise<any> {

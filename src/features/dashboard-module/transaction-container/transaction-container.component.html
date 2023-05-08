@@ -10,7 +10,7 @@
     </nz-breadcrumb>
   </nz-col>
 </nz-row>
-<nz-row *ngIf="openOrders.length > 0" class="__first-row">
+<nz-row class="__first-row">
   <nz-col class="open-orders" nzSpan="24">
     <nz-card class="__card">
       <div class="table-responsive">
@@ -58,10 +58,10 @@
   </nz-col>
 </nz-row>
 <ng-template #nzModalContent>
-  <app-ticket-viewer
+  <swp-ticket-viewer
     class="ticket-viewer"
     [ticket]="selectedTicket"
-  ></app-ticket-viewer>
+  ></swp-ticket-viewer>
 </ng-template>
 <ng-template #loadingIndicator>
   <span style="position: relative; top: 10vh; font-size: xxx-large;" nz-icon nzType="loading"></span>

@@ -1,7 +1,7 @@
 <nz-layout>
   <nz-header>
     <div nz-col [nzSpan]="6" class="left">
-      <img class="logo" src="../../../assets/images/logo.png" />
+      <img [routerLink]="['/home']" class="logo" src="../../../assets/images/logo.png" />
       <div (click)="isMenuVisible = !isMenuVisible" class="__menu-button">
         <span
           nz-icon
@@ -47,31 +47,37 @@
     <ng-container *nzDrawerContent #navigationMenu>
       <ul class="navigation-menu-list" nz-menu nzTheme="light" nzMode="inline">
         <li nz-menu-item nzMatchRouter>
-          <a [routerLink]="'/home'" routerLinkActive="true">
+          <a [routerLink]="['/home']" routerLinkActive="true">
             <span nz-icon nzType="home"></span>
             <span>Home</span>
           </a>
         </li>
         <li nz-menu-item nzMatchRouter>
-          <a [routerLink]="'/about'" routerLinkActive="true">
+          <a [routerLink]="['/about']" routerLinkActive="true">
             <span nz-icon nzType="user"></span>
             <span>About</span>
           </a>
         </li>
         <li nz-menu-item nzMatchRouter>
-          <a [routerLink]="'/contact'" routerLinkActive="true">
+          <a [routerLink]="['/pricing']" routerLinkActive="true">
+            <span nz-icon nzType="barcode"></span>
+            <span>Pricing</span>
+          </a>
+        </li>
+        <li nz-menu-item nzMatchRouter>
+          <a [routerLink]="['/contact']" routerLinkActive="true">
             <span nz-icon nzType="unordered-list"></span>
             <span>Contact</span>
           </a>
         </li>
         <li nz-menu-item nzMatchRouter>
-          <a  routerLinkActive="true">
+          <a [routerLink]="['/auth/login']"  routerLinkActive="true">
             <span nz-icon nzType="poweroff"></span>
             <span>Login</span>
           </a>
         </li>
         <li nz-menu-item nzMatchRouter>
-          <a  routerLinkActive="true">
+          <a [routerLink]="['/auth/sign-up']"  routerLinkActive="true">
             <span nz-icon nzType="poweroff"></span>
             <span>Register</span>
           </a>

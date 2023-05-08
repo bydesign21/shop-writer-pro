@@ -1,0 +1,67 @@
+.plan-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.plan-price {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.plan-duration {
+  font-size: 18px;
+  font-weight: normal;
+  margin-left: 5px;
+}
+
+.plan-features {
+  margin-bottom: 20px;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+
+.plan-features li {
+  margin-bottom: 10px;
+}
+
+nz-card {
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  position: relative;
+  transition: all 0.3s ease-in-out;
+  z-index: 1;
+
+  &:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+  }
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #f5f5f5;
+    z-index: -1;
+    transform: skewY(-3deg);
+    transform-origin: top left;
+  }
+}
+
+nz-card:first-child:before {
+  transform: skewY(3deg);
+  transform-origin: top right;
+}
+
+nz-card:last-child:before {
+  transform: skewY(-3deg);
+  transform-origin: top left;
+}

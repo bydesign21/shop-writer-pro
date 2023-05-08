@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Auth } from 'aws-amplify';
-import { catchError, from, iif, map, Observable, of, switchMap, tap } from 'rxjs';
+import { catchError, from, map, Observable, of, switchMap, tap } from 'rxjs';
 import { SessionService } from 'src/app/session-store/domain-state/session.service';
 import awsmobile from 'src/aws-exports';
 
@@ -9,6 +9,7 @@ import awsmobile from 'src/aws-exports';
 })
 export class AuthService {
   public get loggedInUser$(): Observable<any> {
+    console.log('checking logged in status')
     if (!Auth) {
       this.sessionService.endSession();
       return of(false);
@@ -16,12 +17,17 @@ export class AuthService {
     return from(
       Auth
         .currentAuthenticatedUser()
-        .then(res => res)
+        .then(res => {
+          console.log(res)
+          return res
+        })
         .catch(e => {
+          console.log(e)
           this.sessionService.endSession();
           return false
         })
     ).pipe(catchError(_ => {
+      console.log(_)
       return of(false);
     }));
   }
@@ -42,7 +48,7 @@ export class AuthService {
   public handleSignUp(params: {
     email: string,
     password: string,
-    attributes: { email: string, phone_number: string, address: string, name: string }
+    attributes: { email: string, phone_number: string, address: string, name: string, "custom:companyName": string }
   }) {
     let { email, password, attributes } = params;
     email = email.toLowerCase();

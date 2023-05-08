@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
+import { DashboardGuard } from "../auth-module/dashboard.guard";
 import { DashboardContainerComponent } from "./dashboard-container.component";
 import { DashboardHomeComponent } from "./dashboard-home/dashboard-home.component";
 import { ProfileComponent } from "./profile/profile.component";
@@ -14,6 +15,7 @@ const routes: Routes = [
   {
     path: '',
     component: DashboardContainerComponent,
+    canActivate: [DashboardGuard],
     children: [
       {
         path: 'home',

@@ -1,8 +1,9 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadChangeParam, NzUploadFile, NzUploadXHRArgs } from 'ng-zorro-antd/upload';
-import { Subject, take, takeUntil } from 'rxjs';
+import { from, map, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
 import { SessionQuery } from 'src/app/session-store/domain-state/session.query';
 import { SessionState } from 'src/app/session-store/domain-state/session.store';
 import { AuthService } from 'src/features/auth-module/auth-service.service';
@@ -33,8 +34,9 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
     private authService: AuthService,
     private cd: ChangeDetectorRef,
     private messageService: NzMessageService,
-    private ticketService: TicketService
-  ) {}
+    private ticketService: TicketService,
+    private router: Router
+  ) { }
 
   @HostListener('window:resize')
   onResize() {
@@ -68,6 +70,7 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
       'custom:companyName': [this.user['custom:companyName'], null],
       'custom:avatarUrl': [this.user['custom:avatarUrl'], null]
     });
+    this.userForm.get('email').disable();
     this.userForm.markAsUntouched();
   }
 
@@ -94,19 +97,29 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   saveUserDetails(): void {
+    // const oldUsername = this.user.email;
+    // const newUsername = this.userForm.get('email').value;
     this.authService.handleUpdateProfile({ ...this.userForm.value })
-      .pipe(take(1))
-      .subscribe(res => {
-        this.editing = false;
-        this.fileList = [];
-        this.messageService.success('Profile updated successfully');
-        this.cd.detectChanges();
-        console.log('success callback executed')
-      },
-        err => {
-          this.messageService.error('Profile update failed', err);
-          console.log(err);
-        })
+      .pipe(
+        take(1),
+        tap(_ => {
+          this.editing = false;
+          this.fileList = [];
+          this.messageService.success('Profile updated successfully');
+          this.cd.detectChanges();
+          console.log('success callback executed')
+        }),
+        // switchMap(_ => {
+        //   return from(this.ticketService.updateUserRecordEntryId(oldUsername, newUsername)).pipe(
+        //     map(res => {
+        //       this.router.navigate(['../auth/login/confirm-account'], { queryParams: { userId: oldUsername } })
+        //     },
+        //     err => {
+        //       console.log(err)
+        //     })
+        //   )
+        // })
+      ).subscribe(res => console.log(res))
   }
 
   handleAddressChange(address: any): void {
@@ -150,6 +163,7 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
       console.log(el?.offsetWidth, el?.scrollWidth);
       return el?.offsetWidth < el?.scrollWidth;
     });
+    this.cd.detectChanges();
     console.log('isTextTruncated', this.isTextTruncated)
   }
 }

@@ -21,7 +21,7 @@
     }
 
     ::ng-deep .ant-table {
-      font-size: .8rem;
+      font-size: 0.8rem;
     }
 
     ::ng-deep .ant-table-content {
@@ -64,7 +64,6 @@
   }
 }
 
-
 .table-responsive {
   overflow-x: auto;
 }
@@ -73,5 +72,7 @@
   .table-responsive {
     -webkit-overflow-scrolling: touch;
   }
-
+  .action-controls {
+    margin-top: 2rem;
+  }
 }

@@ -24,6 +24,7 @@ export class ConfirmAccountComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    console.log('hello')
     this.destroy$.next(false);
     this.activatedRoute.queryParams
       .pipe(

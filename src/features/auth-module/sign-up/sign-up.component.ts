@@ -38,6 +38,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
       phoneNumber: new FormControl(null, [Validators.required]),
       address: new FormControl(null, Validators.required),
       name: new FormControl(null, Validators.required),
+      company: new FormControl(null, null),
       password: new FormControl(null, Validators.required),
       passwordConfirm: new FormControl(null, Validators.required),
     });
@@ -49,6 +50,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
       phoneNumber,
       address,
       name,
+      company,
       password,
       passwordConfirm
     } = this.form.getRawValue();
@@ -61,7 +63,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
           email,
           phone_number: phoneNumber,
           address,
-          name
+          name,
+          "custom:companyName": company
         }
       })
         .pipe(

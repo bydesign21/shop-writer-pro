@@ -1,7 +1,8 @@
-import { ChangeDetectorRef, Component, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { BehaviorSubject, from, Observable, Subject, take, takeUntil } from 'rxjs';
-import { SpinnerService } from 'src/features/shared-module/spinner/spinner.service';
+import { SessionQuery } from 'src/app/session-store/domain-state/session.query';
+import { SessionState } from 'src/app/session-store/domain-state/session.store';
 import { TicketViewerComponent } from 'src/features/shared-module/ticket-viewer/ticket-viewer.component';
 import { Ticket } from '../ticketing/store/ticket.model';
 import { TicketQuery } from '../ticketing/store/ticket.query';
@@ -12,7 +13,7 @@ import { TicketService } from '../ticketing/ticket.service';
   templateUrl: './transaction-container.component.html',
   styleUrls: ['./transaction-container.component.scss']
 })
-export class TransactionContainerComponent {
+export class TransactionContainerComponent implements OnInit {
   @ViewChild('nzModalContent')
   nzModalContent: TemplateRef<TicketViewerComponent>;
   destroy$ = new Subject();
@@ -26,34 +27,41 @@ export class TransactionContainerComponent {
   recentOrderPageIndex = 1;
   selectedTicket: Ticket;
   tickets$: Observable<Ticket[]>;
+  userSession: SessionState;
   dataLoading$ = new BehaviorSubject<boolean>(false);
   constructor(
     private modalService: NzModalService,
     private ticketService: TicketService,
     private cd: ChangeDetectorRef,
-    private spinnerService: SpinnerService,
-    private ticketQuery: TicketQuery
-  ) { }
+    private ticketQuery: TicketQuery,
+    private sessionQuery: SessionQuery
+  ) {}
+
   ngOnInit(): void {
-    this.destroy$.next(false);
+    this.sessionQuery.allState$
+      .pipe(
+        takeUntil(this.destroy$))
+      .subscribe(userState => {
+        this.userSession = userState;
+      })
     this.loadData();
   }
 
   loadData(): void {
     this.dataLoading$.next(true);
-    this.ticketService.getTicketsByUserId('gvasquez@centralmethodist.edu').then(() => {
+    this.ticketService.getTicketsByUserId(this.userSession.email).then(() => {
       this.dataLoading$.next(false);
     });
-      this.tickets$ = this.ticketQuery.selectAll();
+    this.tickets$ = this.ticketQuery.selectAll();
 
-      this.tickets$
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((tickets) => {
-          console.log(tickets)
-          this.openOrders = tickets.filter(ticket => ticket.status !== 'resolved');
-          this.openOrderPagedData = this.updatePagedData(this.openOrders, this.openOrderPageIndex, this.openOrderTableLimit);
-          this.cd.detectChanges();
-        });
+    this.tickets$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((tickets) => {
+        console.log(tickets)
+        this.openOrders = tickets.filter(ticket => ticket.status !== 'resolved');
+        this.openOrderPagedData = this.updatePagedData(this.openOrders, this.openOrderPageIndex, this.openOrderTableLimit);
+        this.cd.detectChanges();
+      });
   }
 
   handleOpenOrderPageChange(index: number) {

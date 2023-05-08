@@ -15,6 +15,8 @@ import { SpinnerModule } from 'src/features/shared-module/spinner/spinner.module
 import { TicketViewerModule } from 'src/features/shared-module/ticket-viewer/ticket-viewer.module';
 import { TicketStore } from '../ticketing/store/tickets.store';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { SessionStore } from 'src/app/session-store/domain-state/session.store';
+import { TableCardModule } from 'src/features/shared-module/table-card/table-card.module';
 
 @NgModule({
   declarations: [
@@ -34,8 +36,9 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
     SpinnerModule,
     NzTagModule,
     TicketViewerModule,
-    NzSpinModule
+    NzSpinModule,
+    TableCardModule
   ],
-  providers: [TicketStore]
+  providers: [TicketStore, SessionStore]
 })
 export class DashboardHomeModule { }

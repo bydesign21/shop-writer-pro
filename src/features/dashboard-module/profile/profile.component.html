@@ -1,0 +1,122 @@
+<nz-layout>
+  <nz-content class="user-profile__wrapper">
+    <div class="user-profile">
+      <div class="avatar-container">
+        <nz-avatar nzSize="large" [nzSrc]="user['custom:avatarUrl']" *ngIf="!editing"></nz-avatar>
+        <div *ngIf="editing">
+          <span class="upload-icon" nz-icon [nzType]="loading ? 'loading' : null"></span>
+          <nz-upload
+
+            [nzAction]="'https://jsonplaceholder.typicode.com/posts/'"
+            nzListType="picture-card"
+            [(nzFileList)]="fileList"
+            [nzMultiple]="false"
+            [nzCustomRequest]="customReq"
+            (nzChange)="handleChange($event)"
+            nzLimit='1'
+            [nzPreview]="null"
+            (nzFileListChange)="handleFileListChange($event)"
+
+          >
+            <i nz-icon nzType="plus"></i>
+            <div class="ant-upload-text">Upload</div>
+          </nz-upload>
+        </div>
+      </div>
+      <div class="user-details">
+        <div *ngIf="!editing">
+          <h3 #nameEl class="truncate" nz-tooltip [nzTooltipTitle]="isTextTruncated ? user.name : null">{{ user.name }}</h3>
+          <p #emailEl class="truncate" nz-tooltip [nzTooltipTitle]="isTextTruncated ? user.email : null">{{ user.email }}</p>
+          <p #phoneNumberEl class="truncate" nz-tooltip [nzTooltipTitle]="isTextTruncated ? user.phone_number : null">{{ user.phone_number }}</p>
+          <p #companyNameEl class="truncate" nz-tooltip [nzTooltipTitle]="isTextTruncated ? user['custom:companyName'] : null">{{ user['custom:companyName'] }}</p>
+          <p #addressEl class="truncate" nz-tooltip [nzTooltipTitle]="isTextTruncated ? user.address : null">{{ user.address }}</p>
+        </div>
+        <form *ngIf="editing" [formGroup]="userForm">
+          <nz-row>
+            <nz-col [nzXs]="0" [nzSm]="3" [nzSpan]="3">
+              <nz-form-item>
+                <nz-form-label>Name</nz-form-label>
+              </nz-form-item>
+            </nz-col>
+            <nz-col [nzXs]="24" [nzSm]="18" [nzSpan]="18">
+              <nz-form-item >
+                <nz-form-control>
+                  <input nz-input formControlName="name" />
+                </nz-form-control>
+              </nz-form-item>
+            </nz-col>
+          </nz-row>
+          <nz-row>
+            <nz-col [nzXs]="0" [nzSm]="3" [nzSpan]="3">
+              <nz-form-item>
+                <nz-form-label>Email</nz-form-label>
+              </nz-form-item>
+            </nz-col>
+            <nz-col [nzXs]="24" [nzSm]="18" [nzSpan]="18">
+              <nz-form-item>
+                <nz-form-control>
+                  <input nz-input formControlName="email" />
+                </nz-form-control>
+              </nz-form-item>
+            </nz-col>
+          </nz-row>
+          <nz-row>
+            <nz-col  [nzXs]="0" [nzSm]="3" [nzSpan]="3">
+              <nz-form-item>
+                <nz-form-label>Phone Number</nz-form-label>
+              </nz-form-item>
+            </nz-col>
+            <nz-col [nzXs]="24" [nzSm]="18" [nzSpan]="18">
+              <nz-form-item>
+                <nz-form-control>
+                  <input nz-input formControlName="phone_number" />
+                </nz-form-control>
+              </nz-form-item>
+            </nz-col>
+          </nz-row>
+          <nz-row>
+            <nz-col [nzXs]="0" [nzSm]="3" [nzSpan]="3">
+              <nz-form-item>
+                <nz-form-label>Company Name</nz-form-label>
+              </nz-form-item>
+            </nz-col>
+            <nz-col [nzXs]="24" [nzSm]="18" [nzSpan]="18">
+              <nz-form-item>
+                <nz-form-control>
+                  <input nz-input formControlName="custom:companyName" />
+                </nz-form-control>
+              </nz-form-item>
+            </nz-col>
+          </nz-row>
+          <nz-row>
+            <nz-col [nzXs]="0" [nzSm]="3" [nzSpan]="3">
+              <nz-form-item>
+                <nz-form-label>Address</nz-form-label>
+              </nz-form-item>
+            </nz-col>
+            <nz-col [nzXs]="24" [nzSm]="18" [nzSpan]="18">
+              <nz-form-item>
+                <nz-form-control>
+                  <input id="address" nz-input (onAddressChange)="handleAddressChange($event)" formControlName="address" />
+                </nz-form-control>
+              </nz-form-item>
+            </nz-col>
+          </nz-row>
+          <input nz-input formControlName="custom:avatarUrl" hidden="true">
+        </form>
+      </div>
+      <div style="display: flex; justify-content: space-between;" class="control-buttons">
+        <div class="edit-btn">
+          <button nz-button (click)="toggleEdit()" [nzType]="editing ? 'default' : 'primary'">
+            {{ editing ? 'Cancel' : 'Edit' }}
+          </button>
+        </div>
+        <div *ngIf="editing" class="edit-btn">
+          <button nz-button nzType="primary" (click)="saveUserDetails()" [nzLoading]="loading" [disabled]="!userForm.valid && userForm.untouched">
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </nz-content>
+</nz-layout>

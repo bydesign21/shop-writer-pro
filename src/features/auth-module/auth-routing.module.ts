@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthContainerComponent } from './auth-container/auth-container.component';
+import { AuthGuard } from './auth.guard';
 import { ConfirmAccountComponent } from './confirm-account/confirm-account.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
@@ -9,11 +10,12 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: 'login',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: '',
     component: AuthContainerComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'login',
@@ -25,7 +27,7 @@ const routes: Routes = [
       },
       {
         path: 'sign-up',
-        component: SignUpComponent
+        component: SignUpComponent,
       }
     ]
   }

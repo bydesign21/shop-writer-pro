@@ -7,11 +7,8 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzInputModule } from 'ng-zorro-antd/input';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
-import { GooglePlaceDirective, GooglePlaceModule } from 'ngx-google-places-autocomplete';
-
-
 
 @NgModule({
   declarations: [SignUpComponent],
@@ -26,7 +23,6 @@ import { GooglePlaceDirective, GooglePlaceModule } from 'ngx-google-places-autoc
     ReactiveFormsModule,
     NzFormModule,
     NzAutocompleteModule,
-    GooglePlaceModule,
   ],
   exports: [SignUpComponent]
 })

@@ -114,7 +114,7 @@
                         [nzAutocomplete]="auto"
 
                       />
-                    <nz-autocomplete [nzDataSource]="[{value: 'State Farm', label: 'State Farm'}]" nzBackfill #auto></nz-autocomplete>
+                    <nz-autocomplete [nzDataSource]="insuranceList" nzBackfill #auto></nz-autocomplete>
                       <!-- <nz-form-explain *ngIf="forms.get('step2.address').invalid && forms.get('step2.address').touched">
                                           Please enter a valid address.
                                       </nz-form-explain> -->
@@ -202,42 +202,10 @@
                 </div>
               </div>
             </div>
-
             <div
               class="step-content-wrapper"
               formGroupName="step3"
               *ngIf="currentStep === 3"
-            >
-              <div class="step-content-header">
-                <span>Vehicle Details</span>
-                <h1>A Few More Steps</h1>
-                <h4>
-                  Just a few more details about your vehicle are needed...
-                </h4>
-              </div>
-              <div class="form-wrapper">
-                <div class="form-inner">
-                  <nz-form-item>
-                    <nz-form-control>
-                      <p>Please Describe The Vehicle's Damage</p>
-                      <textarea
-                        nz-input
-                        formControlName="damage"
-                        type="text"
-                      ></textarea>
-                      <!-- <nz-form-explain *ngIf="forms.get('step2.address').invalid && forms.get('step2.address').touched">
-                                          Please enter a valid address.
-                                      </nz-form-explain> -->
-                    </nz-form-control>
-                  </nz-form-item>
-                </div>
-              </div>
-            </div>
-
-            <div
-              class="step-content-wrapper"
-              formGroupName="step4"
-              *ngIf="currentStep === 4"
             >
               <div class="step-content-header">
                 <span>Vehicle Details</span>
@@ -270,6 +238,37 @@
                           from uploading company data or other band files
                         </p>
                       </nz-upload>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="step-content-wrapper"
+              formGroupName="step4"
+              *ngIf="currentStep === 4"
+            >
+              <div class="step-content-header">
+                <span>Vehicle Details</span>
+                <h1>A Few More Steps</h1>
+                <h4>
+                  Just a few more details about your vehicle are needed...
+                </h4>
+              </div>
+              <div class="form-wrapper">
+                <div class="form-inner">
+                  <nz-form-item>
+                    <nz-form-control>
+                      <p>Please Describe The Vehicle's Damage</p>
+                      <textarea
+                        nz-input
+                        formControlName="damage"
+                        type="text"
+                      ></textarea>
+                      <!-- <nz-form-explain *ngIf="forms.get('step2.address').invalid && forms.get('step2.address').touched">
+                                          Please enter a valid address.
+                                      </nz-form-explain> -->
                     </nz-form-control>
                   </nz-form-item>
                 </div>
@@ -316,7 +315,7 @@
                       </div>
                       <div *ngIf="panel.id === 3">
                         <nz-card [nzTitle]="'Vehicle Damage'">
-                          <p>{{ formValues.step3.damage }}</p>
+                          <p>{{ formValues.step4.damage }}</p>
                         </nz-card>
                       </div>
                       <div *ngIf="panel.id === 4">
@@ -326,7 +325,7 @@
                               <img
                                 nz-image
                                 class="review-form__img"
-                                *ngFor="let img of formValues.step4.imageUpload"
+                                *ngFor="let img of formValues.step3.imageUpload"
                                 nzSrc="{{ img }}"
                               />
                             </nz-image-group>
@@ -335,6 +334,10 @@
                       </div>
                     </nz-collapse-panel>
                   </nz-collapse>
+                  <div style="margin-top:3rem;">
+                    <span>Want to add another vehicle to your order?</span><br>
+                    <button style="padding-top:5px;" nz-button (click)="addAdditionalVehicle()">Add Vehicle</button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -383,7 +386,7 @@
                   <form
                     *ngIf="!paymentSuccess"
                     [ngClass]="{
-                      loading: !(formLoaded$ | async),
+                      loading: (formLoaded$ | async) === false,
                       loaded: (formLoaded$ | async)
                     }"
                     id="payment-form"
@@ -398,7 +401,7 @@
                       *ngIf="formLoaded$ | async"
                       class="submit-payment__button"
                       id="submit"
-                      [content]="'Pay Now $' + formValues?.step1?.plan?.cost"
+                      [content]="'Pay Now $' + calculateOrderTotal()"
                       (click)="submitPayment()"
                     >
                     </swp-button>

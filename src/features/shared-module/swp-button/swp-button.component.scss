@@ -68,6 +68,9 @@
 }
 
 ::ng-deep {
+  button.ant-btn {
+    margin-top: 0;
+  }
   .ant-btn {
     span {
       position: relative;

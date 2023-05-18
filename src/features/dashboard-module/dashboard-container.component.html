@@ -1,13 +1,15 @@
 <nz-layout class="layout">
   <nz-drawer
+    nzWrapClassName="dashboard-menu"
+    #navigationMenu
     (nzOnClose)="menuIsVisible = !menuIsVisible"
     [nzVisible]="menuIsVisible"
     nzPlacement="left"
     [nzWidth]="'200px'"
     [nzClosable]="true"
   >
-    <ng-container *nzDrawerContent #navigationMenu>
-      <ul class="navigation-menu-list" nz-menu nzTheme="dark" nzMode="inline">
+    <ng-container *nzDrawerContent>
+      <ul class="navigation-menu-list" nz-menu nzTheme="light" nzMode="inline">
         <li nz-menu-item nzMatchRouter>
           <a [routerLink]="'home'" routerLinkActive="true">
             <span nz-icon nzType="home"></span>
@@ -27,13 +29,7 @@
           </a>
         </li>
         <li nz-menu-item nzMatchRouter>
-          <a [routerLink]="'settings'" routerLinkActive="true">
-            <span nz-icon nzType="setting"></span>
-            <span>Settings</span>
-          </a>
-        </li>
-        <li nz-menu-item nzMatchRouter>
-          <a (click)="handleLogoutClicked($event)" routerLinkActive="true">
+          <a (click)="handleSignOutClicked($event)" routerLinkActive="true">
             <span nz-icon nzType="poweroff"></span>
             <span>Logout</span>
           </a>
@@ -62,6 +58,6 @@
         <router-outlet></router-outlet>
       </div>
     </nz-content>
-    <nz-footer>ShopWriterPro ©2023 Designed By Logan Vasquez</nz-footer>
+    <nz-footer>ShopWriterPro ©2023</nz-footer>
   </nz-layout>
 </nz-layout>

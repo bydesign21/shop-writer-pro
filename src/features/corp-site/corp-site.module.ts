@@ -2,24 +2,23 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { SwpButtonModule } from '../shared-module/swp-button/swp-button.module';
-import { ContactComponent } from './contact.component';
+import { HomepageComponent } from './homepage.component';
 import { NavbarModule } from '../shared-module/navbar/navbar.module';
 import { CardModule } from '../shared-module/card/card.module';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzTableModule } from 'ng-zorro-antd/table';
-import { FormsModule } from '@angular/forms';
-import { NzFormModule } from 'ng-zorro-antd/form';
-import { NavbarComponent } from '../shared-module/navbar/navbar.component';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzIconModule } from 'ng-zorro-antd/icon';
+import { SpinnerModule } from '../shared-module/spinner/spinner.module';
+import { PricingpageModule } from './pricingpage/pricingpage.module';
+import { CorpSiteRoutingModule } from './corp-site-routing.module';
+import { ContactModule } from './contact-module/contact.module';
+import { CorpSiteContainerModule } from './corp-site-container/corp-site-container.module';
 
 
 
 @NgModule({
   declarations: [
-    ContactComponent,
+    HomepageComponent,
   ],
   imports: [
     CommonModule,
@@ -29,14 +28,15 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzLayoutModule,
     NzGridModule,
     NzTableModule,
-    NzFormModule,
     NavbarModule,
-    NzInputModule,
-    NzCardModule,
-    NzIconModule
+    SpinnerModule,
+    PricingpageModule,
+    CorpSiteRoutingModule,
+    ContactModule,
+    CorpSiteContainerModule
   ],
   exports: [
-    ContactComponent,
+    HomepageComponent,
   ]
 })
-export class ContactModule { }
+export class CorpSiteModule { }

@@ -14,4 +14,5 @@ export interface Ticket {
   userId: string,
   ticketId: string,
   lastUpdated: string,
+  insurance: string,
 }

@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardContainerComponent } from './dashboard-container.component';
 import { RouterModule } from '@angular/router';
@@ -11,9 +11,10 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { DashboardHomeModule } from './dashboard-home/dashboard-home.module';
 import {NzDrawerModule} from 'ng-zorro-antd/drawer'
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { TransactionContainerComponent } from './transaction-container/transaction-container.component';
 import { TransactionContainerModule } from './transaction-container/transaction-container.module';
 import { SpinnerModule } from '../shared-module/spinner/spinner.module';
+import { ProfileModule } from './profile/profile.module';
+import { AuthModule } from '../auth-module/auth-module.module';
 
 
 
@@ -34,7 +35,9 @@ import { SpinnerModule } from '../shared-module/spinner/spinner.module';
     NzDrawerModule,
     NzButtonModule,
     TransactionContainerModule,
-    SpinnerModule
+    SpinnerModule,
+    ProfileModule,
+    AuthModule
   ],
 })
 export class DashboardModule { }

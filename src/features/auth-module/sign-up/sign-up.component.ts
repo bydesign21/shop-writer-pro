@@ -2,8 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Options } from 'ngx-google-places-autocomplete/objects/options/options';
-import { map, Subject, take, takeUntil } from 'rxjs';
+import { Subject, take, takeUntil } from 'rxjs';
 import { AuthService } from '../auth-service.service';
 
 @Component({
@@ -26,7 +25,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initForm();
     this.authService.handleSignOut();
-    this.authService.loggedInUser$.subscribe(res => console.log(res))
   }
 
   ngOnDestroy(): void {
@@ -40,6 +38,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
       phoneNumber: new FormControl(null, [Validators.required]),
       address: new FormControl(null, Validators.required),
       name: new FormControl(null, Validators.required),
+      company: new FormControl(null, null),
       password: new FormControl(null, Validators.required),
       passwordConfirm: new FormControl(null, Validators.required),
     });
@@ -51,6 +50,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
       phoneNumber,
       address,
       name,
+      company,
       password,
       passwordConfirm
     } = this.form.getRawValue();
@@ -63,7 +63,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
           email,
           phone_number: phoneNumber,
           address,
-          name
+          name,
+          "custom:companyName": company
         }
       })
         .pipe(

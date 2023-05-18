@@ -1,0 +1,12 @@
+<nz-row [nzJustify]="justify">
+  <nz-col nzXs="24" nzSm="12" nzMd="6" *ngFor="let plan of plans">
+    <nz-card [nzHoverable]="true" [nzBordered]="false" [nzBodyStyle]="{ padding: '20px' }" [nzCover]="null">
+      <div class="plan-title">{{ plan.name }}</div>
+      <div class="plan-price">${{ plan.price }}<span class="plan-duration">/month</span></div>
+      <ul class="plan-features">
+        <li *ngFor="let feature of plan.features">{{ feature }}</li>
+      </ul>
+      <button nz-button [nzType]="'primary'">Sign up</button>
+    </nz-card>
+  </nz-col>
+</nz-row>

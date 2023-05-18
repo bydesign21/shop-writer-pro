@@ -9,6 +9,7 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 
 
 
@@ -22,7 +23,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzLayoutModule,
     NzMenuModule,
     NzDropDownModule,
-    NzIconModule
+    NzIconModule,
+    NzDrawerModule
   ],
   exports: [NavbarComponent]
 })

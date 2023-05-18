@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, Ev
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadChangeParam, NzUploadFile, NzUploadXHRArgs } from 'ng-zorro-antd/upload';
-import { BehaviorSubject, catchError, debounceTime, distinctUntilChanged, filter, from, fromEvent, lastValueFrom, of, shareReplay, Subject, switchMap, take, takeUntil } from 'rxjs';
+import { BehaviorSubject, catchError, debounceTime, distinctUntilChanged, filter, from, fromEvent, lastValueFrom, of, Subject, switchMap, take, takeUntil } from 'rxjs';
 import { loadStripe } from '@stripe/stripe-js/pure';
 import { PaymentIntentResult, Stripe, StripeElements } from '@stripe/stripe-js';
 import { SpinnerService } from 'src/features/shared-module/spinner/spinner.service';
@@ -11,10 +11,11 @@ import { SessionQuery } from 'src/app/session-store/domain-state/session.query';
 import { TicketService } from './ticket.service';
 import { DecimalPipe } from '@angular/common';
 import { SharedUtilsService } from 'src/features/shared-module/shared-utils/shared-utils.service';
-
+import { insuranceList } from 'src/features/shared-module/shared-utils/shared.model';
+import { Ticket } from './store/ticket.model';
 
 @Component({
-  selector: 'app-ticketing',
+  selector: 'swp-ticketing',
   templateUrl: './ticketing.component.html',
   styleUrls: ['./ticketing.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,7 +25,7 @@ export class TicketingComponent implements OnInit, OnDestroy {
   userId: string;
   forms: FormGroup = new FormGroup({});
   currentStep = 1;
-  ticket: any;
+  ticket: Ticket;
   imageList = [];
   selectedFiles = [];
   stripe: Promise<Stripe>;
@@ -32,9 +33,11 @@ export class TicketingComponent implements OnInit, OnDestroy {
   formValues: any;
   clientSecret: string;
   elements: StripeElements;
-  paymentSuccess: boolean = false;
+  paymentSuccess = false;
   vehicleMileage: string;
   destroy$ = new Subject();
+  insuranceList = insuranceList;
+  ticketsInOrder: Partial<Ticket>[] = [];
   private vinSubject = new Subject<string>();
 
 
@@ -73,7 +76,7 @@ export class TicketingComponent implements OnInit, OnDestroy {
       id: 0,
       description: 'Description1',
       image: 'imgurl',
-      cost: 200
+      cost: 100
 
     },
     {
@@ -81,7 +84,7 @@ export class TicketingComponent implements OnInit, OnDestroy {
       id: 1,
       description: 'Description2',
       image: 'imgurl',
-      cost: 300
+      cost: 200
 
     },
     {
@@ -89,7 +92,7 @@ export class TicketingComponent implements OnInit, OnDestroy {
       id: 2,
       description: 'Description3',
       image: 'imgurl',
-      cost: 400
+      cost: 300
 
     },
     {
@@ -97,7 +100,7 @@ export class TicketingComponent implements OnInit, OnDestroy {
       id: 3,
       description: 'Description4',
       image: 'imgurl',
-      cost: 500
+      cost: 400
 
     }
   ];
@@ -153,13 +156,14 @@ export class TicketingComponent implements OnInit, OnDestroy {
 
     this.vinSubject.pipe(
       debounceTime(500),
-      filter(vin => vin.length > 0 && vin.length < 25),
+      filter(vin => vin.length > 4 && vin.length < 25),
       distinctUntilChanged(),
       switchMap(vin => from(this.utilService.getVehichleByVin(vin))
         .pipe(
           takeUntil(this.destroy$),
           catchError((err: HttpErrorResponse) => {
             this.messageService.error('Please enter a valid VIN');
+            console.log(err);
             this.vinSubject.next('');
             return of(null); // Return an observable to continue the stream
           })
@@ -189,6 +193,7 @@ export class TicketingComponent implements OnInit, OnDestroy {
     this.currentStep++;
     this.getFormData();
     if (this.currentStep === 6) {
+      this.addTicketToOrder();
       this.getPaymentIntent();
     }
   }
@@ -209,8 +214,7 @@ export class TicketingComponent implements OnInit, OnDestroy {
   }
 
   public customReq = (item: NzUploadXHRArgs) => {
-    return this.ticketService.uploadPhotos(item).pipe(takeUntil(this.destroy$))
-      .subscribe();
+    return this.ticketService.uploadPhotos(item).pipe(takeUntil(this.destroy$)).subscribe();
   };
 
   handleChange({ file, fileList }: NzUploadChangeParam): void {
@@ -219,7 +223,7 @@ export class TicketingComponent implements OnInit, OnDestroy {
     if (status === 'done') {
       this.imageList = [];
       fileList.forEach(file => this.imageList.push(file.response.Location));
-      this.forms.get('step4').get('imageUpload').setValue(this.imageList);
+      this.forms.get('step3').get('imageUpload').setValue(this.imageList);
       this.messageService.success(`${file.name} file uploaded successfully.`);
     } else if (status === 'error') {
       this.messageService.error(`${file.name} file upload failed.`);
@@ -229,7 +233,7 @@ export class TicketingComponent implements OnInit, OnDestroy {
   handleImageRemove = (file: NzUploadFile) => {
     const removedFile = file.response.Location;
     this.imageList = this.imageList.filter(image => image !== removedFile);
-    this.forms.get('step4').get('imageUpload').setValue(this.imageList);
+    this.forms.get('step3').get('imageUpload').setValue(this.imageList);
     return true;
   }
 
@@ -247,10 +251,10 @@ export class TicketingComponent implements OnInit, OnDestroy {
         mileage: new FormControl('')
 
       }),
-      step3: new FormGroup({
+      step4: new FormGroup({
         damage: new FormControl(''),
       }),
-      step4: new FormGroup({
+      step3: new FormGroup({
         imageUpload: new FormControl(''),
       }),
       step5: new FormGroup({
@@ -268,23 +272,27 @@ export class TicketingComponent implements OnInit, OnDestroy {
   }
 
   getPaymentIntent() {
+    console.log('get payment intent')
     this.spinner.show('payment-spinner')
-    const req = new HttpRequest('POST', 'https://5dy63k615f.execute-api.us-east-1.amazonaws.com/dev/core/payment/payment-intent', this.formValues, {
-      withCredentials: true
-    });
-    return this.http.request(req).subscribe(
-      (event: HttpEvent<{}>) => {
-        if (event instanceof HttpResponse) {
-          this.clientSecret = event.body['clientSecret'];
-          this.formLoaded$.next(true);
-          return event.body
-        }
-        else {
-          return event.type
-        }
-      },
-      err => { err },
-      () => { this.spinner.hide('payment-spinner'); this.handlePayment() });
+    return from(this.ticketService.getPaymentIntent(this.ticketsInOrder))
+      .pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe(
+        (event: HttpEvent<object>) => {
+          if (event instanceof HttpResponse) {
+            this.clientSecret = event.body['clientSecret'];
+            this.formLoaded$.next(true);
+            return event.body
+          }
+          else {
+            return event.type
+          }
+        },
+        err => { err },
+        () => {
+          this.spinner.hide('payment-spinner'); this.handlePayment();
+        });
   }
 
   async handlePayment() {
@@ -329,9 +337,7 @@ export class TicketingComponent implements OnInit, OnDestroy {
   }
 
   async submitTicket() {
-    const formData = this.formValues;
-    const mappedData = this.mapFormData(formData);
-    const req = new HttpRequest('PUT', 'https://5dy63k615f.execute-api.us-east-1.amazonaws.com/dev/core/content/ticket/upload', mappedData, {
+    const req = new HttpRequest('PUT', 'https://5dy63k615f.execute-api.us-east-1.amazonaws.com/dev/core/content/ticket/upload', this.ticketsInOrder, {
       reportProgress: true,
       withCredentials: true,
     });
@@ -348,16 +354,16 @@ export class TicketingComponent implements OnInit, OnDestroy {
 
   mapFormData(formData: any) {
     const mappedData = {
-      insurance: formData.step2.insurance.value,
-      vin: formData.step2.vin,
-      make: formData.step2.make,
-      year: formData.step2.year,
-      model: formData.step2.model,
+      insurance: formData.step2.insurance.value as string,
+      vin: formData.step2.vin as string,
+      make: formData.step2.make as string,
+      year: formData.step2.year as string,
+      model: formData.step2.model as string,
       mileage: Number(formData.step2.mileage.replaceAll(',', '')),
-      description: formData.step3.damage,
-      images: formData.step4.imageUpload,
-      plan: formData.step1.plan.name,
-      totalUSD: formData.step1.plan.cost,
+      description: formData.step4.damage as string,
+      images: formData.step3.imageUpload as string[],
+      plan: formData.step1.plan.name as string,
+      totalUSD: formData.step1.plan.cost as number,
       userId: this.userId
     }
     return mappedData;
@@ -377,5 +383,35 @@ export class TicketingComponent implements OnInit, OnDestroy {
   numberFormatter(value: string) {
     console.log(value)
     this.vehicleMileage = this.decimalPipe.transform(value.replace(',', ''), '1.0-0');
+  }
+
+  addAdditionalVehicle() {
+    this.addTicketToOrder();
+    this.resetFormsAndValues();
+    this.messageService.success('New Vehicle Successfully Added To Order');
+  }
+
+  addTicketToOrder() {
+    const formData = this.formValues;
+    const mappedData = this.mapFormData(formData);
+    this.ticketsInOrder.push(mappedData);
+    console.log(this.ticketsInOrder);
+  }
+
+  resetFormsAndValues() {
+    this.forms.reset();
+    this.formValues = null;
+    this.vehicleMileage = '';
+    this.imageList = [];
+    this.selectedFiles = [];
+    this.currentStep = 1;
+  }
+
+  calculateOrderTotal() {
+    let orderTotal = 0;
+    this.ticketsInOrder.forEach(ticket => {
+      orderTotal = orderTotal + ticket.totalUSD
+    });
+    return orderTotal;
   }
 }

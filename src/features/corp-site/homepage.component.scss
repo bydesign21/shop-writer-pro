@@ -1,0 +1,106 @@
+.hero-banner-overlay {
+  background-color: rgba(0, 0, 0, 0.6);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.app-hero-wrapper {
+  background-image: url("../../assets/images/hero-banner-image.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  position: relative;
+}
+
+.hero-banner-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  position: relative;
+}
+
+.hero-banner-text-container {
+  max-width: 600px;
+  text-align: center;
+  z-index: 2;
+}
+
+.hero-banner-title {
+  color: white;
+  font-size: 3.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.hero-banner-description {
+  padding: 0.5rem;
+  color: white;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  margin-bottom: 40px;
+}
+
+.hero-banner-button {
+  margin: 0 10px;
+}
+
+.card-container {
+  margin: 40px 0;
+  padding: 0 20px;
+}
+
+.two-col-section {
+  max-height: 45vh;
+  .left-text {
+    padding: 20px;
+  }
+
+  .right-image {
+    padding: 20px;
+    text-align: center;
+
+    img {
+      width: 100%;
+      max-width: 500px;
+      max-height: 45vh;
+      object-fit: contain;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .two-col-section {
+    .left-text {
+      padding: 20px;
+    }
+
+    .right-image {
+      padding: 20px;
+    }
+  }
+}
+
+@media screen and (max-width: 1080px) {
+  .hero-banner-title {
+    font-size: 2.5rem;
+  }
+
+  .hero-banner-description {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .hero-banner-title {
+    font-size: 1.8rem;
+  }
+
+  .hero-banner-description {
+    font-size: 0.9rem;
+  }
+}

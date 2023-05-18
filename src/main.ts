@@ -3,7 +3,6 @@ import awsmobile from './aws-exports';
 import { Amplify, Auth } from 'aws-amplify';
 import { AppModule } from './app/app.module';
 import { persistState } from '@datorama/akita';
-import { debounceTime } from 'rxjs';
 
 const storage = persistState({
   include: ['session']

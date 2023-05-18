@@ -6,12 +6,10 @@ import { Router } from '@angular/router';
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.scss'],
 })
-export class ContactComponent implements OnInit {
+export class ContactComponent {
   constructor(
     private router: Router
   ) {}
-
-  ngOnInit(): void {}
 
   onLearnMoreClick() {
     this.router.navigate(['/tickets']);

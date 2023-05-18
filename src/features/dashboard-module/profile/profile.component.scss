@@ -1,0 +1,74 @@
+.user-profile__wrapper {
+  min-height: 300px;
+  margin: 2rem;
+
+  .user-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 500px;
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+
+    > .avatar-container {
+      position: relative;
+      width: 80px;
+      height: 80px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      > nz-avatar.ant-avatar {
+        height: 80px;
+        width: 80px;
+      }
+
+      > div {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .ant-upload {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+
+    > .user-details {
+      margin-top: 1rem;
+      width: 100%;
+      min-height: 250px;
+
+      nz-form-item {
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
+
+  .edit-btn {
+    margin: 1rem;
+    position: relative;
+    top: 3rem;
+  }
+
+  .truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  @media (max-width: 767px) {
+    ::ng-deep .ant-upload.ant-upload-select-picture-card {
+      position: relative;
+      right: 0.75rem;
+    }
+  }
+}

@@ -1,22 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from 'src/features/home-module/home.component';
-import { ContactComponent } from 'src/features/contact-module/contact.component';
-
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/home',
-    pathMatch: 'full'
+    loadChildren: () => import('src/features/corp-site/corp-site.module').then(m => m.CorpSiteModule)
   },
   {
     path: 'home',
-    component: HomeComponent
-  },
-  {
-    path: 'contact',
-    component: ContactComponent
+    loadChildren: () => import('src/features/corp-site/corp-site.module').then(m => m.CorpSiteModule)
   },
   {
     path: 'dashboard',

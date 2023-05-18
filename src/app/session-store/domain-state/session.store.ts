@@ -3,47 +3,57 @@ import { Store, StoreConfig } from '@datorama/akita';
 
 
 export interface SessionState {
-    id: string;
-    name: string;
-    email: string;
-    phoneNumber: string;
-    emailVerified: boolean;
-    phoneVerified: boolean;
-    address: string;
-    isAuthenticated: boolean
+  id: string;
+  name: string;
+  email: string;
+  phone_number: string;
+  emailVerified: boolean;
+  phoneVerified: boolean;
+  address: string;
+  isAuthenticated: boolean;
+  'custom:avatarUrl': string;
+  'custom:companyName': string;
+  role: string;
 }
 
 export function createInitialState(): SessionState {
-    return {
-        id: '',
-        name: '',
-        email: '',
-        phoneNumber: '',
-        emailVerified: false,
-        phoneVerified: false,
-        address: '',
-        isAuthenticated: false
-    };
+  return {
+    id: '',
+    name: '',
+    email: '',
+    phone_number: '',
+    emailVerified: false,
+    phoneVerified: false,
+    address: '',
+    isAuthenticated: false,
+    'custom:avatarUrl': '',
+    'custom:companyName': '',
+    role: 'user'
+  };
 }
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 @StoreConfig({ name: 'session' })
 export class SessionStore extends Store<SessionState> {
 
-    constructor() {
-        super(createInitialState());
-    }
+  constructor() {
+    super(createInitialState());
+  }
 
-    endSession() {
-        this.update(createInitialState());
-        setTimeout(() => {
-            localStorage.removeItem('AkitaStores');
-        }, 250);
-    }
+  endSession(): void {
+    this.startSession();
+    setTimeout(() => localStorage.removeItem('AkitaStores'), 50)
+  }
 
-    startSession() {
-        this.update(createInitialState());
-    }
+  startSession(): void {
+    this.update(createInitialState());
+  }
+
+  updateSession(session: SessionState): void {
+    this.update((state) => {
+      return { ...state, ...session };
+    });
+  }
 }

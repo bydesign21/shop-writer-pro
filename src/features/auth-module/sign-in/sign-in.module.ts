@@ -11,6 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SpinnerModule } from 'src/features/shared-module/spinner/spinner.module';
 import { RouterModule } from '@angular/router';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 
 
@@ -31,6 +32,7 @@ import { RouterModule } from '@angular/router';
   ],
   exports: [
     SignInComponent
-  ]
+  ],
+  providers: [NzModalService]
 })
 export class SignInModule { }

@@ -112,12 +112,24 @@ export class AuthService {
       return from(Auth.updateUserAttributes(user, {
         ...params
       })).pipe(map(res => {
-        this.sessionService.updateSession({...params});
+        this.sessionService.updateSession({ ...params });
         return res;
       },
         catchError(err => {
           return of(err);
         })));
     }));
+  }
+
+  public async getCurrentUserCognitoKey() {
+    try {
+      return await Auth.currentAuthenticatedUser().then(creds => {
+        console.log('creds', creds)
+        return creds.signInUserSession.idToken.jwtToken
+      })
+    } catch (error) {
+      console.log('Failed to get User Cognito Key', error)
+      return error;
+    }
   }
 }

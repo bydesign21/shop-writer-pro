@@ -4,7 +4,7 @@ import awsmobile from 'src/aws-exports';
 
 Amplify.configure(awsmobile);
 @Component({
-  selector: 'app-root',
+  selector: 'swp-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })

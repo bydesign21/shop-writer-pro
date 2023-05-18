@@ -15,7 +15,7 @@ import { insuranceList } from 'src/features/shared-module/shared-utils/shared.mo
 import { Ticket } from './store/ticket.model';
 
 @Component({
-  selector: 'app-ticketing',
+  selector: 'swp-ticketing',
   templateUrl: './ticketing.component.html',
   styleUrls: ['./ticketing.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -25,7 +25,7 @@ export class TicketingComponent implements OnInit, OnDestroy {
   userId: string;
   forms: FormGroup = new FormGroup({});
   currentStep = 1;
-  ticket: any;
+  ticket: Ticket;
   imageList = [];
   selectedFiles = [];
   stripe: Promise<Stripe>;
@@ -156,13 +156,14 @@ export class TicketingComponent implements OnInit, OnDestroy {
 
     this.vinSubject.pipe(
       debounceTime(500),
-      filter(vin => vin.length > 0 && vin.length < 25),
+      filter(vin => vin.length > 4 && vin.length < 25),
       distinctUntilChanged(),
       switchMap(vin => from(this.utilService.getVehichleByVin(vin))
         .pipe(
           takeUntil(this.destroy$),
           catchError((err: HttpErrorResponse) => {
             this.messageService.error('Please enter a valid VIN');
+            console.log(err);
             this.vinSubject.next('');
             return of(null); // Return an observable to continue the stream
           })
@@ -213,8 +214,7 @@ export class TicketingComponent implements OnInit, OnDestroy {
   }
 
   public customReq = (item: NzUploadXHRArgs) => {
-    return this.ticketService.uploadPhotos(item).pipe(takeUntil(this.destroy$))
-      .subscribe();
+    return this.ticketService.uploadPhotos(item).pipe(takeUntil(this.destroy$)).subscribe();
   };
 
   handleChange({ file, fileList }: NzUploadChangeParam): void {
@@ -272,23 +272,27 @@ export class TicketingComponent implements OnInit, OnDestroy {
   }
 
   getPaymentIntent() {
+    console.log('get payment intent')
     this.spinner.show('payment-spinner')
-    const req = new HttpRequest('POST', 'https://5dy63k615f.execute-api.us-east-1.amazonaws.com/dev/core/payment/payment-intent', this.ticketsInOrder, {
-      withCredentials: true
-    });
-    return this.http.request(req).subscribe(
-      (event: HttpEvent<object>) => {
-        if (event instanceof HttpResponse) {
-          this.clientSecret = event.body['clientSecret'];
-          this.formLoaded$.next(true);
-          return event.body
-        }
-        else {
-          return event.type
-        }
-      },
-      err => { err },
-      () => { this.spinner.hide('payment-spinner'); this.handlePayment(); });
+    return from(this.ticketService.getPaymentIntent(this.ticketsInOrder))
+      .pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe(
+        (event: HttpEvent<object>) => {
+          if (event instanceof HttpResponse) {
+            this.clientSecret = event.body['clientSecret'];
+            this.formLoaded$.next(true);
+            return event.body
+          }
+          else {
+            return event.type
+          }
+        },
+        err => { err },
+        () => {
+          this.spinner.hide('payment-spinner'); this.handlePayment();
+        });
   }
 
   async handlePayment() {

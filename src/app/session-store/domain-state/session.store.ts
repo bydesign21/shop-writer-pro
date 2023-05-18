@@ -28,7 +28,7 @@ export function createInitialState(): SessionState {
     isAuthenticated: false,
     'custom:avatarUrl': '',
     'custom:companyName': '',
-    role: ''
+    role: 'user'
   };
 }
 

@@ -49,7 +49,7 @@ export class TransactionContainerComponent implements OnInit {
 
   loadData(): void {
     this.dataLoading$.next(true);
-    this.ticketService.getTicketsByUserId(this.userSession.email).then(() => {
+    this.ticketService.getUserTickets(this.userSession).then(() => {
       this.dataLoading$.next(false);
     });
     this.tickets$ = this.ticketQuery.selectAll();

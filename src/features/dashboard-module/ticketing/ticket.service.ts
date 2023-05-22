@@ -98,12 +98,28 @@ export class TicketService {
 
   async getPaymentIntent(tickets: Partial<Ticket>[]) {
     const request = await this.utilService.createRequest(
-      'PUT',
+      'POST',
       'https://5dy63k615f.execute-api.us-east-1.amazonaws.com/dev/core/payment/payment-intent',
       {},
       tickets,
       {
         withCredentials: true
+      }
+    )
+    return await this.utilService.executeRequest(request).then((res) => {
+      return res.clientSecret
+    });
+  }
+
+  async submitTickets(tickets: Partial<Ticket>[]) {
+    const request = await this.utilService.createRequest(
+      'PUT',
+      'https://5dy63k615f.execute-api.us-east-1.amazonaws.com/dev/core/content/ticket/upload',
+      {},
+      tickets,
+      {
+        withCredentials: true,
+        reportProgress: true
       }
     )
     return await this.utilService.executeRequest(request);

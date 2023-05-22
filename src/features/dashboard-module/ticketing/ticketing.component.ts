@@ -1,9 +1,8 @@
-import { HttpClient, HttpErrorResponse, HttpEvent, HttpEventType, HttpRequest, HttpResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadChangeParam, NzUploadFile, NzUploadXHRArgs } from 'ng-zorro-antd/upload';
-import { BehaviorSubject, catchError, debounceTime, distinctUntilChanged, filter, from, fromEvent, lastValueFrom, of, Subject, switchMap, take, takeUntil } from 'rxjs';
+import { BehaviorSubject, catchError, debounceTime, distinctUntilChanged, filter, from, fromEvent, of, Subject, switchMap, take, takeUntil } from 'rxjs';
 import { loadStripe } from '@stripe/stripe-js/pure';
 import { PaymentIntentResult, Stripe, StripeElements } from '@stripe/stripe-js';
 import { SpinnerService } from 'src/features/shared-module/spinner/spinner.service';
@@ -13,6 +12,7 @@ import { DecimalPipe } from '@angular/common';
 import { SharedUtilsService } from 'src/features/shared-module/shared-utils/shared-utils.service';
 import { insuranceList } from 'src/features/shared-module/shared-utils/shared.model';
 import { Ticket } from './store/ticket.model';
+import { environment } from '../../../environments/environment'
 
 @Component({
   selector: 'swp-ticketing',
@@ -38,7 +38,7 @@ export class TicketingComponent implements OnInit, OnDestroy {
   destroy$ = new Subject();
   insuranceList = insuranceList;
   ticketsInOrder: Partial<Ticket>[] = [];
-  private vinSubject = new Subject<string>();
+  private vinSubject$ = new Subject<string>();
 
 
   @Output() ticketSubmitted = new EventEmitter<boolean>(false);
@@ -133,39 +133,44 @@ export class TicketingComponent implements OnInit, OnDestroy {
   ];
 
   constructor(
-    private http: HttpClient,
     private messageService: NzMessageService,
     private spinner: SpinnerService,
-    private cd: ChangeDetectorRef,
     private sessionQuery: SessionQuery,
     private ticketService: TicketService,
     private decimalPipe: DecimalPipe,
     private utilService: SharedUtilsService
-  ) { }
-
-  ngOnInit() {
-    this.destroy$.next(false);
+  ) {
+    this.stripe = loadStripe(environment.STRIPE_API);
     this.sessionQuery.email$
       .pipe(
         take(1),
         takeUntil(this.destroy$)
       )
       .subscribe(email => this.userId = email);
-    this.stripe = loadStripe('pk_test_51MVpHRIQ2JRXZFlUPWOlmMdpAQBZy2ShjwPFt5LOdX9T2nX25EvEWP0VJD0HJC2LZjMnQJKWo0ogJCCoubhha3F800EWRPDsmL');
-    this.initForm();
+  }
 
-    this.vinSubject.pipe(
+  ngOnInit() {
+    this.initForm();
+    this.handleVehicleDetailsAutoFill();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.complete();
+  }
+
+  handleVehicleDetailsAutoFill() {
+    this.vinSubject$.pipe(
       debounceTime(500),
       filter(vin => vin.length > 4 && vin.length < 25),
       distinctUntilChanged(),
       switchMap(vin => from(this.utilService.getVehichleByVin(vin))
         .pipe(
           takeUntil(this.destroy$),
-          catchError((err: HttpErrorResponse) => {
+          catchError(() => {
             this.messageService.error('Please enter a valid VIN');
-            console.log(err);
-            this.vinSubject.next('');
-            return of(null); // Return an observable to continue the stream
+            this.vinSubject$.next('');
+            return of(null);
           })
         ))
     )
@@ -178,15 +183,10 @@ export class TicketingComponent implements OnInit, OnDestroy {
             this.forms.get('step2').get('model').patchValue(model);
           } else {
             this.messageService.error('Please enter a valid VIN');
-            this.vinSubject.next('');
+            this.vinSubject$.next('');
           }
         }
       });
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next(true);
-    this.destroy$.complete();
   }
 
   nextStep() {
@@ -205,7 +205,6 @@ export class TicketingComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.ticket = { ...this.forms.value };
-    console.log(this.ticket);
   }
 
   isStepValid(): boolean {
@@ -268,45 +267,25 @@ export class TicketingComponent implements OnInit, OnDestroy {
 
   getFormData() {
     this.formValues = this.forms.getRawValue();
-    console.log(this.formValues);
   }
 
   getPaymentIntent() {
-    console.log('get payment intent')
     this.spinner.show('payment-spinner')
-    return from(this.ticketService.getPaymentIntent(this.ticketsInOrder))
-      .pipe(
-        takeUntil(this.destroy$)
-      )
-      .subscribe(
-        (event: HttpEvent<object>) => {
-          if (event instanceof HttpResponse) {
-            this.clientSecret = event.body['clientSecret'];
-            this.formLoaded$.next(true);
-            return event.body
-          }
-          else {
-            return event.type
-          }
-        },
-        err => { err },
-        () => {
-          this.spinner.hide('payment-spinner'); this.handlePayment();
-        });
+    this.ticketService.getPaymentIntent(this.ticketsInOrder).then((res) => {
+      this.clientSecret = res;
+      this.spinner.hide('payment-spinner');
+      this.handlePayment();
+      this.formLoaded$.next(true);
+    });
   }
 
   async handlePayment() {
     const stripe = await this.stripe;
     const options = {
       clientSecret: this.clientSecret,
-      // Fully customizable with appearance API.
       appearance: {},
     };
-
-    // Set up Stripe.js and Elements to use in checkout form, passing the client secret obtained in step 3
     this.elements = stripe.elements(options);
-
-    // Create and mount the Payment Element
     const paymentElement = this.elements.create('payment');
     paymentElement.mount('#payment-element');
   }
@@ -319,7 +298,7 @@ export class TicketingComponent implements OnInit, OnDestroy {
       redirect: 'if_required'
     }));
 
-    paymentResponse$.subscribe(res => this.handlePaymentResponse(res));
+    paymentResponse$.pipe(takeUntil(this.destroy$)).subscribe(res => this.handlePaymentResponse(res));
   }
 
   handlePaymentResponse(response: PaymentIntentResult) {
@@ -329,27 +308,26 @@ export class TicketingComponent implements OnInit, OnDestroy {
     }
     if (response.error) {
       this.messageService.error(response.error.message);
+      this.paymentSuccess = false;
+      this.messageService.error('Payment Failed');
     } else {
       this.paymentSuccess = true;
-      this.submitTicket();
       this.messageService.success('Payment Successful');
+      this.submitTicket();
     }
   }
 
   async submitTicket() {
-    const req = new HttpRequest('PUT', 'https://5dy63k615f.execute-api.us-east-1.amazonaws.com/dev/core/content/ticket/upload', this.ticketsInOrder, {
-      reportProgress: true,
-      withCredentials: true,
-    });
-    try {
-      const response = await lastValueFrom(this.http.request(req));
-      if (response) {
-        this.ticketSubmitted.emit(true);
-        return response;
+    return await this.ticketService.submitTickets(this.ticketsInOrder).then(
+      (res) => {
+        this.ticketSubmitted.next(true);
+        return res;
+      },
+      (err) => {
+        console.log('error submitting ticket', err)
+        return err;
       }
-    } catch {
-      return console.log('there was an error submitting your ticket')
-    }
+    )
   }
 
   mapFormData(formData: any) {
@@ -376,12 +354,11 @@ export class TicketingComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$)
       )
       .subscribe(() => {
-        this.vinSubject.next(event.target.value);
+        this.vinSubject$.next(event.target.value);
       });
   }
 
   numberFormatter(value: string) {
-    console.log(value)
     this.vehicleMileage = this.decimalPipe.transform(value.replace(',', ''), '1.0-0');
   }
 
@@ -395,7 +372,6 @@ export class TicketingComponent implements OnInit, OnDestroy {
     const formData = this.formValues;
     const mappedData = this.mapFormData(formData);
     this.ticketsInOrder.push(mappedData);
-    console.log(this.ticketsInOrder);
   }
 
   resetFormsAndValues() {

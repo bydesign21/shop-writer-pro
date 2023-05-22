@@ -5,26 +5,19 @@ import { AppComponent } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AkitaNgDevtools } from '@datorama/akita-ngdevtools'
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { SessionService } from './session-store/domain-state/session.service';
 import { SpinnerModule } from 'src/features/shared-module/spinner/spinner.module';
 import { HttpClientModule } from '@angular/common/http';
 import { TicketStore } from 'src/features/dashboard-module/ticketing/store/tickets.store';
-import { IconDefinition } from '@ant-design/icons-angular';
-import * as AllIcons from '@ant-design/icons-angular/icons';
 
 /** config angular i18n **/
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
-import { NzIconModule } from 'ng-zorro-antd/icon';
+import { HomepageComponent } from 'src/features/corp-site/homepage.component';
 registerLocaleData(en);
-
-// configure app Icons Statically :/
-const antDesignIcons = AllIcons as {
-  [key: string]: IconDefinition;
-};
-const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesignIcons[key])
 
 @NgModule({
   declarations: [
@@ -34,11 +27,14 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     BrowserModule,
     AuthModule,
     AppRoutingModule,
+    GooglePlaceModule,
     AkitaNgDevtools.forRoot({}),
     SpinnerModule,
-    NzIconModule.forRoot(icons),
     HttpClientModule,
     BrowserAnimationsModule
+  ],
+  entryComponents: [
+    HomepageComponent
   ],
   providers: [
     SessionService,

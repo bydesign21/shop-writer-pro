@@ -48,7 +48,7 @@ export class AuthService {
   public handleSignUp(params: {
     email: string,
     password: string,
-    attributes: { email: string, phone_number: string, address: string, name: string, "custom:companyName": string }
+    attributes: { email: string, phone_number: string, address: string, name: string, "custom:companyName": string, "custom:role": string }
   }) {
     let { email, password, attributes } = params;
     email = email.toLowerCase();

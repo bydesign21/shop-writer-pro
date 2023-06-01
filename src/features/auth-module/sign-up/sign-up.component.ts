@@ -64,7 +64,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
           phone_number: phoneNumber,
           address,
           name,
-          "custom:companyName": company
+          "custom:companyName": company,
+          "custom:role": 'user'
         }
       })
         .pipe(

@@ -1,11 +1,10 @@
 import { HttpClient, HttpErrorResponse, HttpEvent, HttpEventType, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NzUploadXHRArgs } from 'ng-zorro-antd/upload';
-import { map } from 'rxjs';
+import { catchError, from, map, Observable, switchMap, throwError } from 'rxjs';
 import { SessionState } from 'src/app/session-store/domain-state/session.store';
 import { Ticket } from './store/ticket.model';
 import { TicketStore } from './store/tickets.store';
-import { roleToEntryId } from 'src/features/shared-module/models/util.interface';
 import { SharedUtilsService } from 'src/features/shared-module/shared-utils/shared-utils.service';
 
 @Injectable({
@@ -20,40 +19,38 @@ export class TicketService {
     private utilService: SharedUtilsService
   ) { }
 
-  uploadPhotos(item: NzUploadXHRArgs) {
+  uploadPhotos(item: NzUploadXHRArgs): Observable<any> {
     const formData = new FormData();
-    formData.append('file', item.file as unknown as Blob, item.file.filename);
-    const req = new HttpRequest('POST', 'https://5dy63k615f.execute-api.us-east-1.amazonaws.com/dev/core/content/media/upload/ticket', formData, {
-      reportProgress: true,
-      withCredentials: true,
-    });
-    return this.http.request(req).pipe(map(
-      (event: HttpEvent<object>) => {
-        if (event.type === HttpEventType.UploadProgress) {
-          if (event?.total > 0) {
-            // calculate the progress percentage
-            const percentDone = Math.round((event.loaded / event?.total) * 100);
-            // pass the percentage to the item that is currently being uploaded
-            return item.onProgress?.(percentDone, item?.file);
-          }
-        } else if (event instanceof HttpResponse) {
-          // success
-          return item.onSuccess?.(event.body, item?.file, event);
-        }
-      },
-      (err: HttpErrorResponse) => {
-        // failed
-        return item.onError?.(err, item?.file);
+    formData.append('file', item.file as unknown as Blob, item.file.name);
+    return from(this.utilService.createRequest(
+      'POST',
+      'https://5dy63k615f.execute-api.us-east-1.amazonaws.com/dev/core/content/media/upload/ticket',
+      {},
+      formData,
+      {
+        withCredentials: true,
+        reportProgress: true
       }
-    ));
+    )).pipe(
+      switchMap(request => this.utilService.executeRequest(request)),
+      map((event: HttpEvent<object>) => {
+        return item.onSuccess?.(event, item.file, event)
+      },
+      catchError((err: HttpErrorResponse) => {
+        // failed
+        item.onError?.(err, item.file);
+        return throwError(err);
+      })
+      )
+    );
   }
+
 
   async getUserTickets(user: SessionState): Promise<Ticket[]> {
     const { email, role } = user;
-    console.log(roleToEntryId[role], role);
     const request = await this.utilService.createRequest('GET', `https://5dy63k615f.execute-api.us-east-1.amazonaws.com/dev/core/query/users/data`, {
       userId: email,
-      entryId: roleToEntryId[role]
+      entryId: role
     }, null, {
       withCredentials: true
     });

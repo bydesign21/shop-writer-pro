@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { NzJustify } from 'ng-zorro-antd/grid';
 
 @Component({
-  selector: 'app-pricing-table',
+  selector: 'swp-pricing-table',
   templateUrl: './pricing-table.component.html',
   styleUrls: ['./pricing-table.component.scss']
 })

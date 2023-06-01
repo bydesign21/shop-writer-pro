@@ -1,24 +1,28 @@
-import { ChangeDetectorRef, Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { TicketViewerComponent } from '../ticket-viewer/ticket-viewer.component';
 
 @Component({
   selector: 'swp-table-card',
   templateUrl: './table-card.component.html',
-  styleUrls: ['./table-card.component.scss']
+  styleUrls: ['./table-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TableCardComponent implements OnInit {
+export class TableCardComponent implements OnInit, OnDestroy {
   @ViewChild('viewTicketModal')
   viewRowRef: TemplateRef<TicketViewerComponent>;
-  @Input() data: any[];
+  @Input() data$: BehaviorSubject<any[]>;
   @Input() pageLimit: number;
   @Input() noResultRef: TemplateRef<any> | string;
   @Input() loadingIndicatorRef: TemplateRef<any>;
-  @Input() isLoading: boolean;
+  @Input() isLoading$: BehaviorSubject<boolean>;
   @Input() cardTitle: string;
   pageIndex = 1;
   pagedData: any[];
   selectedItem: any;
+
+  destroy$ = new Subject();
 
   constructor(
     private modalService: NzModalService,
@@ -26,8 +30,20 @@ export class TableCardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.pagedData = this.updatePagedData(this.data, this.pageIndex, this.pageLimit);
-    console.log(this.pagedData, this.data)
+    this.isLoading$
+      .pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe((isLoading) => {
+        !isLoading
+        ? this.pagedData = this.updatePagedData(this.data$.getValue(), this.pageIndex, this.pageLimit)
+        : this.pagedData = [];
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   updatePagedData(data: any[], pageIndex: number, tableLimit: number) {
@@ -38,14 +54,13 @@ export class TableCardComponent implements OnInit {
 
   handlePageChange(index: number) {
     this.pageIndex = index;
-    this.pagedData = this.updatePagedData(this.data, this.pageIndex, this.pageLimit);
+    this.pagedData = this.updatePagedData(this.data$.getValue(), this.pageIndex, this.pageLimit);
   }
 
   viewTableRow(item: any) {
     this.selectedItem = item;
     this.cd.detectChanges();
     const ticketDate = new Date(item.date).toLocaleDateString();
-    console.log(item, ticketDate)
     this.modalService.create({
       nzTitle: `Ticket Details - ${ticketDate}`,
       nzContent: this.viewRowRef,

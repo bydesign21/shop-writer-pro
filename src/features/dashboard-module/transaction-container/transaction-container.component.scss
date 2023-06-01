@@ -7,3 +7,9 @@
     -webkit-overflow-scrolling: touch;
   }
 }
+
+::ng-deep .ant-spin.ant-spin-spinning {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}

@@ -4,7 +4,6 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { from, take } from 'rxjs';
 import { Ticket } from 'src/features/dashboard-module/ticketing/store/ticket.model';
 import { TicketService } from 'src/features/dashboard-module/ticketing/ticket.service';
-import { SharedUtilsService } from '../shared-utils/shared-utils.service';
 import { insuranceList } from '../shared-utils/shared.model';
 
 @Component({
@@ -16,7 +15,6 @@ import { insuranceList } from '../shared-utils/shared.model';
 export class TicketViewerComponent implements OnInit {
   @Output() ticketSubmitted = new EventEmitter<boolean>(false);
 constructor(
-  private utilsService: SharedUtilsService,
   private ticketService: TicketService,
   private messageService: NzMessageService
 ) {}
@@ -52,7 +50,6 @@ panels = [
 ];
 
 ngOnInit(): void {
-  console.log(this.ticket, 'ticket')
   this.updatedTicket = {...this.ticket};
 }
 

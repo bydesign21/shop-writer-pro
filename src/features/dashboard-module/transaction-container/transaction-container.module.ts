@@ -13,6 +13,7 @@ import { RouterModule } from '@angular/router';
 import { TicketViewerModule } from 'src/features/shared-module/ticket-viewer/ticket-viewer.module';
 import { TicketStore } from '../ticketing/store/tickets.store';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { TableCardModule } from 'src/features/shared-module/table-card/table-card.module';
 
 @NgModule({
   declarations: [TransactionContainerComponent],
@@ -28,7 +29,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzBreadCrumbModule,
     RouterModule,
     TicketViewerModule,
-    NzIconModule
+    NzIconModule,
+    TableCardModule
   ],
   exports: [TransactionContainerComponent]
 })

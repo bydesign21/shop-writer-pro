@@ -1,17 +1,13 @@
-<h2 *ngIf="userSession">Welcome, {{ userSession.name }}</h2>
-<div [ngSwitch]="userSession.role">
-  <div *ngSwitchCase="'employee'" class="dashboard-home">Employee works!</div>
-  <div *ngSwitchCase="'admin'" class="dashboard-home">Admin View Works</div>
-  <div *ngSwitchDefault class="dashboard-home">
+<h2 *ngIf="userSession">Welcome, {{ userSession.role }}</h2>
+  <div class="dashboard-home">
     <nz-row class="__first-row">
       <nz-col class="open-orders" nzSpan="24" nzLg="16">
         <swp-table-card
-          *ngIf="(dataLoading$ | async) === false && openOrders"
-          [cardTitle]="userSession.role === 'user' ? 'Open Orders' : 'Open Tickets'"
+          [cardTitle]="userSession.role === userRoles.USER ? 'Open Orders' : 'Open Tickets'"
           [loadingIndicatorRef]="loadingIndicator"
-          [isLoading]="dataLoading$ | async"
+          [isLoading$]="dataLoading$"
           [pageLimit]="tableLimit"
-          [data]="openOrders"
+          [data$]="openOrders$"
           [noResultRef]="(dataLoading$ | async) ? null : 'No results'"
         >
         </swp-table-card>
@@ -48,19 +44,17 @@
     <nz-row class="__second-row">
       <nz-col nzSpan="24">
         <swp-table-card
-          *ngIf="(dataLoading$ | async) === false && recentOrders"
-          [cardTitle]="userSession.role === 'user' ? 'Recent Orders' : 'Recent Tickets'"
+          [cardTitle]="userSession.role === userRoles.USER ? 'Recent Orders' : 'Recent Tickets'"
           [loadingIndicatorRef]="loadingIndicator"
-          [isLoading]="dataLoading$ | async"
+          [isLoading$]="dataLoading$"
           [pageLimit]="tableLimit"
-          [data]="recentOrders"
+          [data$]="recentOrders$"
           [noResultRef]="(dataLoading$ | async) ? null : 'No results'"
         >
         </swp-table-card>
       </nz-col>
     </nz-row>
   </div>
-</div>
 <ng-template #submitTicketModal>
   <swp-ticketing (ticketSubmitted)="loadData()"></swp-ticketing>
 </ng-template>

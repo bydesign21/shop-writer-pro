@@ -10,7 +10,7 @@ import { AuthService } from 'src/features/auth-module/auth-service.service';
 import { TicketService } from '../ticketing/ticket.service';
 
 @Component({
-  selector: 'app-profile',
+  selector: 'swp-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
@@ -130,7 +130,6 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
 
   handleChange({ file }: NzUploadChangeParam): void {
     const status = file.status;
-    console.log('file', file)
     if (status === 'done') {
       this.userForm.get('custom:avatarUrl').patchValue(file.response.Location);
       this.cd.detectChanges();
@@ -146,8 +145,7 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public customReq = (item: NzUploadXHRArgs) => {
-    return this.ticketService.uploadPhotos(item).pipe(takeUntil(this.destroy$))
-      .subscribe();
+    return this.ticketService.uploadPhotos(item).pipe(takeUntil(this.destroy$)).subscribe();
   };
 
 
@@ -160,10 +158,8 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
       this.addressElement?.nativeElement
     ];
     this.isTextTruncated = elementArr.some(el => {
-      console.log(el?.offsetWidth, el?.scrollWidth);
       return el?.offsetWidth < el?.scrollWidth;
     });
     this.cd.detectChanges();
-    console.log('isTextTruncated', this.isTextTruncated)
   }
 }

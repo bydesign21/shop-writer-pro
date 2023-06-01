@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, from, Observable, Subject, take, takeUntil } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 import { SessionQuery } from 'src/app/session-store/domain-state/session.query';
 import { SessionState } from 'src/app/session-store/domain-state/session.store';
 import { TicketViewerComponent } from 'src/features/shared-module/ticket-viewer/ticket-viewer.component';
@@ -9,18 +9,16 @@ import { TicketQuery } from '../ticketing/store/ticket.query';
 import { TicketService } from '../ticketing/ticket.service';
 
 @Component({
-  selector: 'app-transaction-container',
+  selector: 'swp-transaction-container',
   templateUrl: './transaction-container.component.html',
   styleUrls: ['./transaction-container.component.scss']
 })
-export class TransactionContainerComponent implements OnInit {
+export class TransactionContainerComponent implements OnInit, OnDestroy {
   @ViewChild('nzModalContent')
   nzModalContent: TemplateRef<TicketViewerComponent>;
   destroy$ = new Subject();
-  openOrders: Ticket[];
-  openOrderPagedData: Ticket[];
+  openOrders$ = new BehaviorSubject<Ticket[]>(null);
   openOrderTableLimit = 10;
-  openOrderPageIndex = 1;
   recentOrderPagedData: Ticket[];
   recentOrderTableLimit = 10;
   recentOrders: Ticket[];
@@ -57,16 +55,8 @@ export class TransactionContainerComponent implements OnInit {
     this.tickets$
       .pipe(takeUntil(this.destroy$))
       .subscribe((tickets) => {
-        console.log(tickets)
-        this.openOrders = tickets.filter(ticket => ticket.status !== 'resolved');
-        this.openOrderPagedData = this.updatePagedData(this.openOrders, this.openOrderPageIndex, this.openOrderTableLimit);
-        this.cd.detectChanges();
+        this.openOrders$.next(tickets.filter(ticket => ticket.status !== 'resolved'));
       });
-  }
-
-  handleOpenOrderPageChange(index: number) {
-    this.openOrderPageIndex = index;
-    this.openOrderPagedData = this.updatePagedData(this.openOrders, this.openOrderPageIndex, this.openOrderTableLimit);
   }
 
   handleRecentOrderPageChange(index: number) {

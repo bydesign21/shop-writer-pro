@@ -30,8 +30,7 @@ export class SharedUtilsService {
 
   async createRequest(method: string, url: string, queryParams: any = {}, body: any = null, options: any = {}) {
     const cognitoKey = await this.authService.getCurrentUserCognitoKey();
-    console.log('cognitoKey', cognitoKey)
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${cognitoKey}`).set('Content-Type', 'application/json').set('Accept', 'application/json');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${cognitoKey}`)
     let fullUrl = url;
     // If there are any query params, append them to the URL
     if (Object.keys(queryParams).length > 0) {
@@ -41,23 +40,22 @@ export class SharedUtilsService {
       }
       fullUrl += `?${params.toString()}`;
     }
-    console.log('here')
     const req = new HttpRequest(method, fullUrl, body, {
       headers,
       ...options
     });
 
-    console.log(req, 'req')
-
     return req;
   }
 
   async executeRequest(request: HttpRequest<any>) {
-    console.log(request, 'request')
     return await lastValueFrom(
       this.http.request(request)
         .pipe(
-          map((res: any) => res.body)
+          map(
+            (res: any) => res.body,
+            (err: any) => err
+          )
         )
     );
   }

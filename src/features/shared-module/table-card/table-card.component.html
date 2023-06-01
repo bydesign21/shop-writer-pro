@@ -2,18 +2,18 @@
   <div class="table-responsive">
     <nz-spin
       class="table-spinner"
-      [nzSpinning]="isLoading"
+      [nzSpinning]="isLoading$ | async"
       [nzIndicator]="loadingIndicatorRef"
     >
       <nz-table
-        [nzLoading]="isLoading"
+        [nzLoading]="isLoading$ | async"
         [nzLoadingIndicator]="loadingIndicatorRef"
         [nzPageIndex]="pageIndex"
-        [nzTotal]="data.length"
+        [nzTotal]="(data$ | async).length"
         [nzNoResult]="noResultRef"
         (nzPageIndexChange)="handlePageChange($event)"
         [nzPageSize]="pageLimit"
-        [nzData]="data"
+        [nzData]="data$ | async"
       >
         <thead>
           <tr>

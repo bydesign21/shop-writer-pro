@@ -324,7 +324,6 @@ export class TicketingComponent implements OnInit, OnDestroy {
         return res;
       },
       (err) => {
-        console.log('error submitting ticket', err)
         return err;
       }
     )

@@ -7,6 +7,7 @@ import { Ticket } from '../ticketing/store/ticket.model';
 import { TicketQuery } from '../ticketing/store/ticket.query';
 import { TicketService } from '../ticketing/ticket.service';
 import { TicketingComponent } from '../ticketing/ticketing.component';
+import { UserRole } from 'src/models/model';
 
 @Component({
   selector: 'swp-dashboard-home',
@@ -17,13 +18,14 @@ import { TicketingComponent } from '../ticketing/ticketing.component';
 export class DashboardHomeComponent implements OnInit, OnDestroy {
   @ViewChild('submitTicketModal')
   submitTicket: TemplateRef<TicketingComponent>;
-  openOrders: any[];
+  openOrders$ = new BehaviorSubject(null);
   tableLimit = 5;
-  recentOrders: any[];
+  recentOrders$ = new BehaviorSubject(null);
   userSession: SessionState
   destroy$ = new Subject();
   tickets$: Observable<Ticket[]>;
   dataLoading$ = new BehaviorSubject<boolean>(false);
+  userRoles = UserRole;
   constructor(
     private modalService: NzModalService,
     private ticketService: TicketService,
@@ -63,8 +65,8 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
     this.tickets$
       .pipe(takeUntil(this.destroy$))
       .subscribe((tickets) => {
-        this.recentOrders = tickets.filter(ticket => ticket.status === 'resolved');
-        this.openOrders = tickets.filter(ticket => ticket.status !== 'resolved');
+        this.recentOrders$.next(tickets.filter(ticket => ticket.status === 'resolved'))
+        this.openOrders$.next(tickets.filter(ticket => ticket.status !== 'resolved'));
       });
     this.cd.detectChanges();
   }

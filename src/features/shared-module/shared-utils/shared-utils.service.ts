@@ -15,7 +15,7 @@ export class SharedUtilsService {
     const request = await this
       .createRequest(
         'GET',
-        `https://5dy63k615f.execute-api.us-east-1.amazonaws.com/dev/core/utils/vin-decoder/vehicles`,
+        `https://8h3vwutdq2.execute-api.us-east-1.amazonaws.com/staging/core/utils/vin-decoder/vehicles`,
         {
           'vin': vin
         },

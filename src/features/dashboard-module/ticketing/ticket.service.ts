@@ -24,7 +24,7 @@ export class TicketService {
     formData.append('file', item.file as unknown as Blob, item.file.name);
     return from(this.utilService.createRequest(
       'POST',
-      'https://5dy63k615f.execute-api.us-east-1.amazonaws.com/dev/core/content/media/upload/ticket',
+      'https://8h3vwutdq2.execute-api.us-east-1.amazonaws.com/staging/core/content/media/upload/ticket',
       {},
       formData,
       {
@@ -48,7 +48,7 @@ export class TicketService {
 
   async getUserTickets(user: SessionState): Promise<Ticket[]> {
     const { email, role } = user;
-    const request = await this.utilService.createRequest('GET', `https://5dy63k615f.execute-api.us-east-1.amazonaws.com/dev/core/query/users/data`, {
+    const request = await this.utilService.createRequest('GET', `https://8h3vwutdq2.execute-api.us-east-1.amazonaws.com/staging/core/query/users/data`, {
       userId: email,
       entryId: role
     }, null, {
@@ -63,7 +63,7 @@ export class TicketService {
   }
 
   async updateTicket(ticket: Ticket): Promise<Ticket> {
-    const request = await this.utilService.createRequest('PATCH', `https://5dy63k615f.execute-api.us-east-1.amazonaws.com/dev/core/content/ticket/update`, {}, ticket, { withCredentials: true })
+    const request = await this.utilService.createRequest('PATCH', `https://8h3vwutdq2.execute-api.us-east-1.amazonaws.com/staging/core/content/ticket/update`, {}, ticket, { withCredentials: true })
     return await this.utilService.executeRequest(request)
       .then(res => res.data.Attributes)
       .then((updatedTicket) => {
@@ -80,7 +80,7 @@ export class TicketService {
     const request = await this.utilService
       .createRequest(
         'POST',
-        'https://5dy63k615f.execute-api.us-east-1.amazonaws.com/dev/core/update-entryId/username',
+        'https://8h3vwutdq2.execute-api.us-east-1.amazonaws.com/staging/core/update-entryId/username',
         {},
         {
           oldUsername: oldEntryId,
@@ -96,7 +96,7 @@ export class TicketService {
   async getPaymentIntent(tickets: Partial<Ticket>[]) {
     const request = await this.utilService.createRequest(
       'POST',
-      'https://5dy63k615f.execute-api.us-east-1.amazonaws.com/dev/core/payment/payment-intent',
+      'https://8h3vwutdq2.execute-api.us-east-1.amazonaws.com/staging/core/payment/payment-intent',
       {},
       tickets,
       {
@@ -111,7 +111,7 @@ export class TicketService {
   async submitTickets(tickets: Partial<Ticket>[]) {
     const request = await this.utilService.createRequest(
       'PUT',
-      'https://5dy63k615f.execute-api.us-east-1.amazonaws.com/dev/core/content/ticket/upload',
+      'https://8h3vwutdq2.execute-api.us-east-1.amazonaws.com/staging/core/content/ticket/upload',
       {},
       tickets,
       {

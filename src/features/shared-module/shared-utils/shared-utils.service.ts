@@ -21,7 +21,7 @@ export class SharedUtilsService {
         },
         null,
         {
-          withCredentials: true
+          withCredentials: false
         }
       )
     return await this.executeRequest(request);

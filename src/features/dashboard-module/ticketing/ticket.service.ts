@@ -28,7 +28,7 @@ export class TicketService {
       {},
       formData,
       {
-        withCredentials: true,
+        withCredentials: false,
         reportProgress: true
       }
     )).pipe(
@@ -52,7 +52,7 @@ export class TicketService {
       userId: email,
       entryId: role
     }, null, {
-      withCredentials: true
+      withCredentials: false
     });
 
     return await this.utilService.executeRequest(request)
@@ -63,7 +63,7 @@ export class TicketService {
   }
 
   async updateTicket(ticket: Ticket): Promise<Ticket> {
-    const request = await this.utilService.createRequest('PATCH', `https://8h3vwutdq2.execute-api.us-east-1.amazonaws.com/staging/core/content/ticket/update`, {}, ticket, { withCredentials: true })
+    const request = await this.utilService.createRequest('PATCH', `https://8h3vwutdq2.execute-api.us-east-1.amazonaws.com/staging/core/content/ticket/update`, {}, ticket, { withCredentials: false })
     return await this.utilService.executeRequest(request)
       .then(res => res.data.Attributes)
       .then((updatedTicket) => {
@@ -87,7 +87,7 @@ export class TicketService {
           newUsername: newEntryId
         },
         {
-          withCredentials: true
+          withCredentials: false
         }
       )
     return await this.utilService.executeRequest(request)
@@ -100,7 +100,7 @@ export class TicketService {
       {},
       tickets,
       {
-        withCredentials: true
+        withCredentials: false
       }
     )
     return await this.utilService.executeRequest(request).then((res) => {
@@ -115,7 +115,7 @@ export class TicketService {
       {},
       tickets,
       {
-        withCredentials: true,
+        withCredentials: false,
         reportProgress: true
       }
     )

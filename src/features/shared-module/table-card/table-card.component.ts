@@ -19,7 +19,7 @@ export class TableCardComponent implements OnInit, OnDestroy {
   @Input() loadingIndicatorRef: TemplateRef<any>;
   @Input() isLoading$: BehaviorSubject<boolean>;
   @Input() cardTitle: string;
-  @Input() rules: UserRole | string;
+  @Input() rules: UserRole | string = UserRole.USER;
   pageIndex = 1;
   pagedData: any[];
   selectedItem: any;
@@ -42,6 +42,7 @@ export class TableCardComponent implements OnInit, OnDestroy {
         : this.pagedData = [];
         this.cd.detectChanges();
       });
+      console.log(this.rules);
   }
 
   ngOnDestroy(): void {
@@ -68,10 +69,7 @@ export class TableCardComponent implements OnInit, OnDestroy {
       nzTitle: `Ticket Details - ${ticketDate}`,
       nzContent: this.viewRowRef,
       nzClassName: 'ticket-viewer-modal',
-      nzFooter: [{ label: 'Close', type: 'default', onClick: () => this.modalService.closeAll() }],
-      nzData: {
-        rules: this.rules
-      }
+      nzFooter: [{ label: 'Close', type: 'default', onClick: () => this.modalService.closeAll() }]
     })
   }
 }

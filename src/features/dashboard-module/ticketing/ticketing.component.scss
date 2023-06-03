@@ -215,13 +215,8 @@
   top: 15vh;
 }
 
-// @media (max-width: 768px) {
-//   .plan-group {
-//     display: block;
-//     align-items: center;
-
-//     ::ng-deep span.ant-radio {
-//       display: none;
-//     }
-//   }
-// }
+@media (max-width: 768px) {
+  ::ng-deep .steps-content .step-content-wrapper {
+    padding: 0.8rem !important;
+  }
+}

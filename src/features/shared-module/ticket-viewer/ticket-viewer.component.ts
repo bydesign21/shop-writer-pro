@@ -4,6 +4,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { from, take } from 'rxjs';
 import { Ticket } from 'src/features/dashboard-module/ticketing/store/ticket.model';
 import { TicketService } from 'src/features/dashboard-module/ticketing/ticket.service';
+import { TicketStatus, UserRole } from 'src/models/model';
 import { insuranceList } from '../shared-utils/shared.model';
 
 @Component({
@@ -14,6 +15,8 @@ import { insuranceList } from '../shared-utils/shared.model';
 })
 export class TicketViewerComponent implements OnInit {
   @Output() ticketSubmitted = new EventEmitter<boolean>(false);
+  @Input() rules: UserRole;
+  userRole = UserRole;
 constructor(
   private ticketService: TicketService,
   private messageService: NzMessageService
@@ -46,6 +49,12 @@ panels = [
     disabled: false,
     name: 'Uploaded Images',
     id: 4
+  },
+  {
+    active: false,
+    disabled: false,
+    name: 'Review',
+    id: 5
   }
 ];
 
@@ -58,7 +67,7 @@ handleEditButtonTrigger(event: any) {
 }
 
 handleEditVehicleInfo(event: any) {
-  if (this.updatedTicket.status === 'pending') {
+  if (this.updatedTicket.status === TicketStatus.PENDING) {
     const vehicleInfo: Ticket = {
       ...this.updatedTicket,
       lastUpdated: new Date().toISOString(),

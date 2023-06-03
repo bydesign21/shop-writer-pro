@@ -10,7 +10,7 @@
         [nzLoading]="isLoading$ | async"
         [nzLoadingIndicator]="loadingIndicatorRef"
         [nzPageIndex]="pageIndex"
-        [nzTotal]="(data$ | async).length"
+        [nzTotal]="(data$ | async)?.length"
         [nzNoResult]="noResultRef"
         (nzPageIndexChange)="handlePageChange($event)"
         [nzPageSize]="pageLimit"

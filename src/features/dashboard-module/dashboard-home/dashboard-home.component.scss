@@ -75,4 +75,9 @@
   .action-controls {
     margin-top: 2rem;
   }
+  ::ng-deep .ticketing-modal {
+    .ant-modal-content .ant-modal-body {
+      padding: 0 !important;
+    }
+  }
 }

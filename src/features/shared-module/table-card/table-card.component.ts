@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
+import { UserRole } from 'src/models/model';
 import { TicketViewerComponent } from '../ticket-viewer/ticket-viewer.component';
 
 @Component({
@@ -18,6 +19,7 @@ export class TableCardComponent implements OnInit, OnDestroy {
   @Input() loadingIndicatorRef: TemplateRef<any>;
   @Input() isLoading$: BehaviorSubject<boolean>;
   @Input() cardTitle: string;
+  @Input() rules: UserRole | string;
   pageIndex = 1;
   pagedData: any[];
   selectedItem: any;
@@ -38,6 +40,7 @@ export class TableCardComponent implements OnInit, OnDestroy {
         !isLoading
         ? this.pagedData = this.updatePagedData(this.data$.getValue(), this.pageIndex, this.pageLimit)
         : this.pagedData = [];
+        this.cd.detectChanges();
       });
   }
 
@@ -49,7 +52,7 @@ export class TableCardComponent implements OnInit, OnDestroy {
   updatePagedData(data: any[], pageIndex: number, tableLimit: number) {
     const startIndex = (pageIndex - 1) * tableLimit;
     const endIndex = startIndex + tableLimit;
-    return data.slice(startIndex, endIndex);
+    return data?.slice(startIndex, endIndex);
   }
 
   handlePageChange(index: number) {
@@ -65,7 +68,10 @@ export class TableCardComponent implements OnInit, OnDestroy {
       nzTitle: `Ticket Details - ${ticketDate}`,
       nzContent: this.viewRowRef,
       nzClassName: 'ticket-viewer-modal',
-      nzFooter: [{ label: 'Close', type: 'default', onClick: () => this.modalService.closeAll() }]
+      nzFooter: [{ label: 'Close', type: 'default', onClick: () => this.modalService.closeAll() }],
+      nzData: {
+        rules: this.rules
+      }
     })
   }
 }

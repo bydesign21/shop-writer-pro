@@ -3,6 +3,7 @@
     <nz-row class="__first-row">
       <nz-col class="open-orders" nzSpan="24" nzLg="16">
         <swp-table-card
+          [rules]="userSession.role"
           [cardTitle]="userSession.role === userRoles.USER ? 'Open Orders' : 'Open Tickets'"
           [loadingIndicatorRef]="loadingIndicator"
           [isLoading$]="dataLoading$"
@@ -44,6 +45,7 @@
     <nz-row class="__second-row">
       <nz-col nzSpan="24">
         <swp-table-card
+          [rules]="userSession.role"
           [cardTitle]="userSession.role === userRoles.USER ? 'Recent Orders' : 'Recent Tickets'"
           [loadingIndicatorRef]="loadingIndicator"
           [isLoading$]="dataLoading$"

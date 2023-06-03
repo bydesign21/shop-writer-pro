@@ -47,15 +47,15 @@ export class TransactionContainerComponent implements OnInit, OnDestroy {
 
   loadData(): void {
     this.dataLoading$.next(true);
-    this.ticketService.getUserTickets(this.userSession).then(() => {
-      this.dataLoading$.next(false);
-    });
+    this.ticketService.getUserTickets(this.userSession);
     this.tickets$ = this.ticketQuery.selectAll();
 
     this.tickets$
       .pipe(takeUntil(this.destroy$))
       .subscribe((tickets) => {
         this.openOrders$.next(tickets.filter(ticket => ticket.status !== 'resolved'));
+        this.dataLoading$.next(false);
+        this.cd.detectChanges();
       });
   }
 

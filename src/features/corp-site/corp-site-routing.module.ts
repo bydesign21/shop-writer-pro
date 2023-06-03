@@ -4,7 +4,7 @@ import { AuthGuard } from '../auth-module/auth.guard';
 import { ContactComponent } from './contact-module/contact.component';
 import { CorpSiteContainerComponent } from './corp-site-container/corp-site-container.component';
 import { HomepageComponent } from './homepage.component';
-import { PricingpageComponent } from './pricingpage/pricingpage.component';
+import { PricingPageComponent } from './pricing-page/pricing-page.component';
 
 const routes: Routes = [
   {
@@ -27,7 +27,7 @@ const routes: Routes = [
       },
       {
         path: 'pricing',
-        component: PricingpageComponent
+        component: PricingPageComponent
       }
     ]
   }

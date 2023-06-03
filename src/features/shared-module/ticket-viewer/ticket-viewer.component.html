@@ -140,5 +140,19 @@
         </div>
       </nz-card>
     </div>
+    <div *ngIf="panel.id === 5 && rules === userRole.EMPLOYEE ">
+      <nz-card [nzTitle]="'Review'">
+        <div>
+          <nz-image-group>
+            <img
+              nz-image
+              class="review-form__img"
+              *ngFor="let img of updatedTicket.images"
+              nzSrc="{{ img }}"
+            />
+          </nz-image-group>
+        </div>
+      </nz-card>
+    </div>
   </nz-collapse-panel>
 </nz-collapse>

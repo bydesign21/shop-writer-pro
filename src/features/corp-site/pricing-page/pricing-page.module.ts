@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PricingTableModule } from 'src/features/shared-module/pricing-table/pricing-table.module';
-import { PricingpageComponent } from './pricingpage.component';
+import { PricingPageComponent } from './pricing-page.component';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 
 @NgModule({
-  declarations: [PricingpageComponent],
+  declarations: [PricingPageComponent],
   imports: [
     CommonModule,
     PricingTableModule,
     NzLayoutModule,
     NzGridModule
   ],
-  exports: [PricingpageComponent]
+  exports: [PricingPageComponent]
 })
-export class PricingpageModule { }
+export class PricingPageModule { }

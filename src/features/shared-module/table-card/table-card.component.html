@@ -1,4 +1,4 @@
-<nz-card class="__card" [nzTitle]="cardTitle">
+<nz-card class="table-card" [nzTitle]="cardTitle">
   <div class="table-responsive">
     <nz-spin
       class="table-spinner"
@@ -6,7 +6,7 @@
       [nzIndicator]="loadingIndicatorRef"
     >
       <nz-table
-        class="table-card"
+        class="table-card__table"
         [nzLoading]="isLoading$ | async"
         [nzLoadingIndicator]="loadingIndicatorRef"
         [nzPageIndex]="pageIndex"

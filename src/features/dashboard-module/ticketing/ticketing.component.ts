@@ -72,35 +72,19 @@ export class TicketingComponent implements OnInit, OnDestroy {
 
   plans = [
     {
-      name: 'plan1',
+      name: 'Standard Supplement',
       id: 0,
-      description: 'Description1',
-      image: 'imgurl',
-      cost: 100
+      description: 'Recieve a standard supplement for the vehicle damage',
+      image: '../../../assets/images/barcode-icon.png',
+      cost: 150
 
     },
     {
-      name: 'plan2',
+      name: 'Standard Estimate',
       id: 1,
-      description: 'Description2',
-      image: 'imgurl',
+      description: 'Recieve a standard estimate for the vehicle damage',
+      image: '../../../assets/images/barcode-icon.png',
       cost: 200
-
-    },
-    {
-      name: 'plan3',
-      id: 2,
-      description: 'Description3',
-      image: 'imgurl',
-      cost: 300
-
-    },
-    {
-      name: 'plan4',
-      id: 3,
-      description: 'Description4',
-      image: 'imgurl',
-      cost: 400
 
     }
   ];

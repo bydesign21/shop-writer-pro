@@ -62,8 +62,9 @@ export class TicketService {
       });
   }
 
-  async updateTicket(ticket: Ticket): Promise<Ticket> {
-    const request = await this.utilService.createRequest('PATCH', `https://8h3vwutdq2.execute-api.us-east-1.amazonaws.com/staging/core/content/ticket/update`, {}, ticket, { withCredentials: false })
+  async updateTicket(ticket: Ticket, user: SessionState): Promise<Ticket> {
+    const { role } = user;
+    const request = await this.utilService.createRequest('PATCH', `https://8h3vwutdq2.execute-api.us-east-1.amazonaws.com/staging/core/content/ticket/update`, {entryId: role }, ticket, { withCredentials: false })
     return await this.utilService.executeRequest(request)
       .then(res => res.data.Attributes)
       .then((updatedTicket) => {

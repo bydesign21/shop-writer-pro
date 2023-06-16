@@ -1,9 +1,7 @@
 import { DecimalPipe } from '@angular/common';
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { from, take } from 'rxjs';
 import { Ticket } from 'src/features/dashboard-module/ticketing/store/ticket.model';
-import { TicketService } from 'src/features/dashboard-module/ticketing/ticket.service';
 import { TicketStatus, UserRole } from 'src/models/model';
 import { insuranceList } from '../shared-utils/shared.model';
 
@@ -18,10 +16,10 @@ export class TicketViewerComponent implements OnInit {
   @Input() rules: UserRole | string;
   userRole = UserRole;
   constructor(
-    private ticketService: TicketService,
-    private messageService: NzMessageService
-  ) { }
+    private messageService: NzMessageService,
+  ) {}
   @Input() ticket: Ticket;
+  @Output() ticketUpdated = new EventEmitter<Ticket>();
   updatedTicket: Ticket;
   editVehicleInfo = false;
   insuranceList = insuranceList;
@@ -79,22 +77,9 @@ export class TicketViewerComponent implements OnInit {
         lastUpdated: new Date().toISOString(),
         insurance: this.updatedTicket.insurance['value'] ? this.updatedTicket.insurance['value'] : this.updatedTicket.insurance
       };
-      from(this.ticketService.updateTicket(vehicleInfo))
-        .pipe(
-          take(1)
-        )
-        .subscribe((ticket: Ticket) => {
-          return ticket;
-        },
-          error => {
-            this.messageService.error(error.message);
-          },
-          () => {
-            this.messageService.success('Ticket Updated Successfully');
-            this.ticketSubmitted.next(true);
-          })
-    } else {
-      this.messageService.error('Ticket must be in pending state to edit');
-    }
+      this.ticketUpdated.emit(vehicleInfo);
+  } else {
+    this.messageService.error('Ticket must be in a pending state to edit');
   }
+}
 }

@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
+import { Ticket } from 'src/features/dashboard-module/ticketing/store/ticket.model';
 import { UserRole } from 'src/models/model';
 import { TicketViewerComponent } from '../ticket-viewer/ticket-viewer.component';
 
@@ -20,6 +21,7 @@ export class TableCardComponent implements OnInit, OnDestroy {
   @Input() isLoading$: BehaviorSubject<boolean>;
   @Input() cardTitle: string;
   @Input() rules: UserRole | string = UserRole.USER;
+  @Output() ticketUpdated = new EventEmitter<Ticket>();
   pageIndex = 1;
   pagedData: any[];
   selectedItem: any;
@@ -37,12 +39,12 @@ export class TableCardComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$)
       )
       .subscribe((isLoading) => {
-        !isLoading
-        ? this.pagedData = this.updatePagedData(this.data$.getValue(), this.pageIndex, this.pageLimit)
-        : this.pagedData = [];
+        this.pagedData =
+          !isLoading
+            ? this.updatePagedData(this.data$.getValue(), this.pageIndex, this.pageLimit)
+            : [];
         this.cd.detectChanges();
       });
-      console.log(this.rules);
   }
 
   ngOnDestroy(): void {
@@ -59,6 +61,10 @@ export class TableCardComponent implements OnInit, OnDestroy {
   handlePageChange(index: number) {
     this.pageIndex = index;
     this.pagedData = this.updatePagedData(this.data$.getValue(), this.pageIndex, this.pageLimit);
+  }
+
+  handleUpdateTicket(ticket: Ticket) {
+    this.ticketUpdated.emit(ticket);
   }
 
   viewTableRow(item: any) {

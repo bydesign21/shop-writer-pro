@@ -46,8 +46,8 @@
                   <nz-row nzJustify="center" nzAlign="middle">
                       <label nz-radio [nzValue]="plans[0]" class="plan-option">
                         <img
-                          src="../../../assets/images/barcode-icon.png"
-                          class="plan-image"
+                        [src]="plans[0].image"
+                        class="plan-image"
                         />
                         <div class="plan-description">
                           {{ plans[0].description }}
@@ -57,7 +57,7 @@
                       <nz-row nzJustify="center" nzAlign="middle">
                       <label nz-radio [nzValue]="plans[1]" class="plan-option">
                         <img
-                          src="../../../assets/images/barcode-icon.png"
+                          [src]="plans[1].image"
                           class="plan-image"
                         />
                         <div class="plan-description">
@@ -65,28 +65,6 @@
                         </div>
                       </label>
                       </nz-row>
-                      <nz-row nzJustify="center" nzAlign="middle">
-                      <label nz-radio [nzValue]="plans[2]" class="plan-option">
-                        <img
-                          src="../../../assets/images/barcode-icon.png"
-                          class="plan-image"
-                        />
-                        <div class="plan-description">
-                          {{ plans[2].description }}
-                        </div>
-                      </label>
-                      </nz-row>
-                      <nz-row nzJustify="center" nzAlign="middle">
-                      <label nz-radio [nzValue]="plans[3]" class="plan-option">
-                        <img
-                          src="../../../assets/images/barcode-icon.png"
-                          class="plan-image"
-                        />
-                        <div class="plan-description">
-                          {{ plans[3].description }}
-                        </div>
-                      </label>
-                  </nz-row>
                 </nz-radio-group>
               </nz-form-item>
             </div>

@@ -6,7 +6,7 @@ import { Subject, take, takeUntil } from 'rxjs';
 import { AuthService } from '../auth-service.service';
 
 @Component({
-  selector: 'app-sign-up',
+  selector: 'swp-sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -14,6 +14,8 @@ import { AuthService } from '../auth-service.service';
 export class SignUpComponent implements OnInit, OnDestroy {
   form: FormGroup = new FormGroup({});
   destroy$ = new Subject();
+  isPasswordVisible = false;
+  isPasswordConfirmVisible = false;
 
   constructor(
     private authService: AuthService,
@@ -54,6 +56,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
       password,
       passwordConfirm
     } = this.form.getRawValue();
+    //TODO Do Not HardCode Country Code
+    const formattedPhoneNumber = '+1' + phoneNumber;
     //TODO Form Validation before sign up
     if (password === passwordConfirm) {
       this.authService.handleSignUp({
@@ -61,7 +65,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
         password,
         attributes: {
           email,
-          phone_number: phoneNumber,
+          phone_number: formattedPhoneNumber,
           address,
           name,
           "custom:companyName": company,
@@ -81,6 +85,15 @@ export class SignUpComponent implements OnInit, OnDestroy {
             // this.handleErrorResponse(err.code);
           })
     }
+  }
+
+  handlePasswordViewClick(isConfirm = false) {
+    if (isConfirm) {
+      this.isPasswordConfirmVisible = !this.isPasswordConfirmVisible;
+    } else {
+      this.isPasswordVisible = !this.isPasswordVisible;
+    }
+    this.cd.detectChanges();
   }
 
   // handleErrorResponse(errorCode: string) {

@@ -7,7 +7,7 @@ import { AuthService } from '../auth-module/auth-service.service';
 import { SpinnerService } from '../shared-module/spinner/spinner.service';
 
 @Component({
-  selector: 'app-dashboard-container',
+  selector: 'swp-dashboard-container',
   templateUrl: './dashboard-container.component.html',
   styleUrls: ['./dashboard-container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

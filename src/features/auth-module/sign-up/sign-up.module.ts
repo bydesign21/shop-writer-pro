@@ -9,6 +9,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
   declarations: [SignUpComponent],
@@ -23,6 +24,7 @@ import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
     ReactiveFormsModule,
     NzFormModule,
     NzAutocompleteModule,
+    NzIconModule
   ],
   exports: [SignUpComponent]
 })

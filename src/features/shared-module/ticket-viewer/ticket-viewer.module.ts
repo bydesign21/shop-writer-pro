@@ -12,6 +12,7 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
+import { NzModalModule, NzModalRef } from 'ng-zorro-antd/modal';
 
 
 
@@ -30,7 +31,7 @@ import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
     FormsModule,
     NzIconModule,
     NzButtonModule,
-    NzAutocompleteModule
+    NzAutocompleteModule,
   ],
   exports: [TicketViewerComponent]
 })

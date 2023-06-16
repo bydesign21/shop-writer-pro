@@ -52,5 +52,5 @@
 </nz-card>
 
 <ng-template #viewTicketModal>
-  <swp-ticket-viewer [rules]="rules" [ticket]="selectedItem"></swp-ticket-viewer>
+  <swp-ticket-viewer (ticketUpdated)="handleUpdateTicket($event)" [rules]="rules" [ticket]="selectedItem"></swp-ticket-viewer>
 </ng-template>

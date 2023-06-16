@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject, take, takeUntil } from 'rxjs';
 import { SessionQuery } from 'src/app/session-store/domain-state/session.query';
 import { SessionState } from 'src/app/session-store/domain-state/session.store';
 import { Ticket } from '../ticketing/store/ticket.model';
@@ -8,6 +8,7 @@ import { TicketQuery } from '../ticketing/store/ticket.query';
 import { TicketService } from '../ticketing/ticket.service';
 import { TicketingComponent } from '../ticketing/ticketing.component';
 import { UserRole } from 'src/models/model';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'swp-dashboard-home',
@@ -31,7 +32,8 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
     private ticketService: TicketService,
     private cd: ChangeDetectorRef,
     private sessionQuery: SessionQuery,
-    private ticketQuery: TicketQuery
+    private ticketQuery: TicketQuery,
+    private messageService: NzMessageService
   ) {}
 
   handleSubmitTicketClicked() {
@@ -67,6 +69,22 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
         this.openOrders$.next(tickets.filter(ticket => ticket.status !== 'resolved'));
         this.dataLoading$.next(false);
         this.cd.detectChanges();
+      });
+  }
+
+  handleTicketUpdated(ticket: Ticket): void {
+    of(this.ticketService.updateTicket(ticket, this.userSession))
+      .pipe(
+        takeUntil(this.destroy$),
+        take(1)
+      )
+      .subscribe({
+        next: () => {
+          this.messageService.success('Ticket updated successfully');
+        },
+        error: (err) => {
+          this.messageService.error(err.message);
+        }
       });
   }
 

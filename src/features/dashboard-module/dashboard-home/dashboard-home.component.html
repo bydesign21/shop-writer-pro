@@ -10,6 +10,7 @@
           [pageLimit]="tableLimit"
           [data$]="openOrders$"
           [noResultRef]="(dataLoading$ | async) ? null : 'No results'"
+          (ticketUpdated)="handleTicketUpdated($event)"
         >
         </swp-table-card>
       </nz-col>
@@ -52,6 +53,7 @@
           [pageLimit]="tableLimit"
           [data$]="recentOrders$"
           [noResultRef]="(dataLoading$ | async) ? null : 'No results'"
+          (ticketUpdated)="handleTicketUpdated($event)"
         >
         </swp-table-card>
       </nz-col>

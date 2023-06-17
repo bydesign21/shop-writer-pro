@@ -53,7 +53,7 @@ export class SharedUtilsService {
       this.http.request(request)
         .pipe(
           map(
-            (res: any) => res.body,
+            (res: any) => res?.body,
             (err: any) => err
           )
         )

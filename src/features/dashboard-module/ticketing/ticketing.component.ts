@@ -160,7 +160,7 @@ export class TicketingComponent implements OnInit, OnDestroy {
     )
       .subscribe((res: any) => {
         if (res) {
-          const { year, make, model } = res.body;
+          const { year, make, model } = res;
           if (year && make && model) {
             this.forms.get('step2').get('year').patchValue(year);
             this.forms.get('step2').get('make').patchValue(make);

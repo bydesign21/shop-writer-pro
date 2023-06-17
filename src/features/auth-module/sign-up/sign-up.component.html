@@ -1,5 +1,5 @@
 <div class="form">
-  <form nz-form [formGroup]="form">
+  <form nz-form [formGroup]="form" (ngSubmit)="onSubmit()">
     <nz-form-item>
       <nz-form-control nzErrorTip="Please input your email!">
         <nz-input-group nzPrefixIcon="mail">
@@ -100,7 +100,6 @@
           class="login-form-button login-form-margin"
           [nzType]="'primary'"
           type="submit"
-          (click)="onSubmit()"
         >
           Sign Up
         </button>

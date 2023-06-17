@@ -47,6 +47,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    const isFormValid = this.form.valid;
     const {
       email,
       phoneNumber,
@@ -59,7 +60,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     //TODO Do Not HardCode Country Code
     const formattedPhoneNumber = '+1' + phoneNumber;
     //TODO Form Validation before sign up
-    if (password === passwordConfirm) {
+    if (password === passwordConfirm && isFormValid) {
       this.authService.handleSignUp({
         email,
         password,
@@ -84,6 +85,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
             this.messageService.error(err.message)
             // this.handleErrorResponse(err.code);
           })
+    } else {
+      this.messageService.error('Please fill all the required fields');
     }
   }
 

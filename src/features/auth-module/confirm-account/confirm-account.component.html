@@ -4,7 +4,7 @@
     Please enter the code that was sent to your provided email to confirm your
     account.
   </h3>
-  <nz-form [formGroup]="confirmForm">
+  <form nz-form [formGroup]="confirmForm" (ngSubmit)="onSubmit()">
     <nz-form-control [nzXXl]="20">
       <nz-input-group>
         <nz-form-item class="code-form-item" [nzAlign]="'middle'">
@@ -17,11 +17,11 @@
         </nz-form-item>
       </nz-input-group>
     </nz-form-control>
-  </nz-form>
+  </form>
     <br /><br />
     <div class="control-row">
       <swp-button (click)="handleResendCode()" [content]="'Resend Code'"></swp-button>
-      <swp-button (click)="onSubmit()" [content]="'Confirm'"></swp-button>
+      <swp-button type="submit" [content]="'Confirm'"></swp-button>
     </div>
 
 </form>

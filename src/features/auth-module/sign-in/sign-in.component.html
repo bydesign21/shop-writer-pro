@@ -1,5 +1,5 @@
 <div class="form" id="form">
-  <nz-form [formGroup]="form">
+  <form nz-form [formGroup]="form" (ngSubmit)="onSubmit()">
     <nz-form-item>
       <nz-form-control nzErrorTip="Please input your username!">
         <nz-input-group nzPrefixIcon="mail">
@@ -34,8 +34,8 @@
         <button
           nz-button
           class="login-form-button login-form-margin"
+          type="submit"
           [nzType]="'primary'"
-          (click)="onSubmit()"
         >
           Log in
         </button>
@@ -75,7 +75,7 @@
       </div>
     </div>
     <div *ngIf="form.hasError('required')">name is required</div>
-  </nz-form>
+  </form>
   <nz-col
     style="display: flex; justify-content: center; text-align: center; margin-top: 5rem;"
     nzSpan="24"

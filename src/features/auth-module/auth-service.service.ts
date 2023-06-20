@@ -9,7 +9,6 @@ import awsmobile from 'src/aws-exports';
 })
 export class AuthService {
   public get loggedInUser$(): Observable<any> {
-    console.log('checking logged in status')
     if (!Auth) {
       this.sessionService.endSession();
       return of(false);
@@ -97,7 +96,6 @@ export class AuthService {
     try {
       const result = await Auth.currentSession();
       // Session is still valid, return the user
-      console.log('result', result);
       return result.getIdToken().payload['cognito:username'];
     } catch (error) {
       // Session has expired, log the user out
@@ -124,7 +122,6 @@ export class AuthService {
   public async getCurrentUserCognitoKey() {
     try {
       return await Auth.currentAuthenticatedUser().then(creds => {
-        console.log('creds', creds)
         return creds.signInUserSession.idToken.jwtToken
       })
     } catch (error) {

@@ -197,7 +197,7 @@ export class TicketingComponent implements OnInit, OnDestroy {
   }
 
   public customReq = (item: NzUploadXHRArgs) => {
-    return this.ticketService.uploadPhotos(item).pipe(takeUntil(this.destroy$)).subscribe();
+    return this.ticketService.uploadMedia(item).pipe(takeUntil(this.destroy$)).subscribe();
   };
 
   handleChange({ file, fileList }: NzUploadChangeParam): void {

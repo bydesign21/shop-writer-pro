@@ -2,7 +2,8 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, In
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { Ticket } from 'src/features/dashboard-module/ticketing/store/ticket.model';
-import { UserRole } from 'src/models/model';
+import { TicketStatus, UserRole } from 'src/models/model';
+import { SharedUtilsService } from '../shared-utils/shared-utils.service';
 import { TicketViewerComponent } from '../ticket-viewer/ticket-viewer.component';
 
 @Component({
@@ -25,12 +26,13 @@ export class TableCardComponent implements OnInit, OnDestroy {
   pageIndex = 1;
   pagedData: any[];
   selectedItem: any;
-
+  ticketStatus = TicketStatus;
   destroy$ = new Subject();
 
   constructor(
     private modalService: NzModalService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private utilService: SharedUtilsService
   ) {}
 
   ngOnInit() {
@@ -77,5 +79,9 @@ export class TableCardComponent implements OnInit, OnDestroy {
       nzClassName: 'ticket-viewer-modal',
       nzFooter: [{ label: 'Close', type: 'default', onClick: () => this.modalService.closeAll() }]
     })
+  }
+
+  getTicketStatusPillColor(status: TicketStatus) {
+    return this.utilService.getTicketStatusPillColor(status);
   }
 }

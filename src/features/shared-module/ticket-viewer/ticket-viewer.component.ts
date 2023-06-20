@@ -1,8 +1,12 @@
 import { DecimalPipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzUploadChangeParam, NzUploadFile, NzUploadXHRArgs } from 'ng-zorro-antd/upload';
+import { takeUntil } from 'rxjs';
 import { Ticket } from 'src/features/dashboard-module/ticketing/store/ticket.model';
-import { TicketStatus, UserRole } from 'src/models/model';
+import { TicketService } from 'src/features/dashboard-module/ticketing/ticket.service';
+import { TicketStatus, UploadFileStatus, UserRole } from 'src/models/model';
 import { insuranceList } from '../shared-utils/shared.model';
 
 @Component({
@@ -11,25 +15,51 @@ import { insuranceList } from '../shared-utils/shared.model';
   styleUrls: ['./ticket-viewer.component.scss'],
   providers: [DecimalPipe]
 })
-export class TicketViewerComponent implements OnInit {
+export class TicketViewerComponent implements OnInit, OnDestroy {
   @Output() ticketSubmitted = new EventEmitter<boolean>(false);
   @Input() rules: UserRole | string;
   userRole = UserRole;
   constructor(
     private messageService: NzMessageService,
-  ) {}
+    private ticketService: TicketService,
+    private http: HttpClient
+  ) {
+    console.log(this.http, 'http');
+  }
   @Input() ticket: Ticket;
   @Output() ticketUpdated = new EventEmitter<Ticket>();
+  destroy$ = new EventEmitter();
   updatedTicket: Ticket;
   editVehicleInfo = false;
   insuranceList = insuranceList;
-  panels = [
+  fileStatus = UploadFileStatus;
+  documentList = [];
+  selectedFiles: NzUploadFile[] = [];
+  ticketStatus: TicketStatus = TicketStatus.PENDING;
+  itemMatchUrlRegex = /[^/]*$/;
+  ticketStatusOptions = [
     {
-      active: true,
-      name: 'Plan',
-      disabled: false,
-      id: 1
+      label: 'Pending',
+      value: TicketStatus.PENDING
     },
+    {
+      label: 'In Progress',
+      value: TicketStatus.IN_PROGRESS
+    },
+    {
+      label: 'Resolved',
+      value: TicketStatus.RESOLVED
+    },
+    {
+      label: 'Cancelled',
+      value: TicketStatus.CANCELLED
+    },
+    {
+      label: 'Refunded',
+      value: TicketStatus.REFUNDED
+    }
+  ];
+  panels = [
     {
       active: false,
       disabled: false,
@@ -51,19 +81,38 @@ export class TicketViewerComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    console.log(this.rules, 'rules')
+    this.ticketStatus = this.ticket.status as TicketStatus || TicketStatus.PENDING;
     this.updatedTicket = { ...this.ticket };
-    if (this.rules === UserRole.EMPLOYEE) {
+    this.updatedTicket.documents.forEach((image, index) => {
+      this.selectedFiles = [
+        {
+          name: image.match(this.itemMatchUrlRegex)[0],
+          uid: index.toString(),
+          linkProps: { download: image },
+          status: this.fileStatus.DONE,
+          response: {
+            Location: image
+          }
+        }
+      ];
+    });
+    console.log(this.selectedFiles);
+    if (this.rules === (UserRole.EMPLOYEE || this.userRole.ADMIN)) {
       this.panels = [
         ...this.panels,
         {
           active: false,
           disabled: false,
-          name: 'Review',
+          name: 'Review Ticket',
           id: 5
         }
       ]
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   handleEditButtonTrigger(event: any) {
@@ -78,8 +127,80 @@ export class TicketViewerComponent implements OnInit {
         insurance: this.updatedTicket.insurance['value'] ? this.updatedTicket.insurance['value'] : this.updatedTicket.insurance
       };
       this.ticketUpdated.emit(vehicleInfo);
-  } else {
-    this.messageService.error('Ticket must be in a pending state to edit');
+    } else {
+      this.messageService.error('Ticket must be in a pending state to edit');
+    }
   }
-}
+
+  public customReq = (item: NzUploadXHRArgs) => {
+    return this.ticketService.uploadMedia(item).pipe(takeUntil(this.destroy$)).subscribe({
+      error: (err: any) => {
+        this.messageService.error(err);
+      }
+    });
+  };
+
+  public handleUploadChange({ file, fileList }: NzUploadChangeParam): void {
+    const status = file.status;
+    this.selectedFiles = fileList;
+    console.log('fileList', fileList);
+    if (status === 'done') {
+      this.documentList = [];
+      fileList.forEach(file => this.documentList.push(file.response.Location));
+      this.updatedTicket = {
+        ...this.updatedTicket,
+        documents: this.documentList
+      };
+      this.ticketUpdated.emit(this.updatedTicket);
+    } else if (status === 'error') {
+      this.messageService.error(`${file.name} file upload failed.`);
+    }
+  }
+
+  handleFileRemove = (file: NzUploadFile) => {
+    const removedFile = file.response.Location;
+    this.documentList = this.documentList.filter(image => image !== removedFile);
+    this.updatedTicket = {
+      ...this.updatedTicket,
+      documents: this.documentList
+    };
+    this.ticketUpdated.emit(this.updatedTicket);
+    return true;
+  };
+
+  handleTicketStatusChange(event: any) {
+    this.ticketStatus = event;
+    this.updatedTicket = {
+      ...this.updatedTicket,
+      status: this.ticketStatus,
+    };
+    this.ticketUpdated.emit(this.updatedTicket);
+  }
+
+  handleFileDownload = (url: NzUploadFile) => {
+    console.log(url.response.Location, 'url');
+    if (url.response.Location) {
+      this.http.get(url.response.Location, { responseType: 'blob' }).subscribe(response => {
+        console.log(response, 'response')
+        const blob = new Blob([response], { type: 'application/pdf' });
+        const urlCreator = window.URL || window.webkitURL;
+        const downloadUrl = urlCreator.createObjectURL(blob);
+        const anchor = document.createElement('a');
+        anchor.href = downloadUrl;
+        anchor.download = url.name;
+        anchor.click();
+        anchor.remove();
+      });
+    }
+  }
+
+  handleTicketStatusOpenChange(isOpen: boolean) {
+    // if (isOpen) {
+    //   setTimeout( () => {
+    //   const nzSelectEl = document.querySelector('.ant-select');
+    //   const nzSelectDropdownEl = document.querySelector('.ticket-status-dropdown');
+    //   nzSelectEl.append(nzSelectDropdownEl)
+    // }, 0)
+    // }
+  }
 }

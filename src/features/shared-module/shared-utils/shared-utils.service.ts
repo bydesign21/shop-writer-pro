@@ -4,6 +4,7 @@ import { AuthService } from 'src/features/auth-module/auth-service.service';
 import { lastValueFrom } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
+import { TicketStatus } from 'src/models/model';
 @Injectable({
   providedIn: 'root'
 })
@@ -60,4 +61,20 @@ export class SharedUtilsService {
     );
   }
 
+  getTicketStatusPillColor(status: TicketStatus) {
+    switch (status) {
+      case TicketStatus.PENDING:
+        return 'warning';
+      case TicketStatus.IN_PROGRESS:
+        return 'processing';
+      case TicketStatus.RESOLVED:
+        return 'success';
+      case TicketStatus.CANCELLED:
+        return 'error';
+      case TicketStatus.REFUNDED:
+        return 'error';
+      default:
+        return 'processing';
+    }
+  }
 }

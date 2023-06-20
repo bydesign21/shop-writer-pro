@@ -33,7 +33,7 @@ export class TransactionContainerComponent implements OnInit, OnDestroy {
     private cd: ChangeDetectorRef,
     private ticketQuery: TicketQuery,
     private sessionQuery: SessionQuery
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.sessionQuery.allState$
@@ -45,15 +45,14 @@ export class TransactionContainerComponent implements OnInit, OnDestroy {
     this.loadData();
   }
 
-  loadData(): void {
+  async loadData(): Promise<void> {
     this.dataLoading$.next(true);
-    this.ticketService.getUserTickets(this.userSession);
+    await this.ticketService.getUserTickets(this.userSession);
     this.tickets$ = this.ticketQuery.selectAll();
-
     this.tickets$
       .pipe(takeUntil(this.destroy$))
       .subscribe((tickets) => {
-        this.openOrders$.next(tickets.filter(ticket => ticket.status !== 'resolved'));
+        this.openOrders$.next(tickets);
         this.dataLoading$.next(false);
         this.cd.detectChanges();
       });

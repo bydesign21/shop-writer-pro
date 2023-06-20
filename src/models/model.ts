@@ -6,8 +6,22 @@ export enum UserRole {
 
 export enum TicketStatus {
   RESOLVED = 'resolved',
-  OPEN = 'open',
+  IN_PROGRESS = 'in_progress',
   PENDING = 'pending',
-  CANCELED = 'canceled',
+  CANCELLED = 'cancelled',
   REFUNDED = 'refunded'
+}
+
+export const closedTicketStatuses = [
+  TicketStatus.RESOLVED,
+  TicketStatus.CANCELLED,
+  TicketStatus.REFUNDED
+];
+
+export enum UploadFileStatus {
+  ERROR = 'error',
+  SUCCESS = 'success',
+  UPLOADING = 'uploading',
+  DONE = 'done',
+  REMOVED = 'removed'
 }

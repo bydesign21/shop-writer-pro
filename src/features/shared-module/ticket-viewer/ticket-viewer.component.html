@@ -1,3 +1,9 @@
+<nz-card
+  [nzTitle]="updatedTicket.plan"
+  [nzExtra]="'$' + updatedTicket.totalUSD"
+>
+  Summary: {{ updatedTicket.description }}
+</nz-card>
 <nz-collapse class="review-form" nzGhost>
   <nz-collapse-panel
     *ngFor="let panel of panels"
@@ -5,16 +11,6 @@
     [nzActive]="panel.active"
     [nzDisabled]="panel.disabled"
   >
-    <div *ngIf="panel.id === 1">
-      <nz-card
-        [nzTitle]="updatedTicket.plan"
-        [nzExtra]="'$' + updatedTicket.totalUSD"
-      >
-        <nz-form-item>
-          <p>Summary: {{ updatedTicket.description }}</p>
-        </nz-form-item>
-      </nz-card>
-    </div>
     <div *ngIf="panel.id === 2">
       <span
         nz-icon
@@ -26,19 +22,22 @@
         style="display: flex; flex-direction: column"
         [nzTitle]="'Vehicle Details'"
       >
-
-      <nz-form-item>
-        <nz-form-label>Insurance</nz-form-label>
-        <input
-          nz-input
-          required="true"
-          [disabled]="!editVehicleInfo"
-          [placeholder]="updatedTicket.insurance || 'N/A'"
-          [(ngModel)]="updatedTicket.insurance"
-          [nzAutocomplete]="auto"
-        />
-        <nz-autocomplete [nzDataSource]="insuranceList" nzBackfill #auto></nz-autocomplete>
-      </nz-form-item>
+        <nz-form-item>
+          <nz-form-label>Insurance</nz-form-label>
+          <input
+            nz-input
+            required="true"
+            [disabled]="!editVehicleInfo"
+            [placeholder]="updatedTicket.insurance || 'N/A'"
+            [(ngModel)]="updatedTicket.insurance"
+            [nzAutocomplete]="auto"
+          />
+          <nz-autocomplete
+            [nzDataSource]="insuranceList"
+            nzBackfill
+            #auto
+          ></nz-autocomplete>
+        </nz-form-item>
 
         <nz-form-item>
           <nz-form-label>Vin</nz-form-label>
@@ -89,13 +88,17 @@
             [disabled]="!editVehicleInfo"
             [placeholder]="updatedTicket.mileage | number : '1.0-0'"
             [ngModel]="updatedTicket.mileage | number : '1.0-0'"
-            (ngModelChange)="
-              updatedTicket.mileage = $event.replaceAll(',', '')
-            "
+            (ngModelChange)="updatedTicket.mileage = $event.replaceAll(',', '')"
           />
         </nz-form-item>
         <nz-button-group *ngIf="editVehicleInfo" class="">
-          <button nz-button (click)="handleEditVehicleInfo($event)" type="submit">Save Changes</button>
+          <button
+            nz-button
+            (click)="handleEditVehicleInfo($event)"
+            type="submit"
+          >
+            Save Changes
+          </button>
         </nz-button-group>
       </nz-card>
     </div>
@@ -122,7 +125,13 @@
           ></textarea>
         </nz-form-item>
         <nz-button-group *ngIf="editVehicleInfo">
-          <button nz-button (click)="handleEditVehicleInfo($event)" type="button">Save Changes</button>
+          <button
+            nz-button
+            (click)="handleEditVehicleInfo($event)"
+            type="button"
+          >
+            Save Changes
+          </button>
         </nz-button-group>
       </nz-card>
     </div>
@@ -140,19 +149,46 @@
         </div>
       </nz-card>
     </div>
-    <div *ngIf="panel.id === 5 && rules === userRole.EMPLOYEE ">
-      <nz-card [nzTitle]="'Review'">
-        <div>
-          <nz-image-group>
-            <img
-              nz-image
-              class="review-form__img"
-              *ngFor="let img of updatedTicket.images"
-              nzSrc="{{ img }}"
-            />
-          </nz-image-group>
-        </div>
+    <div *ngIf="panel.id === 5">
+      <nz-card [nzTitle]="panel.name" [nzExtra]="ticketStatusRef">
+        <nz-upload
+          ngDefaultControl
+          nzType="drag"
+          [nzCustomRequest]="customReq"
+          [nzMultiple]="true"
+          (nzChange)="handleUploadChange($event)"
+          [nzListType]="'picture'"
+          [nzFileList]="selectedFiles"
+          [nzRemove]="handleFileRemove"
+          [nzDownload]="handleFileDownload"
+          [nzShowUploadList]="{showPreviewIcon: true, showRemoveIcon: true, showDownloadIcon: true}"
+        >
+          <p class="ant-upload-drag-icon">
+            <span nz-icon nzType="inbox"></span>
+          </p>
+          <p class="ant-upload-text">
+            Click or drag file to this area to upload
+          </p>
+          <p class="ant-upload-hint">
+            Support for a single or bulk upload. Strictly prohibit from
+            uploading company data or other band files
+          </p>
+        </nz-upload>
       </nz-card>
     </div>
   </nz-collapse-panel>
 </nz-collapse>
+
+<ng-container>
+  <ng-template #ticketStatusRef>
+    <nz-select
+      style="width: 25vw; max-height: 4rem;"
+      (ngModelChange)="handleTicketStatusChange($event)"
+      [(ngModel)]="updatedTicket.status"
+      [nzPlaceHolder]="'Ticket Status'"
+      [nzOptions]="ticketStatusOptions"
+      (nzOpenChange)="handleTicketStatusOpenChange($event)"
+      [nzDropdownClassName]="'ticket-status-dropdown'"
+    ></nz-select>
+  </ng-template>
+</ng-container>

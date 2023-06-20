@@ -31,10 +31,7 @@
             <td>
               <nz-tag
                 style="border-radius: 0.8rem"
-                [nzColor]="
-                  item.status === 'processing'
-                    ? 'processing'
-                    : 'warning'
+                [nzColor]="getTicketStatusPillColor(item.status)
                 "
                 >{{ item.status }}</nz-tag
               >

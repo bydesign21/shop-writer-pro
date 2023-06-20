@@ -145,7 +145,7 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public customReq = (item: NzUploadXHRArgs) => {
-    return this.ticketService.uploadPhotos(item).pipe(takeUntil(this.destroy$)).subscribe();
+    return this.ticketService.uploadMedia(item).pipe(takeUntil(this.destroy$)).subscribe();
   };
 
 

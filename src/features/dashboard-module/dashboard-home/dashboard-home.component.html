@@ -17,6 +17,7 @@
       <nz-col nzSpan="24" nzLg="7">
         <div class="action-controls">
           <nz-card
+            *ngIf="userSession.role === userRoles.USER"
             (click)="handleSubmitTicketClicked()"
             class="__submit-ticket-card __control-card"
           >
@@ -29,7 +30,7 @@
             class="__submit-ticket-card __control-card"
           >
             <h2 class="__content">
-              View Transactions<span nz-icon nzType="unordered-list"></span>
+              {{userSession.role === userRoles.USER ? 'View Transactions' : 'View Tickets'}}<span nz-icon nzType="unordered-list"></span>
             </h2>
           </nz-card>
           <nz-card

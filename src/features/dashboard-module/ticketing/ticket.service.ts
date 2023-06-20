@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse, HttpEvent, HttpEventType, HttpRequest, HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpEvent } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NzUploadXHRArgs } from 'ng-zorro-antd/upload';
 import { catchError, from, map, Observable, switchMap, throwError } from 'rxjs';
@@ -14,12 +14,11 @@ import { SharedUtilsService } from 'src/features/shared-module/shared-utils/shar
 export class TicketService {
 
   constructor(
-    private http: HttpClient,
     private ticketStore: TicketStore,
     private utilService: SharedUtilsService
-  ) { }
+  ) {}
 
-  uploadPhotos(item: NzUploadXHRArgs): Observable<any> {
+  uploadMedia(item: NzUploadXHRArgs): Observable<any> {
     const formData = new FormData();
     formData.append('file', item.file as unknown as Blob, item.file.name);
     return from(this.utilService.createRequest(
@@ -36,11 +35,11 @@ export class TicketService {
       map((event: HttpEvent<object>) => {
         return item.onSuccess?.(event, item.file, event)
       },
-      catchError((err: HttpErrorResponse) => {
-        // failed
-        item.onError?.(err, item.file);
-        return throwError(err);
-      })
+        catchError((err: HttpErrorResponse) => {
+          // failed
+          item.onError?.(err, item.file);
+          return throwError(err);
+        })
       )
     );
   }
@@ -64,9 +63,12 @@ export class TicketService {
 
   async updateTicket(ticket: Ticket, user: SessionState): Promise<Ticket> {
     const { role } = user;
-    const request = await this.utilService.createRequest('PATCH', `https://8h3vwutdq2.execute-api.us-east-1.amazonaws.com/staging/core/content/ticket/update`, {entryId: role }, ticket, { withCredentials: false })
+    const request = await this.utilService.createRequest('PATCH', `https://8h3vwutdq2.execute-api.us-east-1.amazonaws.com/staging/core/content/ticket/update`, { entryId: role }, ticket, { withCredentials: false })
     return await this.utilService.executeRequest(request)
-      .then(res => res.data.Attributes)
+      .then(res => {
+        console.log(res);
+        return res.body;
+      })
       .then((updatedTicket) => {
         if (updatedTicket) {
           this.ticketStore.update(ticket?.ticketId, updatedTicket);

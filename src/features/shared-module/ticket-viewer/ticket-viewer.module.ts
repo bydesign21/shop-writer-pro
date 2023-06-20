@@ -12,7 +12,10 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
-import { NzModalModule, NzModalRef } from 'ng-zorro-antd/modal';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -32,6 +35,10 @@ import { NzModalModule, NzModalRef } from 'ng-zorro-antd/modal';
     NzIconModule,
     NzButtonModule,
     NzAutocompleteModule,
+    NzUploadModule,
+    NzSelectModule,
+    PdfViewerModule,
+    HttpClientModule
   ],
   exports: [TicketViewerComponent]
 })

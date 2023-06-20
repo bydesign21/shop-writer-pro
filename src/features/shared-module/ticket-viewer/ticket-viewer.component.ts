@@ -19,13 +19,12 @@ export class TicketViewerComponent implements OnInit, OnDestroy {
   @Output() ticketSubmitted = new EventEmitter<boolean>(false);
   @Input() rules: UserRole | string;
   userRole = UserRole;
+
   constructor(
     private messageService: NzMessageService,
     private ticketService: TicketService,
     private http: HttpClient
-  ) {
-    console.log(this.http, 'http');
-  }
+  ) {}
   @Input() ticket: Ticket;
   @Output() ticketUpdated = new EventEmitter<Ticket>();
   destroy$ = new EventEmitter();
@@ -33,10 +32,11 @@ export class TicketViewerComponent implements OnInit, OnDestroy {
   editVehicleInfo = false;
   insuranceList = insuranceList;
   fileStatus = UploadFileStatus;
-  documentList = [];
+  documentList: string[] = [];
   selectedFiles: NzUploadFile[] = [];
   ticketStatus: TicketStatus = TicketStatus.PENDING;
   itemMatchUrlRegex = /[^/]*$/;
+  ticketStatusEnum = TicketStatus;
   ticketStatusOptions = [
     {
       label: 'Pending',
@@ -83,10 +83,11 @@ export class TicketViewerComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.ticketStatus = this.ticket.status as TicketStatus || TicketStatus.PENDING;
     this.updatedTicket = { ...this.ticket };
-    this.updatedTicket.documents.forEach((image, index) => {
+    this.updatedTicket?.documents?.forEach((image, index) => {
       this.selectedFiles = [
+        ...this.selectedFiles,
         {
-          name: image.match(this.itemMatchUrlRegex)[0],
+          name: image?.match(this.itemMatchUrlRegex)[0],
           uid: index.toString(),
           linkProps: { download: image },
           status: this.fileStatus.DONE,
@@ -96,7 +97,6 @@ export class TicketViewerComponent implements OnInit, OnDestroy {
         }
       ];
     });
-    console.log(this.selectedFiles);
     if (this.rules === (UserRole.EMPLOYEE || this.userRole.ADMIN)) {
       this.panels = [
         ...this.panels,
@@ -140,26 +140,26 @@ export class TicketViewerComponent implements OnInit, OnDestroy {
     });
   };
 
-  public handleUploadChange({ file, fileList }: NzUploadChangeParam): void {
+  public handleUploadChange({ file, fileList, type }: NzUploadChangeParam): void {
     const status = file.status;
     this.selectedFiles = fileList;
-    console.log('fileList', fileList);
-    if (status === 'done') {
+    if (status === 'done' && type === 'success') {
       this.documentList = [];
-      fileList.forEach(file => this.documentList.push(file.response.Location));
+      this.selectedFiles.forEach(file => this.documentList.push(file?.response?.Location));
       this.updatedTicket = {
         ...this.updatedTicket,
         documents: this.documentList
       };
       this.ticketUpdated.emit(this.updatedTicket);
-    } else if (status === 'error') {
+    } else if (status === 'error' && type === 'success') {
       this.messageService.error(`${file.name} file upload failed.`);
     }
   }
 
   handleFileRemove = (file: NzUploadFile) => {
     const removedFile = file.response.Location;
-    this.documentList = this.documentList.filter(image => image !== removedFile);
+    this.documentList = [];
+    this.selectedFiles.forEach(file => file.response.Location !== removedFile ? this.documentList.push(file?.response?.Location) : null);
     this.updatedTicket = {
       ...this.updatedTicket,
       documents: this.documentList

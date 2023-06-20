@@ -40,6 +40,6 @@ import { HttpClientModule } from '@angular/common/http';
     PdfViewerModule,
     HttpClientModule
   ],
-  exports: [TicketViewerComponent]
+  exports: [TicketViewerComponent],
 })
 export class TicketViewerModule { }

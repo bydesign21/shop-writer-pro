@@ -19,6 +19,8 @@
         [noResultRef]="(dataLoading$ | async) ? null : 'No results'"
         [pageLimit]="openOrderTableLimit"
         [loadingIndicatorRef]="loadingIndicator"
+        [rules]="userSession.role"
+        (ticketUpdated)="handleTicketUpdated($event)"
         ></swp-table-card>
   </nz-col>
 </nz-row>
@@ -26,6 +28,7 @@
   <swp-ticket-viewer
     class="ticket-viewer"
     [ticket]="selectedTicket"
+    (ticketSubmitted)="loadData()"
   ></swp-ticket-viewer>
 </ng-template>
 <ng-template #loadingIndicator>

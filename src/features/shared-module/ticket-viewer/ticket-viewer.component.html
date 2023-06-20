@@ -14,6 +14,7 @@
     <div *ngIf="panel.id === 2">
       <span
         nz-icon
+        *ngIf="updatedTicket.status === ticketStatusEnum.PENDING"
         nzType="edit"
         (click)="handleEditButtonTrigger($event)"
         class="edit-button"
@@ -105,6 +106,7 @@
     <div *ngIf="panel.id === 3">
       <span
         nz-icon
+        *ngIf="updatedTicket.status === ticketStatusEnum.PENDING"
         nzType="edit"
         (click)="handleEditButtonTrigger($event)"
         class="edit-button"

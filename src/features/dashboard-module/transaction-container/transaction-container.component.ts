@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject, take, takeUntil } from 'rxjs';
 import { SessionQuery } from 'src/app/session-store/domain-state/session.query';
 import { SessionState } from 'src/app/session-store/domain-state/session.store';
 import { TicketViewerComponent } from 'src/features/shared-module/ticket-viewer/ticket-viewer.component';
@@ -32,8 +33,9 @@ export class TransactionContainerComponent implements OnInit, OnDestroy {
     private ticketService: TicketService,
     private cd: ChangeDetectorRef,
     private ticketQuery: TicketQuery,
-    private sessionQuery: SessionQuery
-  ) { }
+    private sessionQuery: SessionQuery,
+    private messageService: NzMessageService
+  ) {}
 
   ngOnInit(): void {
     this.sessionQuery.allState$
@@ -77,6 +79,23 @@ export class TransactionContainerComponent implements OnInit, OnDestroy {
       nzContent: this.nzModalContent,
       nzClassName: 'ticket-viewer-modal',
     })
+  }
+
+  handleTicketUpdated(ticket: Ticket): void {
+    of(this.ticketService.updateTicket(ticket, this.userSession))
+      .pipe(
+        takeUntil(this.destroy$),
+        take(1)
+      )
+      .subscribe({
+        next: () => {
+          this.messageService.remove();
+          this.messageService.success('Ticket updated successfully');
+        },
+        error: (err) => {
+          this.messageService.error(err.message);
+        }
+      });
   }
 
   ngOnDestroy(): void {

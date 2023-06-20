@@ -33,7 +33,7 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
     private cd: ChangeDetectorRef,
     private sessionQuery: SessionQuery,
     private ticketQuery: TicketQuery,
-    private messageService: NzMessageService
+    private messageService: NzMessageService,
   ) {}
 
   handleSubmitTicketClicked() {
@@ -87,6 +87,7 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: () => {
+          this.messageService.remove();
           this.messageService.success('Ticket updated successfully');
         },
         error: (err) => {

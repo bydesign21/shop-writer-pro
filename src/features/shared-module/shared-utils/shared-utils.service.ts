@@ -10,7 +10,10 @@ import { TicketStatus } from 'src/models/model';
 })
 export class SharedUtilsService {
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+  ) {}
 
   async getVehichleByVin(vin: string): Promise<any> {
     const request = await this

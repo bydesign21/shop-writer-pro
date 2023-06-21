@@ -9,10 +9,11 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { SpinnerModule } from '../shared-module/spinner/spinner.module';
-import { PricingPageModule } from './pricing-page/pricing-page.module';
+import { PricingPageModule } from './pricing-page-module/pricing-page.module';
 import { CorpSiteRoutingModule } from './corp-site-routing.module';
 import { ContactModule } from './contact-module/contact.module';
 import { CorpSiteContainerModule } from './corp-site-container/corp-site-container.module';
+import { AboutPageModule } from './about-page-module/about-page.module';
 
 
 
@@ -33,7 +34,8 @@ import { CorpSiteContainerModule } from './corp-site-container/corp-site-contain
     PricingPageModule,
     CorpSiteRoutingModule,
     ContactModule,
-    CorpSiteContainerModule
+    CorpSiteContainerModule,
+    AboutPageModule
   ],
   exports: [
     HomepageComponent,

@@ -1,4 +1,4 @@
-<nz-row [nzJustify]="justify">
+<!-- <nz-row [nzJustify]="justify">
   <nz-col nzXs="24" nzSm="12" nzMd="6" *ngFor="let plan of plans">
     <nz-card [nzHoverable]="true" [nzBordered]="false" [nzBodyStyle]="{ padding: '20px' }" [nzCover]="null">
       <div class="plan-title">{{ plan.name }}</div>
@@ -7,6 +7,23 @@
         <li *ngFor="let feature of plan.features">{{ feature }}</li>
       </ul>
       <button nz-button [nzType]="'primary'">Sign up</button>
+    </nz-card>
+  </nz-col>
+</nz-row> -->
+
+
+<nz-row nzGutter="16" class="pricing-table" nzJustify="space-around">
+  <nz-col nzXs="24" nzSm="12" nzMd="8" nzLg="6" *ngFor="let plan of plans">
+    <nz-card nzHoverable>
+      <nz-card-meta
+        [nzTitle]="plan.name"
+        [nzDescription]="plan.description">
+      </nz-card-meta>
+      <p class="plan-price">${{ plan.price }}<span>/month</span></p>
+      <ul>
+        <li *ngFor="let feature of plan.features">{{ feature }}</li>
+      </ul>
+      <a nz-button nzType="primary">Sign up</a>
     </nz-card>
   </nz-col>
 </nz-row>

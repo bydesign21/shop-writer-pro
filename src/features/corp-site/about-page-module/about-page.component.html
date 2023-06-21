@@ -1,0 +1,78 @@
+<nz-layout style="height:100%">
+  <nz-content>
+    <nz-row class="about-container">
+      <nz-col nzSpan="24">
+        <h1>About Us</h1>
+        <p>
+          ShopWriterPro is a tech-enabled company that simplifies vehicle claims
+          and cost estimates. Our mission is to make vehicle claims
+          straightforward and transparent for all parties involved.
+        </p>
+
+        <h2>Our Values</h2>
+        <p>
+          We're dedicated to transparency, efficiency, and innovation in the
+          vehicle claims industry. We value customer service and strive to
+          provide the best experience for all our users.
+        </p>
+
+        <h2>Our Technology</h2>
+        <p>
+          Our frontend is built with Angular, leveraging the power of
+          ng-zorro-antd library among others. This enables us to deliver a
+          responsive and intuitive user experience.
+        </p>
+
+        <h2>Meet the Team</h2>
+        <nz-row class="team-member-row">
+          <nz-col nzSpan="6" [nzMd]="12" [nzLg]="8" class="team-member">
+            <nz-card nzHoverable style="width: 300px">
+              <ng-template #coverTemplate>
+                <img alt="example" src="URL_TO_TEAM_MEMBER_PHOTO" />
+              </ng-template>
+              <nz-card-meta
+                [nzAvatar]="avatarTemplate"
+                [nzTitle]="'TEAM_MEMBER_NAME'"
+                [nzDescription]="'TEAM_MEMBER_ROLE'"
+              >
+              </nz-card-meta>
+            </nz-card>
+          </nz-col>
+          <nz-col nzSpan="6" [nzMd]="12" [nzLg]="8" class="team-member">
+            <nz-card nzHoverable style="width: 300px">
+              <ng-template #coverTemplate>
+                <img alt="example" src="URL_TO_TEAM_MEMBER_PHOTO" />
+              </ng-template>
+              <nz-card-meta
+                [nzAvatar]="avatarTemplate"
+                [nzTitle]="'TEAM_MEMBER_NAME'"
+                [nzDescription]="'TEAM_MEMBER_ROLE'"
+              >
+              </nz-card-meta>
+            </nz-card>
+          </nz-col>
+          <nz-col nzSpan="6" [nzMd]="12" [nzLg]="8" class="team-member">
+            <nz-card nzHoverable style="width: 300px">
+              <ng-template #coverTemplate>
+                <img alt="example" src="URL_TO_TEAM_MEMBER_PHOTO" />
+              </ng-template>
+              <nz-card-meta
+                [nzAvatar]="avatarTemplate"
+                [nzTitle]="'TEAM_MEMBER_NAME'"
+                [nzDescription]="'TEAM_MEMBER_ROLE'"
+              >
+              </nz-card-meta>
+            </nz-card>
+          </nz-col>
+        </nz-row>
+      </nz-col>
+    </nz-row>
+  </nz-content>
+</nz-layout>
+
+<ng-template #avatarTemplate>
+  <nz-avatar
+  [nzIcon]="'assets/images/logo.png'"
+  [nzText]="'Icon'"
+  > </nz-avatar>
+</ng-template>

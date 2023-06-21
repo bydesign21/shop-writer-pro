@@ -12,6 +12,7 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 
 @NgModule({
   declarations: [ProfileComponent],
@@ -29,6 +30,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     NzAutocompleteModule,
     NzIconModule,
     NzToolTipModule,
+    GooglePlaceModule
   ],
   exports: [ProfileComponent]
 })

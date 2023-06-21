@@ -97,7 +97,7 @@
             <nz-col [nzXs]="24" [nzSm]="18" [nzSpan]="18">
               <nz-form-item>
                 <nz-form-control>
-                  <input id="address" nz-input (onAddressChange)="handleAddressChange($event)" formControlName="address" />
+                  <input ngx-google-places-autocomplete id="address" nz-input (onAddressChange)="handleAddressChange($event)" formControlName="address" />
                 </nz-form-control>
               </nz-form-item>
             </nz-col>

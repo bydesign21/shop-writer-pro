@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { SharedUtilsService } from 'src/features/shared-module/shared-utils/shared-utils.service';
+import { EmailOptions, SharedUtilsService } from 'src/features/shared-module/shared-utils/shared-utils.service';
 
 @Component({
   selector: 'swp-contact',
@@ -36,8 +36,13 @@ export class ContactComponent implements OnInit {
 
   handleContactFormSubmit() {
     const { name, email, message } = this.form.value;
+    const options: EmailOptions = {
+      name,
+      email,
+      message
+    }
     const CONTACT_US_TEMPLATE_ID = 'contact-us';
-    this.utilService.sendEmail(email, name, message, CONTACT_US_TEMPLATE_ID).then((res) => {
+    this.utilService.sendEmail(options, CONTACT_US_TEMPLATE_ID).then((res) => {
       this.messageService.success('Message sent successfully');
       this.form.reset();
     },

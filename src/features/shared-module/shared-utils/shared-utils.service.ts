@@ -90,16 +90,14 @@ export class SharedUtilsService {
     }
   }
 
-  async sendEmail(email: string, name: string, message: string, emailType: string) {
+  async sendEmail(options: EmailOptions, emailType: string) {
     const request = await this.createRequest(
       'POST',
       `https://8h3vwutdq2.execute-api.us-east-1.amazonaws.com/staging/core/utils/email/send-email`,
       {},
       {
-        email,
-        name,
-        message,
-        emailType
+        options,
+        emailType,
       },
       {
         withCredentials: false
@@ -107,4 +105,10 @@ export class SharedUtilsService {
     )
     return await this.executeRequest(request);
   }
+}
+
+export type EmailOptions = {
+  email: string;
+  name: string;
+  [key: string]: string;
 }

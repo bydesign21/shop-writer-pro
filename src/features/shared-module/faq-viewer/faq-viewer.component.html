@@ -1,0 +1,14 @@
+<nz-layout class="faq-section">
+  <nz-content>
+    <nz-row>
+      <nz-col nzSpan="24">
+        <h1>Frequently Asked Questions</h1>
+        <nz-collapse>
+          <nz-collapse-panel *ngFor="let faq of faqs" [nzHeader]="faq.question">
+            <p>{{faq.answer}}</p>
+          </nz-collapse-panel>
+        </nz-collapse>
+      </nz-col>
+    </nz-row>
+  </nz-content>
+</nz-layout>

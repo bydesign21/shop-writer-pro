@@ -126,7 +126,7 @@ export class AuthService {
       })
     } catch (error) {
       console.log('Failed to get User Cognito Key', error)
-      return error;
+      return null;
     }
   }
 }

@@ -104,3 +104,10 @@
     font-size: 0.9rem;
   }
 }
+
+::ng-deep .card-container .ant-card-meta-description {
+  padding: 0.5rem;
+  text-align: center;
+  margin-top: 2rem;
+  height: 6rem;
+}

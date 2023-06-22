@@ -13,7 +13,7 @@ export class SharedUtilsService {
   constructor(
     private http: HttpClient,
     private authService: AuthService,
-  ) {}
+  ) { }
 
   async getVehichleByVin(vin: string): Promise<any> {
     const request = await this
@@ -34,7 +34,10 @@ export class SharedUtilsService {
 
   async createRequest(method: string, url: string, queryParams: any = {}, body: any = null, options: any = {}) {
     const cognitoKey = await this.authService.getCurrentUserCognitoKey();
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${cognitoKey}`)
+    let headers = new HttpHeaders();
+    if (cognitoKey) {
+      headers = new HttpHeaders().set('Authorization', `Bearer ${cognitoKey}`)
+    }
     let fullUrl = url;
     // If there are any query params, append them to the URL
     if (Object.keys(queryParams).length > 0) {
@@ -48,7 +51,6 @@ export class SharedUtilsService {
       headers,
       ...options
     });
-
     return req;
   }
 
@@ -57,7 +59,14 @@ export class SharedUtilsService {
       this.http.request(request)
         .pipe(
           map(
-            (res: any) => res?.body,
+            (res: any) => {
+              // Check if the response is an object that has a body property
+              if (typeof res === 'object' && res.body !== undefined) {
+                return res.body;
+              }
+              // Otherwise, return the response as is
+              return res;
+            },
             (err: any) => err
           )
         )
@@ -79,5 +88,22 @@ export class SharedUtilsService {
       default:
         return 'processing';
     }
+  }
+
+  async sendEmail(email: string, name: string, message: string) {
+    const request = await this.createRequest(
+      'POST',
+      `https://8h3vwutdq2.execute-api.us-east-1.amazonaws.com/staging/core/utils/email/send-email`,
+      {},
+      {
+        email,
+        name,
+        message
+      },
+      {
+        withCredentials: false
+      }
+    )
+    return await this.executeRequest(request);
   }
 }

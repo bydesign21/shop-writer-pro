@@ -12,6 +12,8 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { FaqViewerModule } from 'src/features/shared-module/faq-viewer/faq-viewer.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,10 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzInputModule,
     NzCardModule,
     NzIconModule,
-    NavbarModule
+    NavbarModule,
+    FaqViewerModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   exports: [
     ContactComponent,

@@ -1,47 +1,42 @@
-<nz-layout>
+<nz-layout style="height:100%">
   <nz-content>
     <nz-row class="contact-container">
-      <nz-col nzSpan="24">
-        <nz-row>
-          <nz-col nzSpan="24" [nzLg]="12" class="contact-form">
-            <h1>Get in touch</h1>
-            <p>Have a question? We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
-            <form nz-form [nzLayout]="'vertical'">
-              <nz-form-item>
-                <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Full Name</nz-form-label>
-                <nz-form-control [nzSm]="14" [nzXs]="24">
-                  <input nz-input>
-                </nz-form-control>
-              </nz-form-item>
-              <nz-form-item>
-                <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Email</nz-form-label>
-                <nz-form-control [nzSm]="14" [nzXs]="24">
-                  <input nz-input>
-                </nz-form-control>
-              </nz-form-item>
-              <nz-form-item>
-                <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Message</nz-form-label>
-                <nz-form-control [nzSm]="14" [nzXs]="24">
-                  <textarea nz-input></textarea>
-                </nz-form-control>
-              </nz-form-item>
-              <nz-form-item>
-                <nz-form-control [nzSpan]="14">
-                  <swp-button nzType="primary" content="Submit"></swp-button>
-                </nz-form-control>
-              </nz-form-item>
-            </form>
-          </nz-col>
-          <nz-col nzSpan="24" [nzLg]="12" class="contact-info-container">
-            <h1>Our Location</h1>
-            <p>Shop Writer Pro</p>
-            <p>1234 Main Street</p>
-            <p>Anytown, USA 12345</p>
-            <p>Phone: 555-555-5555</p>
-            <p>Email: admin@shopwriterpro.com</p>
-          </nz-col>
-        </nz-row>
+      <nz-col nzSpan="24" nzLg="10" class="contact-form">
+        <h1>Get in touch</h1>
+        <p>We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+        <form nz-form [formGroup]="form" [nzLayout]="'vertical'">
+          <nz-form-item>
+            <nz-input-group nzPrefixIcon="user">
+              <input formControlName="name" nz-input placeholder="Full Name" required>
+            </nz-input-group>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-input-group nzPrefixIcon="mail">
+              <input formControlName="email" nz-input type="email" placeholder="Email" required>
+            </nz-input-group>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-input-group nzPrefixIcon="message">
+              <textarea formControlName="message" nz-input placeholder="Message" required></textarea>
+            </nz-input-group>
+          </nz-form-item>
+          <nz-form-item>
+            <swp-button (mousedown)="handleContactFormSubmit()" nzType="primary" content="Submit"></swp-button>
+          </nz-form-item>
+        </form>
+      </nz-col>
+      <nz-col class="contact-info-container" nzSpan="24" nzLg="12">
+        <nz-card class="contact-info-card">
+          <h1>Our Location</h1>
+          <div class="contact-info">
+            <p><i nz-icon nzType="environment" nzTheme="outline"></i> 1234 Main Street, Anytown, USA 12345</p>
+            <p><i nz-icon nzType="phone" nzTheme="outline"></i> Phone: 555-555-5555</p>
+            <p><i nz-icon nzType="mail" nzTheme="outline"></i> Email: admin@shopwriterpro.com</p>
+            <p><i nz-icon nzType="global" nzTheme="outline"></i> Website: www.shopwriterpro.com</p>
+          </div>
+        </nz-card>
       </nz-col>
     </nz-row>
+    <swp-faq-viewer></swp-faq-viewer>
   </nz-content>
 </nz-layout>

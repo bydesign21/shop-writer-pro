@@ -36,7 +36,8 @@ export class ContactComponent implements OnInit {
 
   handleContactFormSubmit() {
     const { name, email, message } = this.form.value;
-    this.utilService.sendEmail(email, name, message).then((res) => {
+    const CONTACT_US_TEMPLATE_ID = 'contact-us';
+    this.utilService.sendEmail(email, name, message, CONTACT_US_TEMPLATE_ID).then((res) => {
       this.messageService.success('Message sent successfully');
       this.form.reset();
     },

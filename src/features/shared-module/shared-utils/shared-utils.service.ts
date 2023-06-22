@@ -90,7 +90,7 @@ export class SharedUtilsService {
     }
   }
 
-  async sendEmail(email: string, name: string, message: string) {
+  async sendEmail(email: string, name: string, message: string, emailType: string) {
     const request = await this.createRequest(
       'POST',
       `https://8h3vwutdq2.execute-api.us-east-1.amazonaws.com/staging/core/utils/email/send-email`,
@@ -98,7 +98,8 @@ export class SharedUtilsService {
       {
         email,
         name,
-        message
+        message,
+        emailType
       },
       {
         withCredentials: false

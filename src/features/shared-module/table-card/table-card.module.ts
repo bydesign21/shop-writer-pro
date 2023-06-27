@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzTableModule } from 'ng-zorro-antd/table';
@@ -14,10 +14,10 @@ import { TicketViewerModule } from '../ticket-viewer/ticket-viewer.module';
   imports: [
     CommonModule,
     NzCardModule,
-    NzTableModule,
     NzTagModule,
     NzSpinModule,
-    TicketViewerModule
+    TicketViewerModule,
+    NzTableModule
   ],
   exports: [TableCardComponent]
 })

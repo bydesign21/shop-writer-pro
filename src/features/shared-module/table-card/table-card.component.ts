@@ -28,6 +28,44 @@ export class TableCardComponent implements OnInit, OnDestroy {
   selectedItem: any;
   ticketStatus = TicketStatus;
   destroy$ = new Subject();
+  tableHeader = [
+    {
+      title: 'Date',
+      key: 'date',
+      sortFn: (a: any, b: any) => a.date.localeCompare(b.date),
+    },
+    {
+      title: 'Status',
+      key: 'status',
+      sortFn: (a: any, b: any) => a.status.localeCompare(b.status),
+      nzFilters: [
+        { text: 'Open', value: 'open' },
+        { text: 'Closed', value: 'closed' },
+        { text: 'Pending', value: 'pending' },
+        { text: 'Completed', value: 'completed' || 'resolved' },
+        { text: 'Cancelled', value: 'cancelled'},
+        { text: 'In Progress', value: 'in progress' || 'in_progress'}
+      ],
+      nzFilterFn: (status: string[], item: any) => {
+        console.log(status, item)
+        return status.some((status) => item.status.indexOf(status) !== -1);
+      }
+    },
+    {
+      title: 'Vin',
+      key: 'vin',
+      sortFn: (a: any, b: any) => a.vin.localeCompare(b.vin),
+    },
+    {
+      title: 'Model',
+      key: 'model',
+      sortFn: (a: any, b: any) => a.model.localeCompare(b.model),
+    },
+    {
+      title: 'Actions',
+      key: 'actions',
+    }
+  ]
 
   constructor(
     private modalService: NzModalService,
@@ -83,5 +121,10 @@ export class TableCardComponent implements OnInit, OnDestroy {
 
   getTicketStatusPillColor(status: TicketStatus) {
     return this.utilService.getTicketStatusPillColor(status);
+  }
+
+  sortFn = (a: any, b: any) => {
+    console.log(a, b)
+    return a.localCompare(b);
   }
 }

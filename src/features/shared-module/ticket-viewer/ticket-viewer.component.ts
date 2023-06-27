@@ -47,8 +47,8 @@ export class TicketViewerComponent implements OnInit, OnDestroy {
       value: TicketStatus.IN_PROGRESS
     },
     {
-      label: 'Resolved',
-      value: TicketStatus.RESOLVED
+      label: 'Completed',
+      value: TicketStatus.COMPLETED
     },
     {
       label: 'Cancelled',

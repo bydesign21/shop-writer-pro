@@ -22,6 +22,8 @@ import { RouterModule } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { SharedUtilsService } from 'src/features/shared-module/shared-utils/shared-utils.service';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { InlineSVGModule } from 'ng-inline-svg-2';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,9 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     NgxSpinnerModule,
     RouterModule,
     NzIconModule,
-    NzAutocompleteModule
+    NzAutocompleteModule,
+    InlineSVGModule,
+    NzToolTipModule
   ],
   exports: [TicketingComponent],
   providers: [SharedUtilsService]

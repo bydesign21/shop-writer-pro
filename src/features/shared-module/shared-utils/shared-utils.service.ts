@@ -79,7 +79,7 @@ export class SharedUtilsService {
         return 'warning';
       case TicketStatus.IN_PROGRESS:
         return 'processing';
-      case TicketStatus.RESOLVED:
+      case TicketStatus.COMPLETED:
         return 'success';
       case TicketStatus.CANCELLED:
         return 'error';

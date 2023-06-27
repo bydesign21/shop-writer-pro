@@ -187,8 +187,8 @@
             >
               <div class="step-content-header">
                 <span>Vehicle Details</span>
-                <h1>Upload Images</h1>
-                <h4>Please attach images of the damage to the vehicle.</h4>
+                <h1>Upload Documents</h1>
+                <h4>Please attach relevant images of the damage as well as the original estimate to be supplemented if applicable.</h4>
               </div>
               <div class="form-wrapper">
                 <div class="form-inner">
@@ -210,6 +210,7 @@
                         </p>
                         <p class="ant-upload-text">
                           Click or drag file to this area to upload
+                          <span class="info-icon" nz-tooltip [nzTooltipTitle]="fileTypeTooltip" [inlineSVG]="'../../../assets/images/info-icon.svg'"></span>
                         </p>
                         <p class="ant-upload-hint">
                           Support for a single or bulk upload. Strictly prohibit
@@ -242,6 +243,7 @@
                       <textarea
                         nz-input
                         formControlName="damage"
+                        placeholder="Describe the damage to your vehicle. If applicable, please include any missing info from your previous estimate."
                         type="text"
                       ></textarea>
                       <!-- <nz-form-explain *ngIf="forms.get('step2.address').invalid && forms.get('step2.address').touched">
@@ -420,3 +422,8 @@
     </div>
   </nz-row>
 </nz-layout>
+
+<ng-template #fileTypeTooltip>
+  <span>Supported File Types:</span>
+  <p>.jpg, .jpeg, .png, .pdf</p>
+</ng-template>

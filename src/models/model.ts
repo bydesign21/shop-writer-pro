@@ -6,16 +6,18 @@ export enum UserRole {
 
 export enum TicketStatus {
   RESOLVED = 'resolved',
-  IN_PROGRESS = 'in_progress',
+  COMPLETED = 'completed',
+  IN_PROGRESS = 'in progress',
   PENDING = 'pending',
   CANCELLED = 'cancelled',
   REFUNDED = 'refunded'
 }
 
 export const closedTicketStatuses = [
-  TicketStatus.RESOLVED,
+  TicketStatus.COMPLETED,
   TicketStatus.CANCELLED,
-  TicketStatus.REFUNDED
+  TicketStatus.REFUNDED,
+  TicketStatus.RESOLVED
 ];
 
 export enum UploadFileStatus {

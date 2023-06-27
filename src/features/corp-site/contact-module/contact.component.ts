@@ -34,7 +34,7 @@ export class ContactComponent implements OnInit {
   }
 
 
-  handleContactFormSubmit() {
+  async handleContactFormSubmit() {
     const { name, email, message } = this.form.value;
     const options: EmailOptions = {
       name,
@@ -42,12 +42,12 @@ export class ContactComponent implements OnInit {
       message
     }
     const CONTACT_US_TEMPLATE_ID = 'contact-us';
-    this.utilService.sendEmail(options, CONTACT_US_TEMPLATE_ID).then((res) => {
+    return await this.utilService.sendEmail(options, CONTACT_US_TEMPLATE_ID).then((res) => {
       this.messageService.success('Message sent successfully');
       this.form.reset();
     },
     (err) => {
-      this.messageService.error('Error sending message');
+      this.messageService.error('Error sending message', err);
     });
   }
 }

@@ -33,6 +33,7 @@ export class TableCardComponent implements OnInit, OnDestroy {
       title: 'Date',
       key: 'date',
       sortFn: (a: any, b: any) => a.date.localeCompare(b.date),
+      width: '100px'
     },
     {
       title: 'Status',
@@ -43,11 +44,11 @@ export class TableCardComponent implements OnInit, OnDestroy {
         { text: 'Closed', value: 'closed' },
         { text: 'Pending', value: 'pending' },
         { text: 'Completed', value: 'completed' || 'resolved' },
-        { text: 'Cancelled', value: 'cancelled'},
-        { text: 'In Progress', value: 'in progress' || 'in_progress'}
+        { text: 'Cancelled', value: 'cancelled' },
+        { text: 'In Progress', value: 'in progress' || 'in_progress' }
       ],
+      width: '35px',
       nzFilterFn: (status: string[], item: any) => {
-        console.log(status, item)
         return status.some((status) => item.status.indexOf(status) !== -1);
       }
     },
@@ -55,15 +56,18 @@ export class TableCardComponent implements OnInit, OnDestroy {
       title: 'Vin',
       key: 'vin',
       sortFn: (a: any, b: any) => a.vin.localeCompare(b.vin),
+      width: '100px'
     },
     {
       title: 'Model',
       key: 'model',
       sortFn: (a: any, b: any) => a.model.localeCompare(b.model),
+      width: '100px'
     },
     {
       title: 'Actions',
       key: 'actions',
+      width: '35px'
     }
   ]
 

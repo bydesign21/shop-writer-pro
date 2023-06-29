@@ -13,6 +13,8 @@ import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [ProfileComponent],
@@ -30,7 +32,9 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     NzAutocompleteModule,
     NzIconModule,
     NzToolTipModule,
-    GooglePlaceModule
+    GooglePlaceModule,
+    NzBreadCrumbModule,
+    RouterModule
   ],
   exports: [ProfileComponent]
 })

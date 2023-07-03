@@ -22,13 +22,15 @@ export class TableCardComponent implements OnInit, OnDestroy {
   @Input() isLoading$: BehaviorSubject<boolean>;
   @Input() cardTitle: string;
   @Input() rules: UserRole | string = UserRole.USER;
+  @Input() assignmentTable = false;
   @Output() ticketUpdated = new EventEmitter<Ticket>();
   pageIndex = 1;
   pagedData: any[];
+  userRoles = UserRole;
   selectedItem: any;
   ticketStatus = TicketStatus;
   destroy$ = new Subject();
-  tableHeader = [
+  tableHeadersDefault = [
     {
       title: 'Date',
       key: 'date',
@@ -68,6 +70,37 @@ export class TableCardComponent implements OnInit, OnDestroy {
       title: 'Actions',
       key: 'actions',
       width: '35px'
+    }
+  ];
+  tableHeadersAdmin = [
+    {
+      title: 'Date',
+      key: 'date',
+      sortFn: (a: any, b: any) => a.date.localeCompare(b.date),
+      width: '100px'
+    },
+    {
+      title: 'Status',
+      key: 'status',
+      sortFn: (a: any, b: any) => a.status.localeCompare(b.status),
+      nzFilters: [
+        { text: 'Open', value: 'open' },
+        { text: 'Closed', value: 'closed' },
+        { text: 'Pending', value: 'pending' },
+        { text: 'Completed', value: 'completed' || 'resolved' },
+        { text: 'Cancelled', value: 'cancelled' },
+        { text: 'In Progress', value: 'in progress' || 'in_progress' }
+      ],
+      width: '35px',
+      nzFilterFn: (status: string[], item: any) => {
+        return status.some((status) => item.status.indexOf(status) !== -1);
+      }
+    },
+    {
+      title: 'Assigned To',
+      key: 'assignedTo',
+      sortFn: (a: any, b: any) => a.assignedTo.localeCompare(b.assignedTo),
+      width: '100px'
     }
   ]
 

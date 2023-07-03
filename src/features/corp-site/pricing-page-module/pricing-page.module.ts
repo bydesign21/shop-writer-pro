@@ -4,6 +4,7 @@ import { PricingTableModule } from 'src/features/shared-module/pricing-table/pri
 import { PricingPageComponent } from './pricing-page.component';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { FaqViewerModule } from 'src/features/shared-module/faq-viewer/faq-viewer.module';
 
 @NgModule({
   declarations: [PricingPageComponent],
@@ -11,7 +12,8 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
     CommonModule,
     PricingTableModule,
     NzLayoutModule,
-    NzGridModule
+    NzGridModule,
+    FaqViewerModule
   ],
   exports: [PricingPageComponent]
 })

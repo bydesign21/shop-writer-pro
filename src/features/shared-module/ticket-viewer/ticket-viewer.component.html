@@ -2,7 +2,12 @@
   [nzTitle]="updatedTicket.plan"
   [nzExtra]="'$' + updatedTicket.totalUSD"
 >
-  Summary: {{ updatedTicket.description }}
+  <p>Summary: {{ updatedTicket.description }}</p>
+  <span class="admin-tags" *ngIf="rules === userRole.ADMIN">
+    <p>Customer: <nz-tag [nzColor]="'grey'">{{updatedTicket.userId}}</nz-tag></p>
+    <p>Assigned To: <nz-tag [nzColor]="'black'">{{updatedTicket.assignedTo}}</nz-tag></p>
+  </span>
+
 </nz-card>
 <nz-collapse class="review-form" nzGhost>
   <nz-collapse-panel

@@ -21,3 +21,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+::ng-deep .assignment_tag {
+  padding: 0.33rem;
+}

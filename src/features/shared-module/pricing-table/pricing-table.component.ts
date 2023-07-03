@@ -10,22 +10,16 @@ export class PricingTableComponent {
   @Input() justify: NzJustify = 'center';
   plans = [
     {
-      name: 'Basic',
-      price: 10,
-      description: 'Most popular',
-      features: ['1 user', '10GB storage', '24/7 support']
+      name: 'Standard Supplement',
+      price: 150,
+      description: 'Send us the insurance estimate, VIN, damage photos, and a brief description. We`ll review everything and provide an accurate supplement. After a final accuracy check, we`ll send it to you.',
+      features: []
     },
     {
-      name: 'Pro',
-      price: 20,
-      description: 'Best for teams',
-      features: ['5 users', '50GB storage', '24/7 support']
+      name: 'Standard Estimate',
+      price: 200,
+      description: 'Our estimators use the VIN, damage photos, and description to create an estimate for insurance negotiations. It undergoes a final accuracy review before being sent to you.',
+      features: []
     },
-    {
-      name: 'Enterprise',
-      price: 50,
-      description: 'Best value for large teams',
-      features: ['Unlimited users', 'Unlimited storage', '24/7 support']
-    }
   ];
 }

@@ -15,5 +15,6 @@ export interface Ticket {
   ticketId: string,
   lastUpdated: string,
   insurance: string,
-  documents: string[]
+  documents: string[],
+  assignedTo: string
 }

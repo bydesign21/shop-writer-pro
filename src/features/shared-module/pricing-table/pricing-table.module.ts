@@ -7,7 +7,6 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 
 
-
 @NgModule({
   declarations: [PricingTableComponent],
   imports: [
@@ -15,7 +14,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     NzLayoutModule,
     NzGridModule,
     NzCardModule,
-    NzButtonModule
+    NzButtonModule,
   ],
   exports: [PricingTableComponent]
 })

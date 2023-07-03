@@ -7,7 +7,7 @@ import { Ticket } from '../ticketing/store/ticket.model';
 import { TicketQuery } from '../ticketing/store/ticket.query';
 import { TicketService } from '../ticketing/ticket.service';
 import { TicketingComponent } from '../ticketing/ticketing.component';
-import { closedTicketStatuses as recentOrderTicketStatuses, TicketStatus, UserRole } from 'src/models/model';
+import { closedTicketStatuses, TicketStatus, UserRole, NonAdminRoles } from 'src/models/model';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
@@ -67,11 +67,18 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
       .subscribe((tickets) => {
         const openOrders = [];
         const recentOrders = [];
-        tickets.forEach((ticket) => {
-          recentOrderTicketStatuses.includes(ticket.status as TicketStatus)
-            ? recentOrders.push(ticket)
-            : openOrders.push(ticket)
-        })
+        if (NonAdminRoles.includes(this.userSession.role as UserRole)) {
+          tickets.forEach((ticket) => {
+            closedTicketStatuses.includes(ticket.status as TicketStatus)
+              ? recentOrders.push(ticket)
+              : openOrders.push(ticket)
+          })
+        } else {
+          tickets.forEach((data: any) => {
+            openOrders.push(data.ticket);
+            recentOrders.push(data.assignment);
+          })
+        }
         this.openOrders$.next([...openOrders])
         this.recentOrders$.next([...recentOrders])
         this.dataLoading$.next(false);

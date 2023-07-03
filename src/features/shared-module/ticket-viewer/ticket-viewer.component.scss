@@ -33,3 +33,9 @@ img.review-form__img {
     margin-top: 12px;
   }
 }
+
+::ng-deep span.admin-tags {
+  nz-tag {
+    padding: 0.25rem;
+  }
+}

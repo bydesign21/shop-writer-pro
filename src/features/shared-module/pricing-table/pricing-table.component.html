@@ -19,11 +19,10 @@
         [nzTitle]="plan.name"
         [nzDescription]="plan.description">
       </nz-card-meta>
-      <p class="plan-price">${{ plan.price }}<span>/month</span></p>
+      <p class="plan-price">${{ plan.price }}</p>
       <ul>
         <li *ngFor="let feature of plan.features">{{ feature }}</li>
       </ul>
-      <a nz-button nzType="primary">Sign up</a>
     </nz-card>
   </nz-col>
 </nz-row>

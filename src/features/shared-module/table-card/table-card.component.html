@@ -1,4 +1,4 @@
-<nz-card class="table-card" [nzTitle]="cardTitle">
+<nz-card *ngIf="!assignmentTable" class="table-card" [nzTitle]="cardTitle">
   <div class="table-responsive">
     <nz-spin
       class="table-spinner"
@@ -19,7 +19,7 @@
       >
         <thead>
           <tr>
-            <th [nzColumnKey]="item?.key" [nzFilterFn]="item?.nzFilterFn" [nzFilters]="item?.nzFilters" [nzSortFn]="item?.sortFn" *ngFor="let item of tableHeader">{{ item.title }}</th>
+            <th [nzColumnKey]="item?.key" [nzFilterFn]="item?.nzFilterFn" [nzFilters]="item?.nzFilters" [nzSortFn]="item?.sortFn" *ngFor="let item of tableHeadersDefault">{{ item.title }}</th>
           </tr>
         </thead>
         <tbody>
@@ -37,6 +37,52 @@
             <td>
               <a (click)="viewTableRow(item)">View</a>
             </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </nz-spin>
+  </div>
+</nz-card>
+
+<nz-card *ngIf="assignmentTable" class="table-card" [nzTitle]="cardTitle">
+  <div class="table-responsive">
+    <nz-spin
+      class="table-spinner"
+      [nzSpinning]="isLoading$ | async"
+      [nzIndicator]="loadingIndicatorRef"
+    >
+      <nz-table
+        #filterTable
+        class="table-card__table"
+        [nzLoading]="isLoading$ | async"
+        [nzLoadingIndicator]="loadingIndicatorRef"
+        [nzPageIndex]="pageIndex"
+        [nzTotal]="(data$ | async)?.length"
+        [nzNoResult]="noResultRef"
+        (nzPageIndexChange)="handlePageChange($event)"
+        [nzPageSize]="pageLimit"
+        [nzData]="data$ | async"
+      >
+        <thead>
+          <tr>
+            <th [nzColumnKey]="item?.key" [nzFilterFn]="item?.nzFilterFn" [nzFilters]="item?.nzFilters" [nzSortFn]="item?.sortFn" *ngFor="let item of tableHeadersAdmin">{{ item.title }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of filterTable?.data">
+            <td>{{ item.date | date : "MMM, dd. yyyy." }}</td>
+            <td>
+              <nz-tag
+                style="border-radius: 0.8rem"
+                [nzColor]="getTicketStatusPillColor(item.status)"
+                >{{ item?.ticket?.status }}</nz-tag
+              >
+            </td>
+            <td>
+              <nz-tag
+              class="assignment_tag"
+              [nzColor]="'#00000073'"
+              >{{ item.ticket.assignedTo }}</nz-tag></td>
           </tr>
         </tbody>
       </nz-table>

@@ -13,6 +13,11 @@ export enum TicketStatus {
   REFUNDED = 'refunded'
 }
 
+export const NonAdminRoles = [
+  UserRole.USER,
+  UserRole.EMPLOYEE
+];
+
 export const closedTicketStatuses = [
   TicketStatus.COMPLETED,
   TicketStatus.CANCELLED,

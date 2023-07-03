@@ -4,7 +4,7 @@
       <nz-col class="open-orders" nzSpan="24" nzLg="16">
         <swp-table-card
           [rules]="userSession.role"
-          [cardTitle]="userSession.role === userRoles.USER ? 'Open Orders' : 'Open Tickets'"
+          [cardTitle]="userSession.role === userRoles.USER ? 'Open Orders' : userSession.role === userRoles.EMPLOYEE ? 'Open Tickets' : 'Recent Orders'"
           [loadingIndicatorRef]="loadingIndicator"
           [isLoading$]="dataLoading$"
           [pageLimit]="tableLimit"
@@ -30,7 +30,7 @@
             class="__submit-ticket-card __control-card"
           >
             <h2 class="__content">
-              {{userSession.role === userRoles.USER ? 'View Transactions' : 'View Tickets'}}<span nz-icon nzType="unordered-list"></span>
+              {{userSession.role === userRoles.USER ? 'View Orders' : 'View Tickets'}}<span nz-icon nzType="unordered-list"></span>
             </h2>
           </nz-card>
           <nz-card
@@ -48,8 +48,9 @@
       <nz-col nzSpan="24">
         <swp-table-card
           [rules]="userSession.role"
-          [cardTitle]="userSession.role === userRoles.USER ? 'Recent Orders' : 'Recent Tickets'"
+          [cardTitle]="userSession.role === userRoles.USER ? 'Recent Orders' : userSession.role === userRoles.EMPLOYEE ? 'Recent Tickets' : 'Recent Assignments'"
           [loadingIndicatorRef]="loadingIndicator"
+          [assignmentTable]="userSession.role === userRoles.ADMIN ? true : false"
           [isLoading$]="dataLoading$"
           [pageLimit]="tableLimit"
           [data$]="recentOrders$"

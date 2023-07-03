@@ -97,7 +97,8 @@ export class TicketViewerComponent implements OnInit, OnDestroy {
         }
       ];
     });
-    if (this.rules === (UserRole.EMPLOYEE || this.userRole.ADMIN)) {
+    console.log(this.rules, 'role')
+    if (this.rules === UserRole.EMPLOYEE || this.rules === this.userRole.ADMIN) {
       this.panels = [
         ...this.panels,
         {

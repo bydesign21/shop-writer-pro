@@ -9,6 +9,6 @@ Amplify.configure(awsmobile);
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'ShopWriterPro';
+  title = 'Shop Writer Pro';
 
 }

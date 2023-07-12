@@ -2,8 +2,9 @@ import { DecimalPipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzUploadChangeParam, NzUploadFile, NzUploadXHRArgs } from 'ng-zorro-antd/upload';
-import { takeUntil } from 'rxjs';
+import { take, takeUntil } from 'rxjs';
 import { Ticket } from 'src/features/dashboard-module/ticketing/store/ticket.model';
 import { TicketService } from 'src/features/dashboard-module/ticketing/ticket.service';
 import { TicketStatus, UploadFileStatus, UserRole } from 'src/models/model';
@@ -23,7 +24,8 @@ export class TicketViewerComponent implements OnInit, OnDestroy {
   constructor(
     private messageService: NzMessageService,
     private ticketService: TicketService,
-    private http: HttpClient
+    private http: HttpClient,
+    private modalService: NzModalService
   ) {}
   @Input() ticket: Ticket;
   @Output() ticketUpdated = new EventEmitter<Ticket>();
@@ -193,6 +195,22 @@ export class TicketViewerComponent implements OnInit, OnDestroy {
         anchor.remove();
       });
     }
+  }
+
+  handleUserProfileClick(item: any, role: string) {
+    this.modalService.closeAll();
+    this.modalService.afterAllClose
+      .pipe(
+        take(1)
+      )
+      .subscribe(() => {
+        return this.modalService.create({
+          nzTitle: role === 'employee' ? 'Employee Profile' : 'Customer Profile',
+          nzComponentParams: {
+            employeeId: item
+          },
+        });
+      });
   }
 
   handleTicketStatusOpenChange(isOpen: boolean) {

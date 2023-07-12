@@ -80,6 +80,7 @@
             </td>
             <td>
               <nz-tag
+              (click)="handleAssignedToClick(item)"
               class="assignment_tag"
               [nzColor]="'#00000073'"
               >{{ item.ticket.assignedTo }}</nz-tag></td>

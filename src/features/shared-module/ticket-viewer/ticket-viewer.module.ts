@@ -17,6 +17,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { HttpClientModule } from '@angular/common/http';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 
 
@@ -40,7 +41,8 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
     NzSelectModule,
     PdfViewerModule,
     HttpClientModule,
-    NzTagModule
+    NzTagModule,
+    NzModalModule
   ],
   exports: [TicketViewerComponent],
 })

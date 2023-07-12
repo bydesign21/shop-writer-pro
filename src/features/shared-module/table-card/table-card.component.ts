@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, Subject, take, takeUntil } from 'rxjs';
 import { Ticket } from 'src/features/dashboard-module/ticketing/store/ticket.model';
 import { TicketStatus, UserRole } from 'src/models/model';
 import { SharedUtilsService } from '../shared-utils/shared-utils.service';
@@ -108,7 +108,7 @@ export class TableCardComponent implements OnInit, OnDestroy {
     private modalService: NzModalService,
     private cd: ChangeDetectorRef,
     private utilService: SharedUtilsService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.isLoading$
@@ -158,6 +158,22 @@ export class TableCardComponent implements OnInit, OnDestroy {
 
   getTicketStatusPillColor(status: TicketStatus) {
     return this.utilService.getTicketStatusPillColor(status);
+  }
+
+  handleAssignedToClick(item: any) {
+    this.modalService.closeAll();
+    this.modalService.afterAllClose
+      .pipe(
+        take(1)
+      )
+      .subscribe(() => {
+        return this.modalService.create({
+          nzTitle: 'Employee Profile',
+          nzComponentParams: {
+            employeeId: item
+          },
+        });
+      });
   }
 
   sortFn = (a: any, b: any) => {

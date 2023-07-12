@@ -1,7 +1,7 @@
-import { HttpErrorResponse, HttpEvent } from '@angular/common/http';
+import { HttpErrorResponse, HttpEvent, HttpResponse, HttpProgressEvent, HttpEventType } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NzUploadXHRArgs } from 'ng-zorro-antd/upload';
-import { catchError, from, map, Observable, switchMap, throwError } from 'rxjs';
+import { catchError, from, lastValueFrom, map, Observable, switchMap, tap, throwError } from 'rxjs';
 import { SessionState } from 'src/app/session-store/domain-state/session.store';
 import { Ticket } from './store/ticket.model';
 import { TicketStore } from './store/tickets.store';
@@ -18,7 +18,7 @@ export class TicketService {
     private utilService: SharedUtilsService
   ) {}
 
-  uploadMedia(item: NzUploadXHRArgs): Observable<any> {
+  uploadMedia(item: NzUploadXHRArgs): Observable<HttpEvent<any>> {
     const formData = new FormData();
     formData.append('file', item.file as unknown as Blob, item.file.name);
     return from(this.utilService.createRequest(
@@ -27,23 +27,27 @@ export class TicketService {
       {},
       formData,
       {
-        withCredentials: false,
-        reportProgress: true
+        reportProgress: true,
+        withCredentials: false
       }
     )).pipe(
       switchMap(request => this.utilService.executeRequest(request)),
-      map((event: HttpEvent<object>) => {
-        return item.onSuccess?.(event, item.file, event)
-      },
-        catchError((err: HttpErrorResponse) => {
-          // failed
-          item.onError?.(err, item.file);
-          return throwError(err);
-        })
-      )
+      tap((event: HttpEvent<any> | any) => {
+        if (event.type === HttpEventType.Response) {
+          item.onSuccess?.(event.body, item.file, event);
+        } else if (event.type === HttpEventType.UploadProgress) {
+          const percentDone = Math.round((100 * event.loaded) / event.total);
+          console.log(`File is ${percentDone}% uploaded.`);
+        } else if (event.Location) { // If the response body is interpreted as an event
+          item.onSuccess?.(event, item.file, event);
+        }
+      }),
+      catchError((err: HttpErrorResponse) => {
+        item.onError?.(err, item.file);
+        return throwError(() => new Error(err.message));
+      })
     );
   }
-
 
   async getUserTickets(user: SessionState): Promise<Ticket[]> {
     const { email, role } = user;
@@ -54,7 +58,7 @@ export class TicketService {
       withCredentials: false
     });
 
-    return await this.utilService.executeRequest(request)
+    return await lastValueFrom(this.utilService.executeRequest(request))
       .then((tickets) => {
         this.ticketStore.set(tickets);
         return tickets;
@@ -64,7 +68,7 @@ export class TicketService {
   async updateTicket(ticket: Ticket, user: SessionState): Promise<Ticket> {
     const { role } = user;
     const request = await this.utilService.createRequest('PATCH', `https://8h3vwutdq2.execute-api.us-east-1.amazonaws.com/staging/core/content/ticket/update`, { entryId: role }, ticket, { withCredentials: false })
-    return await this.utilService.executeRequest(request)
+    return await lastValueFrom(this.utilService.executeRequest(request))
       .then(res => {
         console.log(res);
         return res.body;
@@ -93,7 +97,7 @@ export class TicketService {
           withCredentials: false
         }
       )
-    return await this.utilService.executeRequest(request)
+    return lastValueFrom(this.utilService.executeRequest(request))
   }
 
   async getPaymentIntent(tickets: Partial<Ticket>[]) {
@@ -106,7 +110,7 @@ export class TicketService {
         withCredentials: false
       }
     )
-    return await this.utilService.executeRequest(request).then((res) => {
+    return await lastValueFrom(this.utilService.executeRequest(request)).then((res) => {
       return res.clientSecret
     });
   }
@@ -122,7 +126,7 @@ export class TicketService {
         reportProgress: true
       }
     )
-    return await this.utilService.executeRequest(request);
+    return lastValueFrom(this.utilService.executeRequest(request));
   }
 
 }

@@ -209,13 +209,13 @@ export class TicketingComponent implements OnInit, OnDestroy {
       this.forms.get('step3').get('imageUpload').setValue(this.imageList);
       this.messageService.success(`${file.name} file uploaded successfully.`);
     } else if (status === 'error') {
-      this.messageService.error(`${file.name} file upload failed.`);
+      this.messageService.error(`${file.name} file upload failed. File too large.`);
     }
   }
 
   handleImageRemove = (file: NzUploadFile) => {
-    const removedFile = file.response.Location;
-    this.imageList = this.imageList.filter(image => image !== removedFile);
+    const removedFile = file?.response?.Location;
+    this.imageList = this.imageList?.filter(image => image !== removedFile);
     this.forms.get('step3').get('imageUpload').setValue(this.imageList);
     return true;
   }

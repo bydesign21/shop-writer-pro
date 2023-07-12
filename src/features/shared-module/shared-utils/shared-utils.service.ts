@@ -54,23 +54,19 @@ export class SharedUtilsService {
     return req;
   }
 
-  async executeRequest(request: HttpRequest<any>) {
-    return await lastValueFrom(
-      this.http.request(request)
-        .pipe(
-          map(
-            (res: any) => {
-              // Check if the response is an object that has a body property
-              if (typeof res === 'object' && res.body !== undefined) {
-                return res.body;
-              }
-              // Otherwise, return the response as is
-              return res;
-            },
-            (err: any) => err
-          )
-        )
-    );
+  executeRequest(request: HttpRequest<any>) {
+    return this.http.request(request)
+      .pipe(
+        map(
+          (res: any) => {
+            // Check if the response is an object that has a body property
+            if (typeof res === 'object' && res.body !== undefined) {
+              return res.body;
+            }
+            // Otherwise, return the response as is
+            return res;
+          }
+        ));
   }
 
   getTicketStatusPillColor(status: TicketStatus) {

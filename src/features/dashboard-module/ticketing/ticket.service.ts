@@ -58,7 +58,7 @@ export class TicketService {
       withCredentials: false
     });
 
-    return await lastValueFrom(this.utilService.executeRequest(request))
+    return lastValueFrom(this.utilService.executeRequest(request))
       .then((tickets) => {
         this.ticketStore.set(tickets);
         return tickets;
@@ -68,12 +68,10 @@ export class TicketService {
   async updateTicket(ticket: Ticket, user: SessionState): Promise<Ticket> {
     const { role } = user;
     const request = await this.utilService.createRequest('PATCH', `https://8h3vwutdq2.execute-api.us-east-1.amazonaws.com/staging/core/content/ticket/update`, { entryId: role }, ticket, { withCredentials: false })
-    return await lastValueFrom(this.utilService.executeRequest(request))
-      .then(res => {
-        console.log(res);
-        return res.body;
-      })
-      .then((updatedTicket) => {
+    return lastValueFrom(this.utilService.executeRequest(request))
+      .then((res) => {
+        const updatedTicket = res?.body;
+        console.log(updatedTicket);
         if (updatedTicket) {
           this.ticketStore.update(ticket?.ticketId, updatedTicket);
           return updatedTicket;

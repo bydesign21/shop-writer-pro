@@ -101,6 +101,7 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
           this.messageService.error(err.message);
         }
       });
+      this.cd.detectChanges();
   }
 
   ngOnDestroy(): void {

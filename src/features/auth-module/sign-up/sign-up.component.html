@@ -72,7 +72,17 @@
             nz-input
             placeholder="Password"
           />
-          <span (mousedown)="handlePasswordViewClick()" nz-icon nzType="eye" style="font-size:1.25rem; position: relative; display: flex; align-items: center;"></span>
+          <span
+            (mousedown)="handlePasswordViewClick()"
+            nz-icon
+            nzType="eye"
+            style="
+              font-size: 1.25rem;
+              position: relative;
+              display: flex;
+              align-items: center;
+            "
+          ></span>
         </nz-input-group>
       </nz-form-control>
     </nz-form-item>
@@ -80,12 +90,22 @@
       <nz-form-control nzErrorTip="Please confirm your password!">
         <nz-input-group nzPrefixIcon="lock">
           <input
-          [type]="isPasswordConfirmVisible ? 'text' : 'password'"
-          formControlName="passwordConfirm"
+            [type]="isPasswordConfirmVisible ? 'text' : 'password'"
+            formControlName="passwordConfirm"
             nz-input
             placeholder="Confirm Password"
           />
-          <span (mousedown)="handlePasswordViewClick(true)" nz-icon nzType="eye" style="font-size:1.25rem; position: relative; display: flex; align-items: center;"></span>
+          <span
+            (mousedown)="handlePasswordViewClick(true)"
+            nz-icon
+            nzType="eye"
+            style="
+              font-size: 1.25rem;
+              position: relative;
+              display: flex;
+              align-items: center;
+            "
+          ></span>
         </nz-input-group>
       </nz-form-control>
     </nz-form-item>
@@ -107,4 +127,22 @@
       </div>
     </div>
   </form>
+  <nz-col
+    style="
+      display: flex;
+      justify-content: center;
+      text-align: center;
+      margin-top: 5rem;
+    "
+    nzSpan="24"
+  >
+    <div style="display: flex; justify-content: center">
+      <span style="position: absolute; bottom: 0; display: flex; justify-content: center; align-items: center;"
+        >By Signing In, You Agree to The
+        <a (click)="handleTermsConditionsClicked()"
+          >Terms and Conditions</a
+        ></span
+      >
+    </div>
+  </nz-col>
 </div>

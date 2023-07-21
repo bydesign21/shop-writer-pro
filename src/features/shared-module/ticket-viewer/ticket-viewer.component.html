@@ -194,7 +194,6 @@
       [(ngModel)]="updatedTicket.status"
       [nzPlaceHolder]="'Ticket Status'"
       [nzOptions]="ticketStatusOptions"
-      (nzOpenChange)="handleTicketStatusOpenChange($event)"
       [nzDropdownClassName]="'ticket-status-dropdown'"
     ></nz-select>
   </ng-template>

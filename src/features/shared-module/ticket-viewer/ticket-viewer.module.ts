@@ -18,7 +18,8 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { HttpClientModule } from '@angular/common/http';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzModalModule } from 'ng-zorro-antd/modal';
-
+import { TableCardModule } from '../table-card/table-card.module';
+import { NzTableModule } from 'ng-zorro-antd/table';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
     PdfViewerModule,
     HttpClientModule,
     NzTagModule,
-    NzModalModule
+    NzModalModule,
+    NzTableModule
   ],
   exports: [TicketViewerComponent],
 })

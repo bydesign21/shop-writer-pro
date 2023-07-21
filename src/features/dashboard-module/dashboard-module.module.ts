@@ -15,6 +15,7 @@ import { TransactionContainerModule } from './transaction-container/transaction-
 import { SpinnerModule } from '../shared-module/spinner/spinner.module';
 import { ProfileModule } from './profile/profile.module';
 import { AuthModule } from '../auth-module/auth-module.module';
+import { ProfileDataModule } from './profile-data/profile-data.module';
 
 
 
@@ -37,6 +38,7 @@ import { AuthModule } from '../auth-module/auth-module.module';
     TransactionContainerModule,
     SpinnerModule,
     ProfileModule,
+    ProfileDataModule,
     AuthModule
   ],
 })

@@ -25,3 +25,12 @@
 ::ng-deep .assignment_tag {
   padding: 0.33rem;
 }
+
+::ng-deep {
+  .ant-table tfoot > tr > td,
+  .ant-table tfoot > tr > th,
+  .ant-table-tbody > tr > td,
+  .ant-table-thead > tr > th {
+    padding: 0.25rem !important;
+  }
+}

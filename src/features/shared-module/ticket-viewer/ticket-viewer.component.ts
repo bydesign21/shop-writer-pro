@@ -1,10 +1,11 @@
 import { DecimalPipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzUploadChangeParam, NzUploadFile, NzUploadXHRArgs } from 'ng-zorro-antd/upload';
-import { take, takeUntil } from 'rxjs';
+import { BehaviorSubject, takeUntil } from 'rxjs';
 import { Ticket } from 'src/features/dashboard-module/ticketing/store/ticket.model';
 import { TicketService } from 'src/features/dashboard-module/ticketing/ticket.service';
 import { TicketStatus, UploadFileStatus, UserRole } from 'src/models/model';
@@ -25,10 +26,12 @@ export class TicketViewerComponent implements OnInit, OnDestroy {
     private messageService: NzMessageService,
     private ticketService: TicketService,
     private http: HttpClient,
-    private modalService: NzModalService
-  ) {}
+    private modalService: NzModalService,
+    private router: Router
+  ) { }
   @Input() ticket: Ticket;
   @Output() ticketUpdated = new EventEmitter<Ticket>();
+  tableData$ = new BehaviorSubject<Ticket[]>(null);
   destroy$ = new EventEmitter();
   updatedTicket: Ticket;
   editVehicleInfo = false;
@@ -99,7 +102,6 @@ export class TicketViewerComponent implements OnInit, OnDestroy {
         }
       ];
     });
-    console.log(this.rules, 'role')
     if (this.rules === UserRole.EMPLOYEE || this.rules === this.userRole.ADMIN) {
       this.panels = [
         ...this.panels,
@@ -181,10 +183,8 @@ export class TicketViewerComponent implements OnInit, OnDestroy {
   }
 
   handleFileDownload = (url: NzUploadFile) => {
-    console.log(url.response.Location, 'url');
     if (url.response.Location) {
       this.http.get(url.response.Location, { responseType: 'blob' }).subscribe(response => {
-        console.log(response, 'response')
         const blob = new Blob([response], { type: 'application/pdf' });
         const urlCreator = window.URL || window.webkitURL;
         const downloadUrl = urlCreator.createObjectURL(blob);
@@ -198,28 +198,14 @@ export class TicketViewerComponent implements OnInit, OnDestroy {
   }
 
   handleUserProfileClick(item: any, role: string) {
-    this.modalService.closeAll();
-    this.modalService.afterAllClose
-      .pipe(
-        take(1)
+    const email = item?.outerText;
+    if (email) {
+      this.router.navigate(['../dashboard/profile/data'], { queryParams: { email, role } }).then(
+        () => {
+          this.modalService.closeAll();
+        }
       )
-      .subscribe(() => {
-        return this.modalService.create({
-          nzTitle: role === 'employee' ? 'Employee Profile' : 'Customer Profile',
-          nzComponentParams: {
-            employeeId: item
-          },
-        });
-      });
+    }
   }
 
-  handleTicketStatusOpenChange(isOpen: boolean) {
-    // if (isOpen) {
-    //   setTimeout( () => {
-    //   const nzSelectEl = document.querySelector('.ant-select');
-    //   const nzSelectDropdownEl = document.querySelector('.ticket-status-dropdown');
-    //   nzSelectEl.append(nzSelectDropdownEl)
-    // }, 0)
-    // }
-  }
 }

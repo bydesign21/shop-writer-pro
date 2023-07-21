@@ -54,6 +54,7 @@ export class TransactionContainerComponent implements OnInit, OnDestroy {
     this.tickets$
       .pipe(takeUntil(this.destroy$))
       .subscribe((tickets) => {
+        console.log(tickets);
         this.openOrders$.next(tickets);
         this.dataLoading$.next(false);
         this.cd.detectChanges();

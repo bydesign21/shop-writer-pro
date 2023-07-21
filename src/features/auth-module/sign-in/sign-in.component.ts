@@ -10,7 +10,7 @@ import { SpinnerService } from 'src/features/shared-module/spinner/spinner.servi
 import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
-  selector: 'app-sign-in',
+  selector: 'swp-sign-in',
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

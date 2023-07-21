@@ -49,7 +49,7 @@ export class TicketService {
     );
   }
 
-  async getUserTickets(user: SessionState): Promise<Ticket[]> {
+  async getUserTickets(user: SessionState, resetState = true): Promise<Ticket[]> {
     const { email, role } = user;
     const request = await this.utilService.createRequest('GET', `https://8h3vwutdq2.execute-api.us-east-1.amazonaws.com/staging/core/query/users/data`, {
       userId: email,
@@ -60,7 +60,9 @@ export class TicketService {
 
     return lastValueFrom(this.utilService.executeRequest(request))
       .then((tickets) => {
-        this.ticketStore.set(tickets);
+        if (resetState) {
+          this.ticketStore.set(tickets);
+        }
         return tickets;
       });
   }

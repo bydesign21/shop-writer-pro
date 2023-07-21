@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { BehaviorSubject, Subject, take, takeUntil } from 'rxjs';
 import { Ticket } from 'src/features/dashboard-module/ticketing/store/ticket.model';
@@ -107,8 +108,9 @@ export class TableCardComponent implements OnInit, OnDestroy {
   constructor(
     private modalService: NzModalService,
     private cd: ChangeDetectorRef,
-    private utilService: SharedUtilsService
-  ) { }
+    private utilService: SharedUtilsService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.isLoading$
@@ -160,20 +162,9 @@ export class TableCardComponent implements OnInit, OnDestroy {
     return this.utilService.getTicketStatusPillColor(status);
   }
 
-  handleAssignedToClick(item: any) {
+  handleAssignedToClick(assignedToEmail: any) {
     this.modalService.closeAll();
-    this.modalService.afterAllClose
-      .pipe(
-        take(1)
-      )
-      .subscribe(() => {
-        return this.modalService.create({
-          nzTitle: 'Employee Profile',
-          nzComponentParams: {
-            employeeId: item
-          },
-        });
-      });
+    this.router.navigate(['/dashboard/profile/data'], { queryParams: { email: assignedToEmail, role: UserRole.EMPLOYEE } });
   }
 
   sortFn = (a: any, b: any) => {

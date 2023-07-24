@@ -45,7 +45,7 @@ export class TransactionContainerComponent implements OnInit, OnDestroy {
       .subscribe(userState => {
         this.userSession = userState;
       })
-    this.loadData();
+    this.loadData(this.userSession.role as UserRole);
   }
 
   async loadData(role = UserRole.USER): Promise<void> {
@@ -55,8 +55,11 @@ export class TransactionContainerComponent implements OnInit, OnDestroy {
     this.tickets$
       .pipe(takeUntil(this.destroy$))
       .subscribe((tickets) => {
-        console.log(tickets);
-        this.openOrders$.next(tickets);
+        if (role !== UserRole.ADMIN)  {
+          this.openOrders$.next(tickets);
+        } else {
+          this.openOrders$.next(tickets.map((ticket) => ticket.ticket))
+        }
         this.dataLoading$.next(false);
         this.cd.detectChanges();
       });

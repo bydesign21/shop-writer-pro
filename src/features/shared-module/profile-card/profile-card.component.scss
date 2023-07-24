@@ -1,0 +1,29 @@
+.user-profile__container {
+  margin: 1rem;
+  text-align: center;
+}
+
+.user-profile__content {
+  margin: 2rem;
+}
+
+.profile-form-edit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: left;
+
+  form {
+    width: 35%;
+  }
+}
+
+.truncate {
+  padding: 0.25rem;
+}
+
+::ng-deep
+  .ant-avatar.avatar-image.ant-avatar-lg.ant-avatar-circle.ng-star-inserted {
+  height: 90px;
+  width: 90px;
+}

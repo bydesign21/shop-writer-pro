@@ -76,8 +76,7 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
         } else {
           tickets.forEach((data: any) => {
             openOrders.push(data.ticket);
-            recentOrders.push(data.assignment);
-          })
+          });
         }
         this.openOrders$.next([...openOrders])
         this.recentOrders$.next([...recentOrders])

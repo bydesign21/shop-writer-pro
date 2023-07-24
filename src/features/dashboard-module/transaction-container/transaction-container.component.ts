@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable, of, Subject, take, takeUntil } from 'rxjs'
 import { SessionQuery } from 'src/app/session-store/domain-state/session.query';
 import { SessionState } from 'src/app/session-store/domain-state/session.store';
 import { TicketViewerComponent } from 'src/features/shared-module/ticket-viewer/ticket-viewer.component';
+import { UserRole } from 'src/models/model';
 import { Ticket } from '../ticketing/store/ticket.model';
 import { TicketQuery } from '../ticketing/store/ticket.query';
 import { TicketService } from '../ticketing/ticket.service';
@@ -47,7 +48,7 @@ export class TransactionContainerComponent implements OnInit, OnDestroy {
     this.loadData();
   }
 
-  async loadData(): Promise<void> {
+  async loadData(role = UserRole.USER): Promise<void> {
     this.dataLoading$.next(true);
     await this.ticketService.getUserTickets(this.userSession);
     this.tickets$ = this.ticketQuery.selectAll();

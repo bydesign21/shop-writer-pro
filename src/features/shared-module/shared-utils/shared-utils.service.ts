@@ -1,8 +1,8 @@
 import { HttpClient, HttpRequest } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { AuthService } from 'src/features/auth-module/auth-service.service';
-import { lastValueFrom } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { from, lastValueFrom, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { TicketStatus } from 'src/models/model';
 @Injectable({
@@ -29,6 +29,23 @@ export class SharedUtilsService {
         }
       )
     return await this.executeRequest(request);
+  }
+
+  getUserProfileData(userId: string) {
+    return from(
+      this.createRequest(
+        'GET',
+        `https://8h3vwutdq2.execute-api.us-east-1.amazonaws.com/staging/core/query/users/profile`,
+        { userId },
+        null,
+        {
+          withCredentials: false
+        }
+      )
+    )
+      .pipe(
+        switchMap(request => this.executeRequest(request)),
+      )
   }
 
 
@@ -99,7 +116,7 @@ export class SharedUtilsService {
         withCredentials: false
       }
     )
-    return await this.executeRequest(request);
+    return this.executeRequest(request);
   }
 }
 

@@ -44,7 +44,7 @@
         </div>
       </nz-col>
     </nz-row>
-    <nz-row class="__second-row">
+    <nz-row *ngIf="userSession.role !== userRoles.ADMIN" class="__second-row">
       <nz-col nzSpan="24">
         <swp-table-card
           [rules]="userSession.role"

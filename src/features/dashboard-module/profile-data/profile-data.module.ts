@@ -7,6 +7,7 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { RouterModule } from '@angular/router';
 import { TicketViewerModule } from 'src/features/shared-module/ticket-viewer/ticket-viewer.module';
+import { ProfileCardModule } from 'src/features/shared-module/profile-card/profile-card.module';
 
 @NgModule({
   declarations: [ProfileDataComponent],
@@ -17,7 +18,8 @@ import { TicketViewerModule } from 'src/features/shared-module/ticket-viewer/tic
     NzLayoutModule,
     NzBreadCrumbModule,
     RouterModule,
-    TicketViewerModule
+    TicketViewerModule,
+    ProfileCardModule
   ],
   exports: [ProfileDataComponent],
 })

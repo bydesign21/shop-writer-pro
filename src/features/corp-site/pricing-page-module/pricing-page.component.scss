@@ -1,6 +1,7 @@
 .pricing-container {
   padding: 3rem;
-  height: auto;
+  height: max-content !important;
+  min-height: 100dvh;
 
   h2 {
     margin-bottom: 2rem;

@@ -9,7 +9,7 @@ export class FaqViewerComponent {
   faqs = [
     {
         'question': 'What is Shop Writer Pro\'s purpose?',
-        'answer': 'Shop Writer Pro is designed to empower auto body shops, helping them optimize their revenue. We do this by meticulously calculating accident-related damage estimates to assist with negotiations with insurance companies.'
+        'answer': 'Shop Writer Pro is designed to empower Body Shops, making their estimating process as easy and beneficial for them as possible. We do this by meticulously calculating the cost of accident-related damage and the procedures required to repair the damaged vehicle.'
     },
     {
         'question': 'How can I utilize Shop Writer Pro?',

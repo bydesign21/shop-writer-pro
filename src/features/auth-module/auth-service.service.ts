@@ -49,7 +49,8 @@ export class AuthService {
     password: string,
     attributes: { email: string, phone_number: string, address: string, name: string, "custom:companyName": string, "custom:role": string }
   }) {
-    let { email, password, attributes } = params;
+    let { email } = params;
+    const { password, attributes } = params;
     email = email.toLowerCase();
     attributes.email = attributes.email.toLowerCase();
     return from(Auth.signUp({
@@ -121,9 +122,9 @@ export class AuthService {
 
   public async getCurrentUserCognitoKey() {
     try {
-      return await Auth.currentAuthenticatedUser().then(creds => {
-        return creds.signInUserSession.idToken.jwtToken
-      })
+      return await Auth?.currentAuthenticatedUser()?.then(creds => {
+        return creds?.signInUserSession?.idToken?.jwtToken || null;
+      });
     } catch (error) {
       console.log('Failed to get User Cognito Key', error)
       return null;

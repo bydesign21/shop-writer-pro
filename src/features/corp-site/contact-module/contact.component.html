@@ -9,19 +9,29 @@
             <nz-input-group nzPrefixIcon="user">
               <input formControlName="name" nz-input placeholder="Full Name" required>
             </nz-input-group>
+            <div *ngIf="form?.get('name')?.invalid && form?.get('name')?.touched" class="error-text">
+              Name is required.
+            </div>
           </nz-form-item>
           <nz-form-item>
             <nz-input-group nzPrefixIcon="mail">
               <input formControlName="email" nz-input type="email" placeholder="Email" required>
             </nz-input-group>
+            <div *ngIf="form?.get('email')?.invalid && form?.get('email')?.touched" class="error-text">
+              <div *ngIf="form?.get('email')?.errors['required']">Email is required.</div>
+              <div *ngIf="form?.get('email')?.errors['email']">Please enter a valid email address.</div>
+            </div>
           </nz-form-item>
           <nz-form-item>
             <nz-input-group nzPrefixIcon="message">
               <textarea rows="4" formControlName="message" nz-input placeholder="Message" required></textarea>
             </nz-input-group>
+            <div *ngIf="form?.get('message')?.invalid && form?.get('message')?.touched" class="error-text">
+              Message is required.
+            </div>
           </nz-form-item>
           <nz-form-item>
-            <swp-button (mousedown)="handleContactFormSubmit()" nzType="primary" content="Submit"></swp-button>
+            <swp-button [disabled]="form?.invalid" (mousedown)="handleContactFormSubmit()" nzType="primary" content="Submit"></swp-button>
           </nz-form-item>
         </form>
       </nz-col>

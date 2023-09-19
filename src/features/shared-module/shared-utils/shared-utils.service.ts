@@ -1,7 +1,7 @@
 import { HttpClient, HttpRequest } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { AuthService } from 'src/features/auth-module/auth-service.service';
-import { from, lastValueFrom, of } from 'rxjs';
+import { Observable, from, lastValueFrom, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { TicketStatus } from 'src/models/model';
@@ -50,10 +50,10 @@ export class SharedUtilsService {
 
 
   async createRequest(method: string, url: string, queryParams: any = {}, body: any = null, options: any = {}) {
-    const cognitoKey = await this.authService.getCurrentUserCognitoKey();
+    const cognitoKey = await this.authService?.getCurrentUserCognitoKey() || null;
     let headers = new HttpHeaders();
     if (cognitoKey) {
-      headers = new HttpHeaders().set('Authorization', `Bearer ${cognitoKey}`)
+      headers = new HttpHeaders().set('Authorization', `Bearer ${cognitoKey}`);
     }
     let fullUrl = url;
     // If there are any query params, append them to the URL
@@ -68,10 +68,12 @@ export class SharedUtilsService {
       headers,
       ...options
     });
+    console.log('req', req);
     return req;
   }
 
   executeRequest(request: HttpRequest<any>) {
+    console.log('executeRequest', request);
     return this.http.request(request)
       .pipe(
         map(
@@ -103,8 +105,8 @@ export class SharedUtilsService {
     }
   }
 
-  async sendEmail(options: EmailOptions, emailType: string) {
-    const request = await this.createRequest(
+  sendEmail(options: EmailOptions, emailType: string): Observable<any> {
+    return from(this.createRequest(
       'POST',
       `https://8h3vwutdq2.execute-api.us-east-1.amazonaws.com/staging/core/utils/email/send-email`,
       {},
@@ -115,8 +117,9 @@ export class SharedUtilsService {
       {
         withCredentials: false
       }
-    )
-    return this.executeRequest(request);
+    )).pipe(
+      switchMap(request => this.executeRequest(request))
+    );
   }
 }
 

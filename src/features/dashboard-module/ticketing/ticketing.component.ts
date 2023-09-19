@@ -223,28 +223,28 @@ export class TicketingComponent implements OnInit, OnDestroy {
   initForm() {
     this.forms = new FormGroup({
       step1: new FormGroup({
-        plan: new FormControl(''),
+        plan: new FormControl('', [Validators.required]),
       }),
       step2: new FormGroup({
-        insurance: new FormControl(''),
-        vin: new FormControl(''),
-        make: new FormControl(''),
-        year: new FormControl(''),
-        model: new FormControl(''),
-        mileage: new FormControl('')
+        insurance: new FormControl('', [Validators.required]),
+        vin: new FormControl('', [Validators.required]),
+        make: new FormControl('', [Validators.required]),
+        year: new FormControl('', [Validators.required]),
+        model: new FormControl('', [Validators.required]),
+        mileage: new FormControl('', [Validators.required])
 
       }),
       step4: new FormGroup({
-        damage: new FormControl(''),
+        damage: new FormControl('', [Validators.required]),
       }),
       step3: new FormGroup({
-        imageUpload: new FormControl(''),
+        imageUpload: new FormControl('', [Validators.required]),
       }),
       step5: new FormGroup({
         btn: new FormControl(''),
       }),
       step6: new FormGroup({
-        paymentSuccess: new FormControl(''),
+        paymentSuccess: new FormControl('', [Validators.required]),
       })
     });
   }

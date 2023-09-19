@@ -15,7 +15,7 @@ export class ContactComponent implements OnInit {
     private router: Router,
     private utilService: SharedUtilsService,
     private messageService: NzMessageService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -28,26 +28,29 @@ export class ContactComponent implements OnInit {
   private initForm() {
     this.form = new FormGroup({
       name: new FormControl(null, Validators.required),
-      email: new FormControl(null, Validators.required),
+      email: new FormControl(null, [Validators.required, Validators.email]),
       message: new FormControl(null, Validators.required),
     });
   }
 
-
-  async handleContactFormSubmit() {
-    const { name, email, message } = this.form.value;
-    const options: EmailOptions = {
-      name,
-      email,
-      message
+  handleContactFormSubmit() {
+    if (this.form.valid) {
+      const { name, email, message } = this.form.value;
+      const options: EmailOptions = {
+        name,
+        email,
+        message
+      }
+      const CONTACT_US_TEMPLATE_ID = 'contact-us';
+      this.utilService.sendEmail(options, CONTACT_US_TEMPLATE_ID).subscribe({
+        next: (res) => {
+          this.messageService.success('Message sent successfully');
+          this.form.reset();
+        },
+        error: (err) => {
+          this.messageService.error('Error sending message', err);
+        }
+      });
     }
-    const CONTACT_US_TEMPLATE_ID = 'contact-us';
-    return await this.utilService.sendEmail(options, CONTACT_US_TEMPLATE_ID).then((res) => {
-      this.messageService.success('Message sent successfully');
-      this.form.reset();
-    },
-    (err) => {
-      this.messageService.error('Error sending message', err);
-    });
   }
 }

@@ -43,28 +43,17 @@
                   formControlName="plan"
                   class="plan-group"
                 >
-                  <nz-row nzJustify="center" nzAlign="middle">
-                      <label nz-radio [nzValue]="plans[0]" class="plan-option">
-                        <img
-                        [src]="plans[0].image"
-                        class="plan-image"
-                        />
+                  <div onclick="" class="plan-card" *ngFor="let plan of plans">
+                    <nz-row class="plan-row" nzJustify="center" nzAlign="middle">
+                      <label nz-radio [nzValue]="plan" class="plan-option">
+                        <div class="plan-header">{{ plan.name }}</div>
+                        <img [src]="plan.image" class="plan-image" />
                         <div class="plan-description">
-                          {{ plans[0].description }}
+                          {{ plan.description }}
                         </div>
                       </label>
-                      </nz-row>
-                      <nz-row nzJustify="center" nzAlign="middle">
-                      <label nz-radio [nzValue]="plans[1]" class="plan-option">
-                        <img
-                          [src]="plans[1].image"
-                          class="plan-image"
-                        />
-                        <div class="plan-description">
-                          {{ plans[1].description }}
-                        </div>
-                      </label>
-                      </nz-row>
+                    </nz-row>
+                  </div>
                 </nz-radio-group>
               </nz-form-item>
             </div>
@@ -81,18 +70,21 @@
               </div>
               <div class="form-wrapper">
                 <div class="form-inner">
-
                   <nz-form-item>
                     <nz-form-control>
                       <p>Please Select Your Insurance From The List</p>
-                      <input nz-input
+                      <input
+                        nz-input
                         placeholder="eg: State Farm"
                         formControlName="insurance"
                         type="text"
                         [nzAutocomplete]="auto"
-
                       />
-                    <nz-autocomplete [nzDataSource]="insuranceList" nzBackfill #auto></nz-autocomplete>
+                      <nz-autocomplete
+                        [nzDataSource]="insuranceList"
+                        nzBackfill
+                        #auto
+                      ></nz-autocomplete>
                       <!-- <nz-form-explain *ngIf="forms.get('step2.address').invalid && forms.get('step2.address').touched">
                                           Please enter a valid address.
                                       </nz-form-explain> -->
@@ -120,7 +112,8 @@
                   <nz-form-item>
                     <nz-form-control>
                       <p>Please Enter The Vehicle Mileage</p>
-                      <input nz-input
+                      <input
+                        nz-input
                         [(ngModel)]="vehicleMileage"
                         (input)="numberFormatter(vehicleMileage)"
                         placeholder="eg: 100,000"
@@ -188,7 +181,10 @@
               <div class="step-content-header">
                 <span>Vehicle Details</span>
                 <h1>Upload Documents</h1>
-                <h4>Please attach relevant images of the damage as well as the original estimate to be supplemented if applicable.</h4>
+                <h4>
+                  Please attach relevant images of the damage as well as the
+                  original estimate to be supplemented if applicable.
+                </h4>
               </div>
               <div class="form-wrapper">
                 <div class="form-inner">
@@ -210,10 +206,18 @@
                         </p>
                         <p class="ant-upload-text">
                           Click or drag file to this area to upload
-                          <span class="info-icon" nz-tooltip [nzTooltipTitle]="fileTypeTooltip" [inlineSVG]="'../../../assets/images/info-icon.svg'"></span>
+                          <span
+                            class="info-icon"
+                            nz-tooltip
+                            [nzTooltipTitle]="fileTypeTooltip"
+                            [inlineSVG]="'../../../assets/images/info-icon.svg'"
+                          ></span>
                         </p>
                         <p class="ant-upload-hint">
-                          Support for a single or bulk upload. <br/><span class="max-upload-text">Maximum Upload Size: 5MB</span>
+                          Support for a single or bulk upload. <br /><span
+                            class="max-upload-text"
+                            >Maximum Upload Size: 5MB</span
+                          >
                         </p>
                       </nz-upload>
                     </nz-form-control>
@@ -278,7 +282,7 @@
                       <div *ngIf="panel.id === 1">
                         <nz-card
                           [nzTitle]="formValues.step1.plan.name"
-                          [nzExtra]=" '$' + formValues?.step1?.plan?.cost"
+                          [nzExtra]="'$' + formValues?.step1?.plan?.cost"
                         >
                           <p>{{ formValues?.step1?.plan?.description }}</p>
                         </nz-card>
@@ -313,9 +317,16 @@
                       </div>
                     </nz-collapse-panel>
                   </nz-collapse>
-                  <div style="margin-top:3rem;">
-                    <span>Want to add another vehicle to your order?</span><br>
-                    <button style="padding-top:5px;" nz-button (click)="addAdditionalVehicle()">Add Vehicle</button>
+                  <div style="margin-top: 3rem">
+                    <span>Want to add another vehicle to your order?</span
+                    ><br />
+                    <button
+                      style="padding-top: 5px"
+                      nz-button
+                      (click)="addAdditionalVehicle()"
+                    >
+                      Add Vehicle
+                    </button>
                   </div>
                 </div>
               </div>
@@ -350,12 +361,12 @@
                 <div class="form-inner">
                   <div *ngIf="paymentSuccess" class="success-icon">
                     <span
-                    class="success-circle"
-                    nz-icon
-                    [nzType]="'check-circle'"
-                    [nzTheme]="'twotone'"
-                    [nzTwotoneColor]="'#52c41a'"
-                  ></span>
+                      class="success-circle"
+                      nz-icon
+                      [nzType]="'check-circle'"
+                      [nzTheme]="'twotone'"
+                      [nzTwotoneColor]="'#52c41a'"
+                    ></span>
                   </div>
                   <app-spinner
                     name="payment-spinner"

@@ -91,48 +91,61 @@
   }
 }
 
-.plan-option {
-  height: 12rem;
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  border: 1px solid #ccc;
-  margin: 10px;
-  cursor: pointer;
+.plan-group {
   width: 100%;
-  padding: 0.5rem;
-  flex-wrap: nowrap;
-  align-content: center;
-  justify-content: center;
-  align-items: center;
+  margin-top: 0.25rem;
 
-  ::ng-deep span.ant-radio + * {
-    display: flex;
-    padding: 0;
-    align-items: center;
+  ::ng-deep span.ant-radio {
+    display: none;
   }
 }
 
-.plan-option-row {
+.plan-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+  margin-bottom: 15px;
+
+  &:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+  }
+}
+
+::ng-deep {
+  nz-row.plan-row:has(.ant-radio-wrapper-checked) {
+    outline: #1890ff 2px solid !important;
+    border-radius: 8px;
+  }
+}
+
+.plan-option {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  cursor: pointer;
+  border-radius: 8px;
+
+  & .plan-header {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+
+  & .plan-image {
+    height: 5vh;
+    margin-bottom: 8px;
+  }
+
+  & .plan-description {
+    text-align: center;
+  }
 }
 
-.plan-image {
-  height: 8vh;
-  padding: 0.25rem;
-  display: flex;
-  flex-direction: row;
-}
-
-.plan-description {
-  padding: 0.5rem;
-  text-align: left;
-}
-
-::ng-deep .ant-radio-wrapper-checked {
-  border: 1px solid rgba(0, 0, 255, 0.558) !important;
+::ng-deep .ant-radio-wrapper-checked .plan-option {
+  border-color: rgba(0, 0, 255, 0.558) !important;
 }
 
 ::ng-deep .ant-progress-line {

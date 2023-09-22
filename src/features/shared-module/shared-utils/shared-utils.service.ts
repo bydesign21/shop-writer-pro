@@ -19,7 +19,7 @@ export class SharedUtilsService {
     const request = await this
       .createRequest(
         'GET',
-        `https://8h3vwutdq2.execute-api.us-east-1.amazonaws.com/staging/core/utils/vin-decoder/vehicles`,
+        `https://mcbwuxn2ri.execute-api.us-east-1.amazonaws.com/staging/core/utils/vin-decoder/vehicles`,
         {
           'vin': vin
         },
@@ -35,7 +35,7 @@ export class SharedUtilsService {
     return from(
       this.createRequest(
         'GET',
-        `https://8h3vwutdq2.execute-api.us-east-1.amazonaws.com/staging/core/query/users/profile`,
+        `https://mcbwuxn2ri.execute-api.us-east-1.amazonaws.com/staging/core/query/users/profile`,
         { userId },
         null,
         {
@@ -108,7 +108,7 @@ export class SharedUtilsService {
   sendEmail(options: EmailOptions, emailType: string): Observable<any> {
     return from(this.createRequest(
       'POST',
-      `https://8h3vwutdq2.execute-api.us-east-1.amazonaws.com/staging/core/utils/email/send-email`,
+      `https://mcbwuxn2ri.execute-api.us-east-1.amazonaws.com/staging/core/utils/email/send-email`,
       {},
       {
         options,

@@ -3,24 +3,31 @@
 
 const awsmobile = {
   "aws_project_region": "us-east-1",
-  "aws_cognito_identity_pool_id": "us-east-1:aeffe68a-6c57-404b-8777-e6dd01b55bc7",
+  "aws_cloud_logic_custom": [
+      {
+          "name": "coreAPI",
+          "endpoint": "https://mcbwuxn2ri.execute-api.us-east-1.amazonaws.com/staging",
+          "region": "us-east-1"
+      }
+  ],
+  "aws_cognito_identity_pool_id": "us-east-1:78eba615-820c-4b9b-ab65-24e2e9734127",
   "aws_cognito_region": "us-east-1",
-  "aws_user_pools_id": "us-east-1_PkXvHo7aE",
-  "aws_user_pools_web_client_id": "2ti5l5vgkp7s3669p632fssrnq",
+  "aws_user_pools_id": "us-east-1_9y4DrDyvq",
+  "aws_user_pools_web_client_id": "4h05tm03ocdfrfduk3mc8a4bq4",
   "oauth": {},
   "aws_cognito_username_attributes": [
       "EMAIL"
   ],
   "aws_cognito_social_providers": [],
   "aws_cognito_signup_attributes": [
-      "ADDRESS",
       "EMAIL",
       "NAME",
-      "PHONE_NUMBER"
+      "PHONE_NUMBER",
+      "ADDRESS"
   ],
-  "aws_cognito_mfa_configuration": "OPTIONAL",
+  "aws_cognito_mfa_configuration": "OFF",
   "aws_cognito_mfa_types": [
-      "TOTP"
+      "SMS"
   ],
   "aws_cognito_password_protection_settings": {
       "passwordPolicyMinLength": 8,
@@ -36,13 +43,8 @@ const awsmobile = {
           "region": "us-east-1"
       }
   ],
-  "aws_cloud_logic_custom": [
-      {
-          "name": "coreAPI",
-          "endpoint": "https://8h3vwutdq2.execute-api.us-east-1.amazonaws.com/staging",
-          "region": "us-east-1"
-      }
-  ]
+  "aws_user_files_s3_bucket": "shopwriterpros3204800-staging",
+  "aws_user_files_s3_bucket_region": "us-east-1"
 };
 
 

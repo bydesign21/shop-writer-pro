@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { take } from 'rxjs';
 import { EmailOptions, SharedUtilsService } from 'src/features/shared-module/shared-utils/shared-utils.service';
 
 @Component({
@@ -42,15 +43,17 @@ export class ContactComponent implements OnInit {
         message
       }
       const CONTACT_US_TEMPLATE_ID = 'contact-us';
-      this.utilService.sendEmail(options, CONTACT_US_TEMPLATE_ID).subscribe({
-        next: (res) => {
-          this.messageService.success('Message sent successfully');
-          this.form.reset();
-        },
-        error: (err) => {
-          this.messageService.error('Error sending message', err);
-        }
-      });
+      this.utilService.sendEmail(options, CONTACT_US_TEMPLATE_ID)
+        .pipe(take(1))
+        .subscribe({
+          next: (res) => {
+            this.messageService.success('Message sent successfully');
+            this.form.reset();
+          },
+          error: (err) => {
+            this.messageService.error('Error sending message', err);
+          }
+        });
     }
   }
 }

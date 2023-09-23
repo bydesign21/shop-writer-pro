@@ -1,8 +1,8 @@
-import { HttpClient, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpResponse } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { AuthService } from 'src/features/auth-module/auth-service.service';
-import { Observable, from, lastValueFrom, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Observable, from, lastValueFrom, of, throwError } from 'rxjs';
+import { catchError, filter, map, switchMap, take } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { TicketStatus } from 'src/models/model';
 @Injectable({
@@ -77,16 +77,10 @@ export class SharedUtilsService {
     console.log('executeRequest', request);
     return this.http.request(request)
       .pipe(
-        map(
-          (res: any) => {
-            // Check if the response is an object that has a body property
-            if (typeof res === 'object' && res.body !== undefined) {
-              return res.body;
-            }
-            // Otherwise, return the response as is
-            return res;
-          }
-        ));
+        filter(event => event instanceof HttpResponse),
+        map((res: HttpResponse<any>) => res.body)
+      );
+
   }
 
   getTicketStatusPillColor(status: TicketStatus) {
@@ -119,8 +113,11 @@ export class SharedUtilsService {
         withCredentials: false
       }
     )).pipe(
-      switchMap(request => this.executeRequest(request))
-    );
+      switchMap(request => this.executeRequest(request)),
+      catchError(error => {
+        console.error("Error in sendEmail:", error);
+        return throwError(error);
+      }));
   }
 }
 

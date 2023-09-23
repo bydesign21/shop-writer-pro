@@ -5,6 +5,7 @@ import { AuthGuard } from './auth.guard';
 import { ConfirmAccountComponent } from './confirm-account/confirm-account.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,10 @@ const routes: Routes = [
       {
         path: 'login',
         component: SignInComponent,
+      },
+      {
+        path: 'login/forgot-password',
+        component: ForgotPasswordComponent,
       },
       {
         path: 'login/confirm-account',

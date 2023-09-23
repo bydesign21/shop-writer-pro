@@ -84,6 +84,22 @@ export class AuthService {
     }
   }
 
+  public handleForgotPassword(username: string) {
+    try {
+      return from(Auth.forgotPassword(username));
+    } catch (error) {
+      return null;
+    }
+  }
+
+  public forgotPasswordSubmit(username: string, code: string, newPassword: string) {
+    try {
+      return from(Auth.forgotPasswordSubmit(username, code, newPassword));
+    } catch (error) {
+      return null;
+    }
+  }
+
   public handleResendCode(username: string) {
     try {
       return from(Auth.resendSignUp(username));

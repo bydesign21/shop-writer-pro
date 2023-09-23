@@ -15,8 +15,8 @@ export class SharedUtilsService {
     private authService: AuthService,
   ) { }
 
-  async getVehichleByVin(vin: string): Promise<any> {
-    const request = await this
+  getVehichleByVin(vin: string): Observable<any> {
+    return from(this
       .createRequest(
         'GET',
         `https://mcbwuxn2ri.execute-api.us-east-1.amazonaws.com/staging/core/utils/vin-decoder/vehicles`,
@@ -27,8 +27,9 @@ export class SharedUtilsService {
         {
           withCredentials: false
         }
+      )).pipe(
+        switchMap(request => this.executeRequest(request))
       )
-    return await this.executeRequest(request);
   }
 
   getUserProfileData(userId: string) {

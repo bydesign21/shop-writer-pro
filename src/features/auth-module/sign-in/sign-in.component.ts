@@ -118,6 +118,10 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.router.navigate(['confirm-account'], { queryParams: { userId: this.loggedUsername.trim().toLowerCase() }, relativeTo: this.activatedRoute });
   }
 
+  handleForgotPassword() {
+    this.router.navigate(['forgot-password'], { relativeTo: this.activatedRoute });
+  }
+
   handleLoginFail() {
     console.log('Login Failed IDK')
   }

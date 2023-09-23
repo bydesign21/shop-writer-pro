@@ -13,6 +13,7 @@ import { SharedUtilsService } from 'src/features/shared-module/shared-utils/shar
 import { insuranceList } from 'src/features/shared-module/shared-utils/shared.model';
 import { Ticket } from './store/ticket.model';
 import { environment } from '../../../environments/environment'
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'swp-ticketing',
@@ -122,7 +123,8 @@ export class TicketingComponent implements OnInit, OnDestroy {
     private sessionQuery: SessionQuery,
     private ticketService: TicketService,
     private decimalPipe: DecimalPipe,
-    private utilService: SharedUtilsService
+    private utilService: SharedUtilsService,
+    private modalService: NzModalService
   ) {
     this.stripe = loadStripe(environment.STRIPE_API);
     this.sessionQuery.email$
@@ -148,27 +150,18 @@ export class TicketingComponent implements OnInit, OnDestroy {
       debounceTime(500),
       filter(vin => vin.length > 4 && vin.length < 25),
       distinctUntilChanged(),
-      switchMap(vin => from(this.utilService.getVehichleByVin(vin))
-        .pipe(
-          takeUntil(this.destroy$),
-          catchError(() => {
-            this.messageService.error('Please enter a valid VIN');
-            this.vinSubject$.next('');
-            return of(null);
-          })
-        ))
+      switchMap((vin: string) => this.utilService.getVehichleByVin(vin))
     )
       .subscribe((res: any) => {
-        if (res) {
-          const { year, make, model } = res;
-          if (year && make && model) {
-            this.forms.get('step2').get('year').patchValue(year);
-            this.forms.get('step2').get('make').patchValue(make);
-            this.forms.get('step2').get('model').patchValue(model);
-          } else {
-            this.messageService.error('Please enter a valid VIN');
-            this.vinSubject$.next('');
-          }
+        const { year, make, model } = res;
+        if (year && make && model) {
+          this.messageService.success('VIN Successfully Validated');
+          this.forms.get('step2').get('year').patchValue(year);
+          this.forms.get('step2').get('make').patchValue(make);
+          this.forms.get('step2').get('model').patchValue(model);
+        } else if (res.make === null || res.model === null || res.year === null) {
+          this.messageService.error('Please enter a valid VIN');
+          this.vinSubject$.next('');
         }
       });
   }
@@ -372,5 +365,9 @@ export class TicketingComponent implements OnInit, OnDestroy {
       orderTotal = orderTotal + ticket.totalUSD
     });
     return orderTotal;
+  }
+
+  handleModalClose() {
+    this.modalService.closeAll();
   }
 }

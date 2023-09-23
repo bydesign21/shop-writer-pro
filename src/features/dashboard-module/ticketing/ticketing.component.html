@@ -352,7 +352,7 @@
                     <h1>Payment Successful</h1>
                     <h4>
                       Your order has been submitted. View recent orders in your
-                      <a [routerLink]="['/dashboard']">Dashboard</a>
+                      <a (click)="handleModalClose();">Dashboard</a>
                     </h4>
                   </div>
                 </ng-template>

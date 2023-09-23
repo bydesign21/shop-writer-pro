@@ -12,6 +12,7 @@ import {NzInputModule} from 'ng-zorro-antd/input'
 import { SignInModule } from './sign-in/sign-in.module';
 import { SignUpModule } from './sign-up/sign-up.module';
 import { ConfirmAccountModule } from './confirm-account/confirm-account.module';
+import { ForgotPasswordModule } from './forgot-password/forgot-password.module';
 
 Auth.configure(awsmobile);
 
@@ -30,7 +31,8 @@ Auth.configure(awsmobile);
     NzInputModule,
     SignInModule,
     SignUpModule,
-    ConfirmAccountModule
+    ConfirmAccountModule,
+    ForgotPasswordModule
   ],
   providers: [
     AuthenticatorService,

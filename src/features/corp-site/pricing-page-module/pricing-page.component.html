@@ -1,11 +1,13 @@
-<nz-layout style="height:fit-content;">
-  <nz-content>
-    <nz-row class="pricing-container">
+<nz-layout class="bg-gray-100 min-h-screen">
+  <nz-content class="max-w-5xl mx-auto p-8 md:p-6 sm:p-4 bg-white shadow-lg rounded-lg">
+    <nz-row>
+      <nz-col nzSpan="24" class="text-center mb-12">
+        <h1 class="text-4xl font-semibold text-gray-800">Pricing</h1>
+      </nz-col>
       <nz-col nzSpan="24">
-        <h1 style="text-align:center; margin-bottom:2rem">Pricing</h1>
         <swp-pricing-table></swp-pricing-table>
-        <swp-faq-viewer></swp-faq-viewer>
       </nz-col>
     </nz-row>
+    <swp-faq-viewer class="mt-12"></swp-faq-viewer>
   </nz-content>
 </nz-layout>

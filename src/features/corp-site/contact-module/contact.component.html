@@ -1,15 +1,19 @@
-<nz-layout style="height:100%">
-  <nz-content>
+<nz-layout class="flex flex-auto justify-center align-center min-h-screen">
+  <nz-content class="lg:px-12 lg:py-20 md:px-20 sm:px-4 mx-5">
     <nz-row class="contact-container">
-      <nz-col nzSpan="24" nzLg="10" class="contact-form">
-        <h1>Get in touch</h1>
-        <p>We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+      <nz-col class="mb-16 lg:mb-0" nzSpan="24" nzLg="10">
+        <h1 class="mb-6 text-2xl font-semibold">Get in touch</h1>
+        <p class="mb-8">We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
         <swp-contact-form #contactForm (formSubmit)="handleContactFormSubmit($event)"></swp-contact-form>
       </nz-col>
-      <nz-col class="contact-info-container" nzSpan="24" nzLg="12">
+      <nz-col class="lg:ml-20" nzSpan="24" nzLg="12">
         <swp-contact-info></swp-contact-info>
       </nz-col>
     </nz-row>
-    <swp-faq-viewer></swp-faq-viewer>
+    <nz-row>
+      <nz-col class="mb-10" nzSpan="24">
+        <swp-faq-viewer></swp-faq-viewer>
+      </nz-col>
+    </nz-row>
   </nz-content>
 </nz-layout>

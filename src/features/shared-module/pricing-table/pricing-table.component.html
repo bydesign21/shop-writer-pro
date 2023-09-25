@@ -1,28 +1,19 @@
-<!-- <nz-row [nzJustify]="justify">
-  <nz-col nzXs="24" nzSm="12" nzMd="6" *ngFor="let plan of plans">
-    <nz-card [nzHoverable]="true" [nzBordered]="false" [nzBodyStyle]="{ padding: '20px' }" [nzCover]="null">
-      <div class="plan-title">{{ plan.name }}</div>
-      <div class="plan-price">${{ plan.price }}<span class="plan-duration">/month</span></div>
-      <ul class="plan-features">
-        <li *ngFor="let feature of plan.features">{{ feature }}</li>
-      </ul>
-      <button nz-button [nzType]="'primary'">Sign up</button>
-    </nz-card>
-  </nz-col>
-</nz-row> -->
-
-
-<nz-row nzGutter="16" class="pricing-table" nzJustify="space-around">
-  <nz-col nzXs="24" nzSm="12" nzMd="8" nzLg="6" *ngFor="let plan of plans">
-    <nz-card nzHoverable>
+<nz-row nzGutter="16" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 p-4">
+  <nz-col *ngFor="let plan of plans" class="flex justify-center">
+    <nz-card nzHoverable class="w-full max-w-sm transition-transform transform hover:-translate-y-2 rounded-lg overflow-hidden shadow-lg mb-5">
       <nz-card-meta
         [nzTitle]="plan.name"
-        [nzDescription]="plan.description">
+        [nzDescription]="plan.description" class="text-center text-lg font-semibold mb-4">
       </nz-card-meta>
-      <p class="plan-price">${{ plan.price }}</p>
-      <ul>
-        <li *ngFor="let feature of plan.features">{{ feature }}</li>
+      <p class="plan-price text-4xl font-bold my-4 text-center text-gray-700">${{ plan.price }}</p>
+      <ul class="plan-features list-decimal list-inside px-4">
+        <li *ngFor="let feature of plan.features" class="mb-2 text-gray-600">{{ feature }}</li>
       </ul>
+      <div class="px-4 pb-4">
+        <!-- <button class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 focus:outline-none focus:bg-blue-700">
+          Choose Plan
+        </button> -->
+      </div>
     </nz-card>
   </nz-col>
 </nz-row>

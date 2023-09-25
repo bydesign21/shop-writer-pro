@@ -7,7 +7,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CardComponent {
-  @Input() title = 'Hello';
+  @Input() title = '';
   @Input() photo = '';
   @Input() description = '';
 }

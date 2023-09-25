@@ -47,9 +47,9 @@
   <nz-form-item>
     <swp-button
       style="max-width: fit-content"
-      [disabled]="form?.invalid && !form?.dirty"
+      [disabled]="form?.invalid"
       (mousedown)="handleFormSubmit()"
-      nzType="primary"
+      nzType="dashed"
       content="Submit"
     ></swp-button>
   </nz-form-item>

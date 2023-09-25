@@ -1,15 +1,16 @@
 <nz-layout>
-  <nz-header>
-    <div nz-col [nzSpan]="6" class="left">
-      <img [routerLink]="'home'" class="logo" src="../../../assets/images/logo.png" />
-      <div (click)="isMenuVisible = !isMenuVisible" class="__menu-button">
-        <span
-          nz-icon
-          nzType="menu"
-        ></span>
+  <nz-header class="header">
+    <div class="left">
+      <img
+        [routerLink]="'home'"
+        class="logo max-w-[200px]"
+        src="../../../assets/images/logo.png"
+      />
+      <div class="menu-button" (click)="isMenuVisible = !isMenuVisible">
+        <span nz-icon nzType="menu"></span>
       </div>
     </div>
-    <div nz-menu-group class="center" nz-col [nzSpan]="12">
+    <div class="center">
       <ul nz-menu [nzMode]="'horizontal'" [nzTheme]="'light'">
         <li nz-menu-item nzMatchRouter *ngFor="let item of displayedNavLinks">
           <a [routerLink]="item.path" routerLinkActive="active">{{
@@ -18,12 +19,7 @@
         </li>
       </ul>
     </div>
-    <div
-      nz-menu-group
-      class="right"
-      nz-col
-      [nzSpan]="6"
-    >
+    <div class="right">
       <swp-button
         [nzType]="'primary'"
         [routerLink]="['/auth/login']"
@@ -38,52 +34,57 @@
       ></swp-button>
     </div>
     <nz-drawer
-    (nzOnClose)="isMenuVisible = !isMenuVisible"
-    [nzVisible]="isMenuVisible"
-    nzPlacement="left"
-    [nzWidth]="'200px'"
-    [nzClosable]="true"
-  >
-    <ng-container *nzDrawerContent #navigationMenu>
-      <ul class="navigation-menu-list" nz-menu nzTheme="light" nzMode="inline">
-        <li nz-menu-item nzMatchRouter>
-          <a [routerLink]="['/home']" routerLinkActive="true">
-            <span nz-icon nzType="home"></span>
-            <span>Home</span>
-          </a>
-        </li>
-        <li nz-menu-item nzMatchRouter>
-          <a [routerLink]="['/about']" routerLinkActive="true">
-            <span nz-icon nzType="user"></span>
-            <span>About</span>
-          </a>
-        </li>
-        <li nz-menu-item nzMatchRouter>
-          <a [routerLink]="['/pricing']" routerLinkActive="true">
-            <span nz-icon nzType="barcode"></span>
-            <span>Pricing</span>
-          </a>
-        </li>
-        <li nz-menu-item nzMatchRouter>
-          <a [routerLink]="['/contact']" routerLinkActive="true">
-            <span nz-icon nzType="unordered-list"></span>
-            <span>Contact</span>
-          </a>
-        </li>
-        <li nz-menu-item nzMatchRouter>
-          <a [routerLink]="['/auth/login']"  routerLinkActive="true">
-            <span nz-icon nzType="poweroff"></span>
-            <span>Login</span>
-          </a>
-        </li>
-        <li nz-menu-item nzMatchRouter>
-          <a [routerLink]="['/auth/sign-up']"  routerLinkActive="true">
-            <span nz-icon nzType="poweroff"></span>
-            <span>Register</span>
-          </a>
-        </li>
-      </ul>
-    </ng-container>
-  </nz-drawer>
+      (nzOnClose)="isMenuVisible = !isMenuVisible"
+      [nzVisible]="isMenuVisible"
+      nzPlacement="left"
+      [nzWidth]="'200px'"
+      [nzClosable]="true"
+    >
+      <ng-container *nzDrawerContent #navigationMenu>
+        <ul
+          class="navigation-menu-list"
+          nz-menu
+          nzTheme="light"
+          nzMode="inline"
+        >
+          <li nz-menu-item nzMatchRouter>
+            <a [routerLink]="['/home']" routerLinkActive="true">
+              <span nz-icon nzType="home"></span>
+              <span>Home</span>
+            </a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a [routerLink]="['/about']" routerLinkActive="true">
+              <span nz-icon nzType="user"></span>
+              <span>About</span>
+            </a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a [routerLink]="['/pricing']" routerLinkActive="true">
+              <span nz-icon nzType="barcode"></span>
+              <span>Pricing</span>
+            </a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a [routerLink]="['/contact']" routerLinkActive="true">
+              <span nz-icon nzType="unordered-list"></span>
+              <span>Contact</span>
+            </a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a [routerLink]="['/auth/login']" routerLinkActive="true">
+              <span nz-icon nzType="poweroff"></span>
+              <span>Login</span>
+            </a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a [routerLink]="['/auth/sign-up']" routerLinkActive="true">
+              <span nz-icon nzType="poweroff"></span>
+              <span>Register</span>
+            </a>
+          </li>
+        </ul>
+      </ng-container>
+    </nz-drawer>
   </nz-header>
 </nz-layout>

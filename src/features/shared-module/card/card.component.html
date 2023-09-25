@@ -1,4 +1,9 @@
-<nz-card [nzTitle]="title" [nzBorderless]="false" class="card-center">
-  <img [src]="photo" [alt]="title" class="card-image" /> 
- <nz-card-meta [nzDescription]="description"></nz-card-meta>
+<nz-card class="flex min-h-full flex-col items-center p-4">
+  <div class="flex flex-auto justify-center align-center flex-shrink-0">
+    <img [src]="photo" [alt]="title" class="w-24 h-24 mb-4" />
+  </div>
+  <div class="text-center flex-grow">
+    <div class="text-xl font-semibold mb-2">{{ title }}</div>
+    <p class="text-base">{{ description }}</p>
+  </div>
 </nz-card>

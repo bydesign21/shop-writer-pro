@@ -1,4 +1,7 @@
-<div *ngIf="control?.invalid && control?.dirty" class="error-text">
+<div
+  *ngIf="control?.invalid && control?.dirty"
+  class="text-red-500 text-sm mt-1.5"
+>
   <div *ngFor="let errorKey of getErrorKeys()">
     <div *ngIf="control?.errors[errorKey]">{{ errorMessages[errorKey] }}</div>
   </div>

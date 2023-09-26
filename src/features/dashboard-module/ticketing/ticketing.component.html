@@ -318,7 +318,7 @@
                 <div class="mt-12">
                   <span>Want to add another vehicle to your order?</span><br />
                   <button
-                    class="py-2"
+                    class="my-2"
                     nz-button
                     (click)="addAdditionalVehicle()"
                   >
@@ -334,7 +334,10 @@
               formGroupName="step6"
               *ngIf="currentStep === 6"
             >
-              <div class="slide-heading" *ngIf="!paymentSuccess; else paymentTemplate">
+              <div
+                class="slide-heading"
+                *ngIf="!paymentSuccess; else paymentTemplate"
+              >
                 <span>Payment</span>
                 <h1>Submit Order</h1>
                 <h4>Please proceed through checkout to submit your order.</h4>
@@ -376,14 +379,13 @@
                 >
                   <!-- Payment Form Elements -->
                   <div id="link-authentication-element"></div>
-                  <div id="payment-element"></div>
-                  <swp-button
-                    *ngIf="formLoaded$ | async"
-                    class="submit-payment__button max-h-[3rem]"
-                    id="submit"
-                    [content]="'Pay Now $' + calculateOrderTotal()"
-                    (click)="submitPayment()"
-                  ></swp-button>
+                  <div class="mb-5" id="payment-element"></div>
+                    <swp-button
+                      *ngIf="formLoaded$ | async"
+                      id="submit"
+                      [content]="'Pay Now $' + calculateOrderTotal()"
+                      (click)="submitPayment()"
+                    ></swp-button>
                   <nz-form-control class="hidden">
                     <nz-form-item>
                       <label

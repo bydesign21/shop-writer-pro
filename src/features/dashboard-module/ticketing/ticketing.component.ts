@@ -36,6 +36,7 @@ export class TicketingComponent implements OnInit, OnDestroy {
   elements: StripeElements;
   paymentSuccess = false;
   vehicleMileage: string;
+  selectedPlan: any;
   destroy$ = new Subject();
   insuranceList = insuranceList;
   ticketsInOrder: Partial<Ticket>[] = [];
@@ -143,6 +144,11 @@ export class TicketingComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.complete();
+  }
+
+  selectPlan(plan: any) {
+    this.selectedPlan = plan;
+    this.forms.get('step1').get('plan').setValue(plan);
   }
 
   handleVehicleDetailsAutoFill() {

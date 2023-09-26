@@ -31,13 +31,6 @@ export class AuthService {
     }));
   }
 
-  // public get currentSession$(): Observable<any> {
-  //   return this.loggedInUser$.pipe(
-  //     switchMap(user => iif(() => Boolean(user), from(Auth.currentSession()), of(false))),
-  //     catchError(_ => of(false))
-  //   );
-  // }
-
   constructor(
     private sessionService: SessionService
   ) {

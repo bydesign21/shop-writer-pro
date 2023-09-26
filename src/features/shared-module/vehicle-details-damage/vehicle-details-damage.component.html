@@ -1,0 +1,15 @@
+<div [formGroup]="additionalDetailsForm">
+  <nz-form-item>
+    <nz-form-control>
+      <p class="mb-2 text-gray-600">Please Describe The Vehicle's Damage</p>
+      <textarea
+        nz-input
+        formControlName="damage"
+        placeholder="Describe the damage to your vehicle. If applicable, please include any missing info from your previous estimate."
+        type="text"
+        rows="5"
+        class="w-full h-[40vh] p-2 border rounded shadow-sm"
+      ></textarea>
+    </nz-form-control>
+  </nz-form-item>
+</div>

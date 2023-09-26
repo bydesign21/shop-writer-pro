@@ -24,6 +24,12 @@ import { SharedUtilsService } from 'src/features/shared-module/shared-utils/shar
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { InlineSVGModule } from 'ng-inline-svg-2';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { PlanSelectorModule } from 'src/features/shared-module/plan-selector/plan-selector.module';
+import { VehicleDetailsModule } from 'src/features/shared-module/vehicle-details/vehicle-details.module';
+import { UploadDocumentsModule } from 'src/features/shared-module/upload-documents/upload-documents.module';
+import { VehicleDetailsDamageModule } from 'src/features/shared-module/vehicle-details-damage/vehicle-details-damage.module';
+import { ReviewOrderModule } from 'src/features/shared-module/review-order/review-order.module';
+import { PaymentModule } from 'src/features/shared-module/payment/payment.module';
 
 @NgModule({
   declarations: [
@@ -52,7 +58,13 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     NzIconModule,
     NzAutocompleteModule,
     InlineSVGModule,
-    NzToolTipModule
+    NzToolTipModule,
+    PlanSelectorModule,
+    VehicleDetailsModule,
+    UploadDocumentsModule,
+    VehicleDetailsDamageModule,
+    ReviewOrderModule,
+    PaymentModule
   ],
   exports: [TicketingComponent],
   providers: [SharedUtilsService]

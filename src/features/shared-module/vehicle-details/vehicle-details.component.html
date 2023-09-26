@@ -1,0 +1,82 @@
+<div class="w-full px-8" [formGroup]="vehicleDetailsForm">
+  <div>
+    <nz-form-item>
+      <nz-form-control>
+        <p>Please Select Your Insurance Company</p>
+        <input
+          nz-input
+          placeholder="eg: State Farm"
+          formControlName="insurance"
+          type="text"
+          [nzAutocomplete]="auto"
+          class="w-full"
+        />
+        <nz-autocomplete
+          [nzDataSource]="insuranceList"
+          nzBackfill
+          #auto
+        ></nz-autocomplete>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <p>Please Enter The Vehicle Identification Number (V.I.N)</p>
+        <input
+          nz-input
+          placeholder="eg: 2JK42JK57KFW9"
+          formControlName="vin"
+          type="text"
+          class="w-full"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <p>Please Enter The Vehicle Year</p>
+        <input
+          nz-input
+          placeholder="eg: 2001"
+          formControlName="year"
+          type="text"
+          class="w-full"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <p>Please Enter The Vehicle Make</p>
+        <input
+          nz-input
+          placeholder="eg: FORD"
+          formControlName="make"
+          type="text"
+          class="w-full"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <p>Please Enter The Vehicle Model</p>
+        <input
+          nz-input
+          placeholder="eg: MUSTANG"
+          formControlName="model"
+          type="text"
+          class="w-full"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <p>Please Enter The Vehicle Mileage</p>
+        <input
+          nz-input
+          placeholder="eg: 100,000"
+          formControlName="mileage"
+          type="text"
+          class="w-full"
+        />
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+</div>

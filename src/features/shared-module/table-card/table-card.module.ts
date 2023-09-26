@@ -6,6 +6,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { TableCardComponent } from './table-card.component'
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { TicketViewerModule } from '../ticket-viewer/ticket-viewer.module';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 
 
@@ -17,7 +18,8 @@ import { TicketViewerModule } from '../ticket-viewer/ticket-viewer.module';
     NzTagModule,
     NzSpinModule,
     TicketViewerModule,
-    NzTableModule
+    NzTableModule,
+    NzToolTipModule
   ],
   exports: [TableCardComponent]
 })

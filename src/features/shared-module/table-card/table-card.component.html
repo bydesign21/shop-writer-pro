@@ -1,13 +1,14 @@
+<!-- The first card -->
 <nz-card *ngIf="!assignmentTable" class="table-card" [nzTitle]="cardTitle">
-  <div class="table-responsive">
+  <div class="overflow-x-auto min-w-[100%]">
     <nz-spin
-      class="table-spinner"
+      class="flex justify-center items-center table-card__container"
       [nzSpinning]="isLoading$ | async"
       [nzIndicator]="loadingIndicatorRef"
     >
       <nz-table
         #filterTable
-        class="table-card__table"
+        class="min-w-full"
         [nzLoading]="isLoading$ | async"
         [nzLoadingIndicator]="loadingIndicatorRef"
         [nzPageIndex]="pageIndex"
@@ -19,23 +20,24 @@
       >
         <thead>
           <tr>
-            <th [nzColumnKey]="item?.key" [nzFilterFn]="item?.nzFilterFn" [nzFilters]="item?.nzFilters" [nzSortFn]="item?.sortFn" *ngFor="let item of tableHeadersDefault">{{ item.title }}</th>
+            <th [nzColumnKey]="item?.key" [nzFilterFn]="item?.nzFilterFn" [nzFilters]="item?.nzFilters" [nzSortFn]="item?.sortFn" *ngFor="let item of tableHeadersDefault" class="py-2 px-3 text-left">{{ item.title }}</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let item of filterTable?.data">
-            <td>{{ item.date | date : "MMM, dd. yyyy." }}</td>
-            <td>
+            <td class="py-2 px-3">{{ item.date | date : "MMM, dd. yyyy." }}</td>
+            <td class="py-2 px-3">
               <nz-tag
-                style="border-radius: 0.8rem"
+                class="rounded-full"
                 [nzColor]="getTicketStatusPillColor(item.status)"
-                >{{ item.status }}</nz-tag
               >
+                {{ item.status }}
+              </nz-tag>
             </td>
-            <td>{{ item.vin }}</td>
-            <td>{{ item.model }}</td>
-            <td>
-              <a (click)="viewTableRow(item)">View</a>
+            <td class="py-2 px-3">{{ item.vin }}</td>
+            <td class="py-2 px-3">{{ item.model }}</td>
+            <td class="py-2 px-3">
+              <a (click)="viewTableRow(item)" class="text-blue-500 hover:underline">View</a>
             </td>
           </tr>
         </tbody>
@@ -44,16 +46,18 @@
   </div>
 </nz-card>
 
+<!-- The second card -->
 <nz-card *ngIf="assignmentTable" class="table-card" [nzTitle]="cardTitle">
-  <div class="table-responsive">
+  <div class="overflow-x-auto">
+    <div>
     <nz-spin
-      class="table-spinner"
+      class="flex justify-center items-center table-card__container"
       [nzSpinning]="isLoading$ | async"
       [nzIndicator]="loadingIndicatorRef"
     >
       <nz-table
         #filterTable
-        class="table-card__table"
+        class="min-w-full"
         [nzLoading]="isLoading$ | async"
         [nzLoadingIndicator]="loadingIndicatorRef"
         [nzPageIndex]="pageIndex"
@@ -65,32 +69,39 @@
       >
         <thead>
           <tr>
-            <th [nzColumnKey]="item?.key" [nzFilterFn]="item?.nzFilterFn" [nzFilters]="item?.nzFilters" [nzSortFn]="item?.sortFn" *ngFor="let item of tableHeadersAdmin">{{ item.title }}</th>
+            <th [nzColumnKey]="item?.key" [nzFilterFn]="item?.nzFilterFn" [nzFilters]="item?.nzFilters" [nzSortFn]="item?.sortFn" *ngFor="let item of tableHeadersAdmin" class="py-2 px-3 text-left">{{ item.title }}</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let item of filterTable?.data">
-            <td>{{ item.date | date : "MMM, dd. yyyy." }}</td>
-            <td>
+            <td class="py-2 px-3">{{ item.date | date : "MMM, dd. yyyy." }}</td>
+            <td class="py-2 px-3">
               <nz-tag
-                style="border-radius: 0.8rem"
+                class="rounded-full"
                 [nzColor]="getTicketStatusPillColor(item.status)"
-                >{{ item?.ticket?.status }}</nz-tag
               >
+                {{ item?.ticket?.status }}
+              </nz-tag>
             </td>
-            <td>
+            <td class="py-2 px-3">
               <nz-tag
-              (click)="handleAssignedToClick(item.ticket.assignedTo)"
-              class="assignment_tag"
-              [nzColor]="'#00000073'"
-              >{{ item.ticket.assignedTo }}</nz-tag></td>
+                (click)="handleAssignedToClick(item.ticket.assignedTo)"
+                class="assignment_tag rounded-full text-white"
+                [nzColor]="'#00000073'"
+              >
+                {{ item.ticket.assignedTo }}
+              </nz-tag>
+            </td>
           </tr>
         </tbody>
       </nz-table>
     </nz-spin>
+    </div>
+
   </div>
 </nz-card>
 
+<!-- The modal template -->
 <ng-template #viewTicketModal>
   <swp-ticket-viewer
     (ticketUpdated)="handleUpdateTicket($event)"

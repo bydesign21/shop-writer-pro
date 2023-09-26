@@ -1,0 +1,48 @@
+<div>
+  <ng-container>
+    <ng-template #paymentTemplate>
+      <div>
+        <span>Payment</span>
+        <h1>Payment Successful</h1>
+        <h4>
+          Your order has been submitted. View recent orders in your
+          <a (click)="handleModalClose()">Dashboard</a>
+        </h4>
+      </div>
+    </ng-template>
+  </ng-container>
+  <div>
+    <div *ngIf="paymentSuccess" class="success-icon">
+      <span
+        class="success-circle"
+        nz-icon
+        [nzType]="'check-circle'"
+        [nzTheme]="'twotone'"
+        [nzTwotoneColor]="'#52c41a'"
+      ></span>
+    </div>
+    <app-spinner
+      name="payment-spinner"
+      [fullscreen]="false"
+      class="payment-spinner"
+    ></app-spinner>
+    <div
+      *ngIf="!paymentSuccess"
+      [ngClass]="{
+        loading: (formLoaded$ | async) === false,
+        loaded: (formLoaded$ | async)
+      }"
+      id="payment-form"
+    >
+      <!-- Payment Form Elements -->
+      <div id="link-authentication-element"></div>
+      <div class="mb-5" id="payment-element"></div>
+      <swp-button
+        *ngIf="formLoaded$ | async"
+        id="submit"
+        [content]="'Pay Now $' + calculateOrderTotal()"
+        (click)="submitPayment()"
+      ></swp-button>
+    </div>
+  </div>
+</div>

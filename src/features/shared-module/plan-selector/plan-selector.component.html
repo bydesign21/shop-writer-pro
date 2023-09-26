@@ -1,0 +1,14 @@
+<div
+  *ngFor="let plan of plans"
+  [ngClass]="{ selected: selectedPlan === plan }"
+  (click)="selectPlan(plan)"
+  class="option-card bg-white rounded shadow transition-all duration-300 mb-4 hover:shadow-lg hover:-translate-y-1 transform"
+>
+  <nz-row class="flex justify-center items-center">
+    <div class="flex flex-col items-center p-4 cursor-pointer rounded">
+      <div class="text-lg font-bold mb-2">{{ plan.name }}</div>
+      <img alt="Select Plan" [src]="plan.image" class="h-[5vh] mb-2" />
+      <div class="text-center">{{ plan.description }}</div>
+    </div>
+  </nz-row>
+</div>

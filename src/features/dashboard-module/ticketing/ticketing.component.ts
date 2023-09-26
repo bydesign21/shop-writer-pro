@@ -1,18 +1,11 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzUploadChangeParam, NzUploadFile, NzUploadXHRArgs } from 'ng-zorro-antd/upload';
-import { BehaviorSubject, catchError, debounceTime, distinctUntilChanged, filter, from, fromEvent, of, Subject, switchMap, take, takeUntil } from 'rxjs';
-import { loadStripe } from '@stripe/stripe-js/pure';
-import { PaymentIntentResult, Stripe, StripeElements } from '@stripe/stripe-js';
-import { SpinnerService } from 'src/features/shared-module/spinner/spinner.service';
+import { Subject, take, takeUntil } from 'rxjs';
 import { SessionQuery } from 'src/app/session-store/domain-state/session.query';
 import { TicketService } from './ticket.service';
 import { DecimalPipe } from '@angular/common';
-import { SharedUtilsService } from 'src/features/shared-module/shared-utils/shared-utils.service';
-import { insuranceList } from 'src/features/shared-module/shared-utils/shared.model';
 import { Ticket } from './store/ticket.model';
-import { environment } from '../../../environments/environment'
 import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
@@ -27,69 +20,13 @@ export class TicketingComponent implements OnInit, OnDestroy {
   forms: FormGroup = new FormGroup({});
   currentStep = 1;
   ticket: Ticket;
-  imageList = [];
-  selectedFiles = [];
-  stripe: Promise<Stripe>;
-  formLoaded$ = new BehaviorSubject<boolean>(false);
   formValues: any;
-  clientSecret: string;
-  elements: StripeElements;
   paymentSuccess = false;
-  vehicleMileage: string;
-  selectedPlan: any;
   destroy$ = new Subject();
-  insuranceList = insuranceList;
   ticketsInOrder: Partial<Ticket>[] = [];
-  private vinSubject$ = new Subject<string>();
 
 
   @Output() ticketSubmitted = new EventEmitter<boolean>(false);
-
-  panels = [
-    {
-      active: true,
-      name: 'Plan',
-      disabled: false,
-      id: 1
-    },
-    {
-      active: false,
-      disabled: false,
-      name: 'Vehicle Details',
-      id: 2
-    },
-    {
-      active: false,
-      disabled: false,
-      name: 'Damage Description',
-      id: 3
-    },
-    {
-      active: false,
-      disabled: false,
-      name: 'Uploaded Images',
-      id: 4
-    }
-  ];
-
-  plans = [
-    {
-      name: 'Standard Supplement',
-      id: 0,
-      description: 'Send us the insurance estimate, VIN, damage photos, and a brief description. We`ll review everything and provide an accurate supplement. After a final accuracy check, we`ll send it to you.',
-      image: '../../../assets/images/barcode-icon.png',
-      cost: 150
-
-    },
-    {
-      name: 'Standard Estimate',
-      id: 1,
-      description: 'Our estimators use the VIN, damage photos, and description to create an estimate for insurance negotiations. It undergoes a final accuracy review before being sent to you.',
-      image: '../../../assets/images/barcode-icon.png',
-      cost: 200
-
-    }
-  ];
 
   steps = [
     {
@@ -120,14 +57,10 @@ export class TicketingComponent implements OnInit, OnDestroy {
 
   constructor(
     private messageService: NzMessageService,
-    private spinner: SpinnerService,
     private sessionQuery: SessionQuery,
     private ticketService: TicketService,
-    private decimalPipe: DecimalPipe,
-    private utilService: SharedUtilsService,
     private modalService: NzModalService
   ) {
-    this.stripe = loadStripe(environment.STRIPE_API);
     this.sessionQuery.email$
       .pipe(
         take(1),
@@ -138,7 +71,6 @@ export class TicketingComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initForm();
-    this.handleVehicleDetailsAutoFill();
   }
 
   ngOnDestroy() {
@@ -146,44 +78,16 @@ export class TicketingComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  selectPlan(plan: any) {
-    this.selectedPlan = plan;
-    this.forms.get('step1').get('plan').setValue(plan);
-  }
-
-  handleVehicleDetailsAutoFill() {
-    this.vinSubject$.pipe(
-      debounceTime(500),
-      filter(vin => vin.length > 4 && vin.length < 25),
-      distinctUntilChanged(),
-      switchMap((vin: string) => this.utilService.getVehichleByVin(vin))
-    )
-      .subscribe((res: any) => {
-        const { year, make, model } = res;
-        if (year && make && model) {
-          this.messageService.success('VIN Successfully Validated');
-          this.forms.get('step2').get('year').patchValue(year);
-          this.forms.get('step2').get('make').patchValue(make);
-          this.forms.get('step2').get('model').patchValue(model);
-        } else if (res.make === null || res.model === null || res.year === null) {
-          this.messageService.error('Please enter a valid VIN');
-          this.vinSubject$.next('');
-        }
-      });
-  }
-
   nextStep() {
     this.currentStep++;
     this.getFormData();
     if (this.currentStep === 6) {
       this.addTicketToOrder();
-      this.getPaymentIntent();
     }
   }
 
   prevStep() {
     this.currentStep--;
-    this.formLoaded$.next(false);
   }
 
   onSubmit() {
@@ -193,30 +97,6 @@ export class TicketingComponent implements OnInit, OnDestroy {
   isStepValid(): boolean {
     const currentStepForm = this.forms.get(`step${this.currentStep}`);
     return currentStepForm ? currentStepForm.valid : false;
-  }
-
-  public customReq = (item: NzUploadXHRArgs) => {
-    return this.ticketService.uploadMedia(item).pipe(takeUntil(this.destroy$)).subscribe();
-  };
-
-  handleChange({ file, fileList }: NzUploadChangeParam): void {
-    const status = file.status;
-    this.selectedFiles = fileList;
-    if (status === 'done') {
-      this.imageList = [];
-      fileList.forEach(file => this.imageList.push(file.response.Location));
-      this.forms.get('step3').get('imageUpload').setValue(this.imageList);
-      this.messageService.success(`${file.name} file uploaded successfully.`);
-    } else if (status === 'error') {
-      this.messageService.error(`${file.name} file upload failed. File too large.`);
-    }
-  }
-
-  handleImageRemove = (file: NzUploadFile) => {
-    const removedFile = file?.response?.Location;
-    this.imageList = this.imageList?.filter(image => image !== removedFile);
-    this.forms.get('step3').get('imageUpload').setValue(this.imageList);
-    return true;
   }
 
   initForm() {
@@ -249,55 +129,8 @@ export class TicketingComponent implements OnInit, OnDestroy {
   }
 
   getFormData() {
+    console.log(this.forms.getRawValue(), 'formValTicketingComp');
     this.formValues = this.forms.getRawValue();
-  }
-
-  getPaymentIntent() {
-    this.spinner.show('payment-spinner')
-    this.ticketService.getPaymentIntent(this.ticketsInOrder).then((res) => {
-      this.clientSecret = res;
-      this.spinner.hide('payment-spinner');
-      this.handlePayment();
-      this.formLoaded$.next(true);
-    });
-  }
-
-  async handlePayment() {
-    const stripe = await this.stripe;
-    const options = {
-      clientSecret: this.clientSecret,
-      appearance: {},
-    };
-    this.elements = stripe.elements(options);
-    const paymentElement = this.elements.create('payment');
-    paymentElement.mount('#payment-element');
-  }
-
-  async submitPayment() {
-    this.spinner.show('payment-spinner');
-    this.formLoaded$.next(false);
-    const paymentResponse$ = from((await this.stripe).confirmPayment({
-      elements: this.elements,
-      redirect: 'if_required'
-    }));
-
-    paymentResponse$.pipe(takeUntil(this.destroy$)).subscribe(res => this.handlePaymentResponse(res));
-  }
-
-  handlePaymentResponse(response: PaymentIntentResult) {
-    if (response) {
-      this.spinner.hide('payment-spinner');
-      this.formLoaded$.next(true);
-    }
-    if (response.error) {
-      this.messageService.error(response.error.message);
-      this.paymentSuccess = false;
-      this.messageService.error('Payment Failed');
-    } else {
-      this.paymentSuccess = true;
-      this.messageService.success('Payment Successful');
-      this.submitTicket();
-    }
   }
 
   async submitTicket() {
@@ -329,22 +162,11 @@ export class TicketingComponent implements OnInit, OnDestroy {
     return mappedData;
   }
 
-  onVinKeydown(event: any) {
-    fromEvent(event.target, 'input')
-      .pipe(
-        take(1),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(() => {
-        this.vinSubject$.next(event.target.value);
-      });
-  }
+  // numberFormatter(value: string) {
+  //   this.vehicleMileage = this.decimalPipe.transform(value.replace(',', ''), '1.0-0');
+  // }
 
-  numberFormatter(value: string) {
-    this.vehicleMileage = this.decimalPipe.transform(value.replace(',', ''), '1.0-0');
-  }
-
-  addAdditionalVehicle() {
+  handleAddVehicle() {
     this.addTicketToOrder();
     this.resetFormsAndValues();
     this.messageService.success('New Vehicle Successfully Added To Order');
@@ -359,9 +181,6 @@ export class TicketingComponent implements OnInit, OnDestroy {
   resetFormsAndValues() {
     this.forms.reset();
     this.formValues = null;
-    this.vehicleMileage = '';
-    this.imageList = [];
-    this.selectedFiles = [];
     this.currentStep = 1;
   }
 
@@ -376,4 +195,26 @@ export class TicketingComponent implements OnInit, OnDestroy {
   handleModalClose() {
     this.modalService.closeAll();
   }
+
+  handlePlanSelected(plan: any) {
+    this.forms.get('step1').get('plan').setValue(plan);
+  }
+
+  handleVehicleDetails(details: any) {
+    this.forms.get('step2').patchValue(details);
+  }
+
+  handleFiles(files: string[]) {
+    this.forms.get('step3').patchValue({ imageUpload: files });
+  }
+
+  handleVehicleDetailsDamage(damage: string) {
+    this.forms.get('step4').patchValue({ damage });
+  }
+
+  handlePaymentStatusChange(status: boolean) {
+    this.forms.get('step6').patchValue({ paymentSuccess: status });
+
+  }
+
 }

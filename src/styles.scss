@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../node_modules/ng-zorro-antd/ng-zorro-antd.min.css";
-@import '~@aws-amplify/ui-angular/theme.css';
+@import "~@aws-amplify/ui-angular/theme.css";
 
 body,
 span,
@@ -21,6 +21,19 @@ body {
   overflow-x: hidden;
 }
 
+[type="button"],
+[type="reset"],
+[type="submit"],
+button {
+  background-color: inherit;
+}
+
+::ng-deep {
+  .ant-btn-primary {
+    background-color: rgb(69, 134, 239) !important;
+  }
+}
+
 input,
 textarea {
   width: 100%;
@@ -37,4 +50,3 @@ input:-internal-autofill-selected {
 textarea {
   min-height: 4rem;
 }
-

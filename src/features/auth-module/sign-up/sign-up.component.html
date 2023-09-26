@@ -1,156 +1,100 @@
-<div class="form">
-  <form nz-form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <nz-form-item>
-      <nz-form-control nzErrorTip="Please input your email!">
-        <nz-input-group nzPrefixIcon="mail">
-          <input
-            type="text"
-            formControlName="email"
-            nz-input
-            placeholder="Email"
-          />
-        </nz-input-group>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-control nzErrorTip="Please input your full name!">
-        <nz-input-group nzPrefixIcon="user">
-          <input
-            type="text"
-            formControlName="name"
-            nz-input
-            placeholder="Full Name"
-          />
-        </nz-input-group>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-control nzErrorTip="Please input address!">
-        <nz-input-group nzPrefixIcon="environment">
-          <input
-            ngx-google-places-autocomplete
-            id="address"
-            type="text"
-            formControlName="address"
-            nz-input
-            placeholder="Address"
-          />
-        </nz-input-group>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-control>
-        <nz-input-group nzPrefixIcon="global">
-          <input
-            id="company"
-            type="text"
-            formControlName="company"
-            nz-input
-            placeholder="Company"
-          />
-        </nz-input-group>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-control nzErrorTip="Please input phone number!">
-        <nz-input-group nzPrefixIcon="phone">
-          <input
-            type="tel"
-            formControlName="phoneNumber"
-            nz-input
-            placeholder="Phone Number"
-          />
-        </nz-input-group>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-control nzErrorTip="Please input your password!">
-        <nz-input-group nzPrefixIcon="lock">
-          <input
-            [type]="isPasswordVisible ? 'text' : 'password'"
-            formControlName="password"
-            nz-input
-            placeholder="Password"
-          />
-          <span
-            (mousedown)="handlePasswordViewClick()"
-            nz-icon
-            nzType="eye"
-            style="
-              font-size: 1.25rem;
-              position: relative;
-              display: flex;
-              align-items: center;
-            "
-          ></span>
-        </nz-input-group>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-control nzErrorTip="Please confirm your password!">
-        <nz-input-group nzPrefixIcon="lock">
-          <input
-            [type]="isPasswordConfirmVisible ? 'text' : 'password'"
-            formControlName="passwordConfirm"
-            nz-input
-            placeholder="Confirm Password"
-          />
-          <span
-            (mousedown)="handlePasswordViewClick(true)"
-            nz-icon
-            nzType="eye"
-            style="
-              font-size: 1.25rem;
-              position: relative;
-              display: flex;
-              align-items: center;
-            "
-          ></span>
-        </nz-input-group>
-      </nz-form-control>
-    </nz-form-item>
-    <div
-      nz-row
-      class="action-buttons"
-      nzJustify="space-between"
-      nzAlign="middle"
-    >
-      <div nz-col class="action-buttons-2" nzSpan="24">
-        <button
-          nz-button
-          class="login-form-button login-form-margin"
-          [nzType]="'primary'"
-          type="submit"
-        >
-          Sign Up
-        </button>
-      </div>
+<div class="bg-gray-100 p-8 rounded-lg max-w-md mx-auto mt-10">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-5">
+    <!-- Email -->
+    <div>
+      <label class="block text-sm font-semibold text-gray-600 mb-2" for="email">Email</label>
+      <input
+        type="text"
+        id="email"
+        formControlName="email"
+        placeholder="Enter your email"
+        class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-blue-500"
+      />
     </div>
-  </form>
-  <nz-col
-    style="
-      display: flex;
-      justify-content: center;
-      text-align: center;
-      margin-top: 5rem;
-    "
-    nzSpan="24"
-  >
-    <div style="display: flex; justify-content: center">
+    <!-- Full Name -->
+    <div>
+      <label class="block text-sm font-semibold text-gray-600 mb-2" for="name">Full Name</label>
+      <input
+        type="text"
+        id="name"
+        formControlName="name"
+        placeholder="Enter your full name"
+        class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-blue-500"
+      />
+    </div>
+    <!-- Address -->
+    <div>
+      <label class="block text-sm font-semibold text-gray-600 mb-2" for="address">Address</label>
+      <input
+        type="text"
+        id="address"
+        formControlName="address"
+        placeholder="Enter your address"
+        class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-blue-500"
+      />
+    </div>
+    <!-- Company -->
+    <div>
+      <label class="block text-sm font-semibold text-gray-600 mb-2" for="company">Company</label>
+      <input
+        type="text"
+        id="company"
+        formControlName="company"
+        placeholder="Enter your company name"
+        class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-blue-500"
+      />
+    </div>
+    <!-- Phone Number -->
+    <div>
+      <label class="block text-sm font-semibold text-gray-600 mb-2" for="phoneNumber">Phone Number</label>
+      <input
+        type="tel"
+        id="phoneNumber"
+        formControlName="phoneNumber"
+        placeholder="Enter your phone number"
+        class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-blue-500"
+      />
+    </div>
+    <!-- Password -->
+    <div class="relative">
+      <label class="block text-sm font-semibold text-gray-600 mb-2" for="password">Password</label>
+      <input
+        [type]="isPasswordVisible ? 'text' : 'password'"
+        id="password"
+        formControlName="password"
+        placeholder="Enter your password"
+        class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-blue-500"
+      />
       <span
-        style="
-          position: absolute;
-          bottom: 0;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          flex-direction: column;
-        "
-        >By Signing In, You Agree to The
-        <a (click)="handleTermsConditionsClicked()"
-          >Terms and Conditions</a
-        ></span
-      >
+        class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+        (click)="handlePasswordViewClick()">
+        <i nz-icon nzType="eye" class="text-gray-400 relative top-[0.8rem]"></i>
+      </span>
     </div>
-  </nz-col>
+    <!-- Confirm Password -->
+    <div class="relative">
+      <label class="block text-sm font-semibold text-gray-600 mb-2" for="passwordConfirm">Confirm Password</label>
+      <input
+        [type]="isPasswordConfirmVisible ? 'text' : 'password'"
+        id="passwordConfirm"
+        formControlName="passwordConfirm"
+        placeholder="Confirm your password"
+        class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-blue-500"
+      />
+      <span
+        class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+        (click)="handlePasswordViewClick(true)">
+        <i nz-icon nzType="eye" class="text-gray-400 relative top-[0.8rem]"></i>
+      </span>
+    </div>
+    <!-- Sign Up Button -->
+    <button
+      type="submit"
+      class="w-full bg-blue-500 text-white py-2 px-4 rounded-lg focus:ring-4 focus:ring-blue-300 focus:outline-none">
+      Sign Up
+    </button>
+  </form>
+  <div class="text-center mt-8 text-gray-600">
+    <p>By Signing In, You Agree to The <a (click)="handleTermsConditionsClicked()" class="text-blue-500">Terms and Conditions</a></p>
+  </div>
 </div>

@@ -1,14 +1,14 @@
-<nz-layout>
-  <nz-content class="authentication-container">
-    <nz-row class="authentication-wrapper" nzJustify="center" nzAlign="middle" nzGutter="5">
-      <nz-col class="authentication-modal" nzSpan="24">
-        <nz-row nzJustify="center" nzAlign="middle">
-          <nz-col class="authentication-modal" nzSpan="24">
-            <img class="logo" src="../../../assets/images/logo.png" />
-            <router-outlet>
-            </router-outlet>
+<nz-layout class="h-screen bg-gray-100 flex items-center justify-center">
+  <nz-content>
+    <nz-row class="flex items-center justify-center" nzGutter="5">
+      <nz-col class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+        <nz-row class="flex items-center justify-center mb-8">
+          <nz-col>
+            <img class="w-full max-w-sm mx-auto" src="../../../assets/images/logo.png" />
           </nz-col>
         </nz-row>
+        <router-outlet>
+        </router-outlet>
       </nz-col>
     </nz-row>
   </nz-content>

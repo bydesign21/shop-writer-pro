@@ -11,45 +11,82 @@
     class="shadow-lg"
   >
     <ng-container *nzDrawerContent>
-      <ul class="navigation-menu-list" nz-menu nzTheme="light" nzMode="inline">
-        <li nz-menu-item nzMatchRouter class="hover:bg-gray-100 p-2">
+      <ul
+        class="navigation-menu-list list-none p-0 text-gray-700"
+        nz-menu
+        nzTheme="light"
+        nzMode="inline"
+      >
+        <li
+          nz-menu-item
+          nzMatchRouter
+          class="hover:bg-gray-100 p-4 border-b border-gray-200 cursor-pointer"
+        >
           <a
             [routerLink]="'home'"
             routerLinkActive="true"
-            class="flex items-center text-gray-700"
+            class="flex items-center"
           >
-            <span nz-icon nzType="home" class="mr-2 relative bottom-[0.25rem]"></span>
-            <span>Home</span>
+            <span
+              nz-icon
+              nzType="home"
+              class="[&>*]:mr-3 [&>*]:mb-[0.5rem] [&>*]:text-lg"
+            ></span>
+            <span class="text-md">Home</span>
           </a>
         </li>
-        <li nz-menu-item nzMatchRouter class="hover:bg-gray-100 p-2">
+        <li
+          nz-menu-item
+          nzMatchRouter
+          class="hover:bg-gray-100 p-4 border-b border-gray-200 cursor-pointer"
+        >
           <a
             [routerLink]="'profile'"
             routerLinkActive="true"
-            class="flex items-center text-gray-700"
+            class="flex items-center"
           >
-            <span nz-icon nzType="user" class="mr-2 relative bottom-[0.25rem]"></span>
-            <span>Profile</span>
+            <span
+              nz-icon
+              nzType="user"
+              class="[&>*]:mr-3 [&>*]:mb-[0.5rem] [&>*]:text-lg"
+            ></span>
+            <span class="text-md">Profile</span>
           </a>
         </li>
-        <li nz-menu-item nzMatchRouter class="hover:bg-gray-100 p-2">
+        <li
+          nz-menu-item
+          nzMatchRouter
+          class="hover:bg-gray-100 p-4 border-b border-gray-200 cursor-pointer"
+        >
           <a
             [routerLink]="'transactions'"
             routerLinkActive="true"
-            class="flex items-center text-gray-700"
+            class="flex items-center"
           >
-            <span nz-icon nzType="unordered-list" class="mr-2 relative bottom-[0.25rem]"></span>
-            <span>Transactions</span>
+            <span
+              nz-icon
+              nzType="unordered-list"
+              class="[&>*]:mr-3 [&>*]:mb-[0.5rem] [&>*]:text-lg"
+            ></span>
+            <span class="text-md">Transactions</span>
           </a>
         </li>
-        <li nz-menu-item nzMatchRouter class="hover:bg-gray-100 p-2">
+        <li
+          nz-menu-item
+          nzMatchRouter
+          class="hover:bg-gray-100 p-4 cursor-pointer"
+        >
           <a
             (click)="handleSignOutClicked($event)"
             routerLinkActive="true"
-            class="flex items-center text-gray-700"
+            class="flex items-center"
           >
-            <span nz-icon nzType="poweroff" class="mr-2 relative bottom-[0.25rem]"></span>
-            <span>Logout</span>
+            <span
+              nz-icon
+              nzType="poweroff"
+              class="[&>*]:mr-3 [&>*]:mb-[0.5rem] [&>*]:text-lg"
+            ></span>
+            <span class="text-md">Logout</span>
           </a>
         </li>
       </ul>
@@ -75,12 +112,15 @@
             (click)="handleMenuButtonClicked()"
             class="text-gray-700 focus:outline-none focus:text-gray-900"
           >
-            <span nz-icon nzType="menu" class="[&>*]:text-2xl [&>*]:relative [&>*]:bottom-[0.25rem]"></span>
+            <span
+              nz-icon
+              nzType="menu"
+              class="[&>*]:text-2xl [&>*]:relative [&>*]:bottom-[0.25rem]"
+            ></span>
           </button>
         </div>
       </div>
     </nz-header>
-
 
     <nz-content class="p-4 sm:m-4">
       <div class="inner-content">

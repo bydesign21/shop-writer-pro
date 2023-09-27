@@ -34,53 +34,127 @@
       ></swp-button>
     </div>
     <nz-drawer
+      nzWrapClassName="dashboard-menu"
       (nzOnClose)="isMenuVisible = !isMenuVisible"
       [nzVisible]="isMenuVisible"
       nzPlacement="left"
-      [nzWidth]="'200px'"
+      [nzWidth]="'250px'"
       [nzClosable]="true"
+      class="shadow-lg"
     >
-      <ng-container *nzDrawerContent #navigationMenu>
+      <ng-container *nzDrawerContent>
         <ul
-          class="navigation-menu-list"
+          class="navigation-menu-list list-none p-0 text-gray-700"
           nz-menu
           nzTheme="light"
           nzMode="inline"
         >
-          <li nz-menu-item nzMatchRouter>
-            <a [routerLink]="['/home']" routerLinkActive="true">
-              <span nz-icon nzType="home"></span>
-              <span>Home</span>
+          <li
+            nz-menu-item
+            nzMatchRouter
+            class="hover:bg-gray-100 p-4 border-b border-gray-200 cursor-pointer"
+          >
+            <a
+              [routerLink]="['/home']"
+              routerLinkActive="true"
+              class="flex items-center"
+            >
+              <span
+                nz-icon
+                nzType="home"
+                class="[&>*]:mr-3 [&>*]:mb-[0.5rem] [&>*]:text-lg"
+              ></span>
+              <span class="text-md">Home</span>
             </a>
           </li>
-          <li nz-menu-item nzMatchRouter>
-            <a [routerLink]="['/about']" routerLinkActive="true">
-              <span nz-icon nzType="user"></span>
-              <span>About</span>
+          <li
+            nz-menu-item
+            nzMatchRouter
+            class="hover:bg-gray-100 p-4 border-b border-gray-200 cursor-pointer"
+          >
+            <a
+              [routerLink]="['/about']"
+              routerLinkActive="true"
+              class="flex items-center"
+            >
+              <span
+                nz-icon
+                nzType="user"
+                class="[&>*]:mr-3 [&>*]:mb-[0.5rem] [&>*]:text-lg"
+              ></span>
+              <span class="text-md">About</span>
             </a>
           </li>
-          <li nz-menu-item nzMatchRouter>
-            <a [routerLink]="['/pricing']" routerLinkActive="true">
-              <span nz-icon nzType="barcode"></span>
-              <span>Pricing</span>
+          <li
+            nz-menu-item
+            nzMatchRouter
+            class="hover:bg-gray-100 p-4 border-b border-gray-200 cursor-pointer"
+          >
+            <a
+              [routerLink]="['/pricing']"
+              routerLinkActive="true"
+              class="flex items-center"
+            >
+              <span
+                nz-icon
+                nzType="barcode"
+                class="[&>*]:mr-3 [&>*]:mb-[0.5rem] [&>*]:text-lg"
+              ></span>
+              <span class="text-md">Pricing</span>
             </a>
           </li>
-          <li nz-menu-item nzMatchRouter>
-            <a [routerLink]="['/contact']" routerLinkActive="true">
-              <span nz-icon nzType="unordered-list"></span>
-              <span>Contact</span>
+          <li
+            nz-menu-item
+            nzMatchRouter
+            class="hover:bg-gray-100 p-4 border-b border-gray-200 cursor-pointer"
+          >
+            <a
+              [routerLink]="['/contact']"
+              routerLinkActive="true"
+              class="flex items-center"
+            >
+              <span
+                nz-icon
+                nzType="unordered-list"
+                class="[&>*]:mr-3 [&>*]:mb-[0.5rem] [&>*]:text-lg"
+              ></span>
+              <span class="text-md">Contact</span>
             </a>
           </li>
-          <li nz-menu-item nzMatchRouter>
-            <a [routerLink]="['/auth/login']" routerLinkActive="true">
-              <span nz-icon nzType="poweroff"></span>
-              <span>Login</span>
+          <li
+            nz-menu-item
+            nzMatchRouter
+            class="hover:bg-gray-100 p-4 border-b border-gray-200 cursor-pointer"
+          >
+            <a
+              [routerLink]="['/auth/login']"
+              routerLinkActive="true"
+              class="flex items-center"
+            >
+              <span
+                nz-icon
+                nzType="poweroff"
+                class="[&>*]:mr-3 [&>*]:mb-[0.5rem] [&>*]:text-lg"
+              ></span>
+              <span class="text-md">Login</span>
             </a>
           </li>
-          <li nz-menu-item nzMatchRouter>
-            <a [routerLink]="['/auth/sign-up']" routerLinkActive="true">
-              <span nz-icon nzType="poweroff"></span>
-              <span>Register</span>
+          <li
+            nz-menu-item
+            nzMatchRouter
+            class="hover:bg-gray-100 p-4 cursor-pointer"
+          >
+            <a
+              [routerLink]="['/auth/sign-up']"
+              routerLinkActive="true"
+              class="flex items-center"
+            >
+              <span
+                nz-icon
+                nzType="poweroff"
+                class="[&>*]:mr-3 [&>*]:mb-[0.5rem] [&>*]:text-lg"
+              ></span>
+              <span class="text-md">Register</span>
             </a>
           </li>
         </ul>

@@ -1,8 +1,12 @@
-<h2 class="text-2xl font-semibold mb-4" *ngIf="userSession">Welcome, {{ userSession.name }}</h2>
+<h2 class="text-2xl font-semibold mb-4" *ngIf="userSession">
+  Welcome, {{ userSession.name }}
+</h2>
 <div class="dashboard-home bg-gray-100 p-4">
   <div class="grid grid-cols-1 lg:grid-cols-3 mb-4">
     <!-- Open Orders Section -->
-    <div class="col-span-2 bg-white p-4 mb-[1rem] rounded-lg shadow-lg min-h-[57dvh]">
+    <div
+      class="col-span-2 bg-white p-4 mb-[1rem] rounded-lg shadow-lg min-h-[57dvh]"
+    >
       <swp-table-card
         [rules]="userSession.role"
         [cardTitle]="
@@ -23,7 +27,7 @@
     </div>
 
     <!-- Action Controls Section -->
-    <div class="col-span-1 space-y-4">
+    <div class="sm:ml-4 col-span-1 space-y-4">
       <div class="action-controls space-y-4">
         <!-- Submit a Ticket Card -->
         <nz-card
@@ -31,9 +35,15 @@
           (click)="handleSubmitTicketClicked()"
           class="transition-transform transform hover:scale-105 bg-gray-200 hover:bg-gray-300 p-6 rounded-lg shadow-lg cursor-pointer flex flex-col items-center text-center"
         >
-          <h2 class="text-xl font-semibold mb-2 flex items-center justify-center">
+          <h2
+            class="text-xl font-semibold mb-2 flex items-center justify-center"
+          >
             Submit a Ticket
-            <span nz-icon nzType="plus" class="ml-2 text-2xl align-middle"></span>
+            <span
+              nz-icon
+              nzType="plus"
+              class="ml-2 text-2xl align-middle"
+            ></span>
           </h2>
           <p class="text-gray-500">Click here to submit a new ticket.</p>
         </nz-card>
@@ -43,9 +53,19 @@
           routerLink="../transactions"
           class="transition-transform transform hover:scale-105 bg-gray-200 hover:bg-gray-300 p-6 rounded-lg shadow-lg cursor-pointer flex flex-col items-center text-center"
         >
-          <h2 class="text-xl font-semibold mb-2 flex items-center justify-center">
-            {{ userSession.role === userRoles.USER ? "View Orders" : "View Tickets" }}
-            <span nz-icon nzType="unordered-list" class="ml-2 text-2xl align-middle"></span>
+          <h2
+            class="text-xl font-semibold mb-2 flex items-center justify-center"
+          >
+            {{
+              userSession.role === userRoles.USER
+                ? "View Orders"
+                : "View Tickets"
+            }}
+            <span
+              nz-icon
+              nzType="unordered-list"
+              class="ml-2 text-2xl align-middle"
+            ></span>
           </h2>
           <p class="text-gray-500">View your past orders or tickets here.</p>
         </nz-card>
@@ -55,19 +75,27 @@
           routerLink="../profile"
           class="transition-transform transform hover:scale-105 bg-gray-200 hover:bg-gray-300 p-6 rounded-lg shadow-lg cursor-pointer flex flex-col items-center text-center"
         >
-          <h2 class="text-xl font-semibold mb-2 flex items-center justify-center">
+          <h2
+            class="text-xl font-semibold mb-2 flex items-center justify-center"
+          >
             View Profile
-            <span nz-icon nzType="user" class="ml-2 text-2xl align-middle"></span>
+            <span
+              nz-icon
+              nzType="user"
+              class="ml-2 text-2xl align-middle"
+            ></span>
           </h2>
           <p class="text-gray-500">Click here to view or edit your profile.</p>
         </nz-card>
       </div>
-
     </div>
   </div>
 
   <!-- Recent Orders Section -->
-  <div class="bg-white p-4 rounded-lg shadow-lg" *ngIf="userSession.role !== userRoles.ADMIN">
+  <div
+    class="bg-white p-4 rounded-lg shadow-lg"
+    *ngIf="userSession.role !== userRoles.ADMIN"
+  >
     <swp-table-card
       [rules]="userSession.role"
       [cardTitle]="
@@ -91,8 +119,16 @@
 
 <!-- Other Templates -->
 <ng-template #submitTicketModal>
-  <swp-ticketing (ticketSubmitted)="loadData()"></swp-ticketing>
+  <swp-ticketing
+    class="min-h-[100dvh] sm:min-h-[auto]"
+    (ticketSubmitted)="loadData()"
+  ></swp-ticketing>
 </ng-template>
 <ng-template #loadingIndicator>
-  <span nz-icon nzType="loading" nzTheme="outline" class="[&>*]:text-6xl [&>*]:relative [&>*]:top-[2rem]"></span>
+  <span
+    nz-icon
+    nzType="loading"
+    nzTheme="outline"
+    class="[&>*]:text-6xl [&>*]:relative [&>*]:top-[2rem]"
+  ></span>
 </ng-template>

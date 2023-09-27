@@ -135,9 +135,9 @@ export class TicketingComponent implements OnInit, OnDestroy {
   }
 
   async submitTicket(): Promise<any> {
-    return await this.ticketService.submitTickets(this.ticketsInOrder).then(
+    return await this.ticketService.submitTickets(this.ticketsInOrder)
+    .then(
       (res) => {
-        this.ticketSubmitted.next(true);
         return res;
       },
       (err) => {

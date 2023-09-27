@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Subject, take, takeUntil } from 'rxjs';
+import { Subject, from, take, takeUntil } from 'rxjs';
 import { SessionQuery } from 'src/app/session-store/domain-state/session.query';
 import { TicketService } from './ticket.service';
 import { DecimalPipe } from '@angular/common';
 import { Ticket } from './store/ticket.model';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
 
 @Component({
   selector: 'swp-ticketing',
@@ -133,10 +134,10 @@ export class TicketingComponent implements OnInit, OnDestroy {
     this.formValues = this.forms.getRawValue();
   }
 
-  async submitTicket() {
-    return await this.ticketService.submitTickets(this.ticketsInOrder).then(
+  async submitTicket(): Promise<any> {
+    return await this.ticketService.submitTickets(this.ticketsInOrder)
+    .then(
       (res) => {
-        this.ticketSubmitted.next(true);
         return res;
       },
       (err) => {
@@ -147,14 +148,14 @@ export class TicketingComponent implements OnInit, OnDestroy {
 
   mapFormData(formData: any) {
     const mappedData = {
-      insurance: formData.step2.insurance.value as string,
+      insurance: formData.step2.insurance as string,
       vin: formData.step2.vin as string,
       make: formData.step2.make as string,
       year: formData.step2.year as string,
       model: formData.step2.model as string,
       mileage: Number(formData.step2.mileage.replaceAll(',', '')),
       description: formData.step4.damage as string,
-      images: formData.step3.imageUpload as string[],
+      images: this.getFileLocationsFromUploads(formData.step3.imageUpload),
       plan: formData.step1.plan.name as string,
       totalUSD: formData.step1.plan.cost as number,
       userId: this.userId
@@ -196,16 +197,22 @@ export class TicketingComponent implements OnInit, OnDestroy {
     this.modalService.closeAll();
   }
 
-  handlePlanSelected(plan: any) {
+  handlePlanSelected(plan: any): void {
     this.forms.get('step1').get('plan').setValue(plan);
   }
 
-  handleVehicleDetails(details: any) {
+  handleVehicleDetails(details: any): void {
     this.forms.get('step2').patchValue(details);
   }
 
-  handleFiles(files: string[]) {
+  handleFiles(files: NzUploadFile[]): void {
     this.forms.get('step3').patchValue({ imageUpload: files });
+  }
+
+  getFileLocationsFromUploads(uploads: NzUploadFile[]): string[] {
+    const files = [];
+    uploads.forEach(file => files.push(file.response.Location));
+    return files;
   }
 
   handleVehicleDetailsDamage(damage: string) {
@@ -213,8 +220,20 @@ export class TicketingComponent implements OnInit, OnDestroy {
   }
 
   handlePaymentStatusChange(status: boolean) {
-    this.paymentSuccess = status;
-    this.forms.get('step6').patchValue({ paymentSuccess: status });
+    if (status === true) {
+      this.paymentSuccess = status;
+      this.forms.get('step6').patchValue({ paymentSuccess: status });
+      from(this.submitTicket())
+        .pipe(take(1))
+        .subscribe({
+          next: (res) => {
+            this.ticketSubmitted.next(true);
+          },
+          error: (err) => {
+            this.ticketSubmitted.next(false);
+          }
+        });
+    }
   }
 
 }

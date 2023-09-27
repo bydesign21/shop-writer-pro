@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subject, debounceTime, filter, distinctUntilChanged, switchMap, takeUntil, map } from 'rxjs';
@@ -8,9 +8,13 @@ import { insuranceList } from 'src/features/shared-module/shared-utils/shared.mo
 @Component({
   selector: 'swp-vehicle-details',
   templateUrl: './vehicle-details.component.html',
-  styleUrls: ['./vehicle-details.component.scss']
+  styleUrls: ['./vehicle-details.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class VehicleDetailsComponent implements OnDestroy {
+export class VehicleDetailsComponent implements OnDestroy, OnInit {
+  @Input() vehicleDetails: any = null;
+  @Output() vehicleDetailsOutput = new EventEmitter<any>();
+
   vehicleDetailsForm = new FormGroup({
     insurance: new FormControl('', [Validators.required]),
     vin: new FormControl('', [Validators.required]),
@@ -40,10 +44,18 @@ export class VehicleDetailsComponent implements OnDestroy {
         })
       )
       .subscribe((res: any) => {
+        console.log('vehicleDetailsForm', res);
         this.vehicleDetailsOutput.emit(res);
       });
 
     this.handleVehicleDetailsAutoFill();
+  }
+
+  ngOnInit(): void {
+    if (this.vehicleDetails) {
+      this.vehicleDetailsForm.patchValue(this.vehicleDetails);
+      this.vehicleDetailsOutput.emit(this.vehicleDetails);
+    }
   }
 
   ngOnDestroy() {
@@ -72,7 +84,4 @@ export class VehicleDetailsComponent implements OnDestroy {
         }
       });
   }
-
-  @Output() vehicleDetailsOutput = new EventEmitter<any>();
-
 }

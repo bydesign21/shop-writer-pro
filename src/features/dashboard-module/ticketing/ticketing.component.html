@@ -43,6 +43,7 @@
                 <h1>What Plan Do You Need?</h1>
               </div>
               <swp-plan-selector
+                [selectedPlan]="formValues?.step1.plan"
                 (planSelected)="handlePlanSelected($event)"
               ></swp-plan-selector>
             </div>
@@ -60,6 +61,7 @@
               <div>
                 <div>
                   <swp-vehicle-details
+                    [vehicleDetails]="formValues?.step2"
                     (vehicleDetailsOutput)="handleVehicleDetails($event)"
                   ></swp-vehicle-details>
                 </div>
@@ -80,15 +82,17 @@
                 </h4>
               </div>
               <swp-upload-documents
+                [selectedFiles]="formValues.step3.imageUpload || []"
                 (filesUploaded)="handleFiles($event)"
               ></swp-upload-documents>
             </div>
 
             <!-- Step 4 Content -->
             <div
-            class="w-full px-8"
-            formGroupName="step4"
-            *ngIf="currentStep === 4">
+              class="w-full px-8"
+              formGroupName="step4"
+              *ngIf="currentStep === 4"
+            >
               <div class="slide-heading mb-4">
                 <span class="block text-gray-500">Vehicle Details</span>
                 <h1 class="text-2xl font-semibold">A Few More Steps</h1>
@@ -114,9 +118,10 @@
                 </h4>
               </div>
               <swp-review-order
-              [formValues]="formValues"
-              (addVehicle)="handleAddVehicle()">
-            </swp-review-order>
+                [formValues]="formValues"
+                (addVehicle)="handleAddVehicle()"
+              >
+              </swp-review-order>
             </div>
 
             <!-- Step 6 Content -->
@@ -125,16 +130,15 @@
               formGroupName="step6"
               *ngIf="currentStep === 6"
             >
-              <div
-                class="slide-heading"
-                *ngIf="!paymentSuccess;"
-              >
+              <div class="slide-heading" *ngIf="!paymentSuccess">
                 <span>Payment</span>
                 <h1>Submit Order</h1>
                 <h4>Please proceed through checkout to submit your order.</h4>
               </div>
-              <swp-payment [ticketsInOrder]="ticketsInOrder" (paymentStatus)="handlePaymentStatusChange($event)" >
-
+              <swp-payment
+                [ticketsInOrder]="ticketsInOrder"
+                (paymentStatus)="handlePaymentStatusChange($event)"
+              >
               </swp-payment>
             </div>
           </div>

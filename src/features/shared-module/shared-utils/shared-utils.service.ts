@@ -1,10 +1,11 @@
 import { HttpClient, HttpRequest, HttpResponse } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { AuthService } from 'src/features/auth-module/auth-service.service';
-import { Observable, from, lastValueFrom, of, throwError } from 'rxjs';
-import { catchError, filter, map, switchMap, take } from 'rxjs/operators';
+import { Observable, from, throwError } from 'rxjs';
+import { catchError, filter, map, switchMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { TicketStatus } from 'src/models/model';
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
@@ -19,7 +20,7 @@ export class SharedUtilsService {
     return from(this
       .createRequest(
         'GET',
-        `https://mcbwuxn2ri.execute-api.us-east-1.amazonaws.com/staging/core/utils/vin-decoder/vehicles`,
+        `${environment.API_BASE_URL}/core/utils/vin-decoder/vehicles`,
         {
           'vin': vin
         },
@@ -36,7 +37,7 @@ export class SharedUtilsService {
     return from(
       this.createRequest(
         'GET',
-        `https://mcbwuxn2ri.execute-api.us-east-1.amazonaws.com/staging/core/query/users/profile`,
+        `${environment.API_BASE_URL}/core/query/users/profile`,
         { userId },
         null,
         {
@@ -103,7 +104,7 @@ export class SharedUtilsService {
   sendEmail(options: EmailOptions, emailType: string): Observable<any> {
     return from(this.createRequest(
       'POST',
-      `https://mcbwuxn2ri.execute-api.us-east-1.amazonaws.com/staging/core/utils/email/send-email`,
+      `${environment.API_BASE_URL}/core/utils/email/send-email`,
       {},
       {
         options,

@@ -6,6 +6,7 @@ import { SessionState } from 'src/app/session-store/domain-state/session.store';
 import { Ticket } from './store/ticket.model';
 import { TicketStore } from './store/tickets.store';
 import { SharedUtilsService } from 'src/features/shared-module/shared-utils/shared-utils.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,7 @@ export class TicketService {
     formData.append('file', item.file as unknown as Blob, item.file.name);
     return from(this.utilService.createRequest(
       'POST',
-      'https://mcbwuxn2ri.execute-api.us-east-1.amazonaws.com/staging/core/content/media/upload/ticket',
+      `${environment.API_BASE_URL}/core/content/media/upload/ticket`,
       {},
       formData,
       {
@@ -51,7 +52,7 @@ export class TicketService {
 
   async getUserTickets(user: SessionState, resetState = true): Promise<Ticket[]> {
     const { email, role } = user;
-    const request = await this.utilService.createRequest('GET', `https://mcbwuxn2ri.execute-api.us-east-1.amazonaws.com/staging/core/query/users/data`, {
+    const request = await this.utilService.createRequest('GET', `${environment.API_BASE_URL}/core/query/users/data`, {
       userId: email,
       entryId: role
     }, null, {
@@ -69,7 +70,7 @@ export class TicketService {
 
   async updateTicket(ticket: Ticket, user: SessionState): Promise<Ticket> {
     const { role } = user;
-    const request = await this.utilService.createRequest('PATCH', `https://mcbwuxn2ri.execute-api.us-east-1.amazonaws.com/staging/core/content/ticket/update`, { entryId: role }, ticket, { withCredentials: false })
+    const request = await this.utilService.createRequest('PATCH', `${environment.API_BASE_URL}/core/content/ticket/update`, { entryId: role }, ticket, { withCredentials: false })
     return lastValueFrom(this.utilService.executeRequest(request))
       .then((res) => {
         const updatedTicket = res?.body;
@@ -87,7 +88,7 @@ export class TicketService {
     const request = await this.utilService
       .createRequest(
         'POST',
-        'https://mcbwuxn2ri.execute-api.us-east-1.amazonaws.com/staging/core/update-entryId/username',
+        '${environment.API_BASE_URL}/core/update-entryId/username',
         {},
         {
           oldUsername: oldEntryId,
@@ -103,7 +104,7 @@ export class TicketService {
   async getPaymentIntent(tickets: Partial<Ticket>[]) {
     const request = await this.utilService.createRequest(
       'POST',
-      'https://mcbwuxn2ri.execute-api.us-east-1.amazonaws.com/staging/core/payment/payment-intent',
+      `${environment.API_BASE_URL}/core/payment/payment-intent`,
       {},
       tickets,
       {
@@ -118,7 +119,7 @@ export class TicketService {
   async submitTickets(tickets: Partial<Ticket>[]) {
     const request = await this.utilService.createRequest(
       'PUT',
-      'https://mcbwuxn2ri.execute-api.us-east-1.amazonaws.com/staging/core/content/ticket/upload',
+      `${environment.API_BASE_URL}/core/content/ticket/upload`,
       {},
       tickets,
       {

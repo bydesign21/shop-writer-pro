@@ -1,14 +1,26 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'swp-plan-selector',
   templateUrl: './plan-selector.component.html',
-  styleUrls: ['./plan-selector.component.scss']
+  styleUrls: ['./plan-selector.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PlanSelectorComponent {
-  selectedPlan: any;
-
+export class PlanSelectorComponent implements OnInit {
+  @Input() selectedPlan: any;
   @Output() planSelected = new EventEmitter<any>();
+
+  constructor(
+    private cd: ChangeDetectorRef
+  ) {}
+
+  ngOnInit(): void {
+    if (this.selectedPlan) {
+      console.log('selectedPlan', this.selectedPlan);
+      this.planSelected.emit(this.selectedPlan);
+      this.cd.detectChanges();
+    }
+  }
 
   plans = [
     {

@@ -9,6 +9,7 @@ import { UserRole } from 'src/models/model';
 import { Ticket } from '../ticketing/store/ticket.model';
 import { TicketQuery } from '../ticketing/store/ticket.query';
 import { TicketService } from '../ticketing/ticket.service';
+import { Breadcrumb } from 'src/features/shared-module/breadcrumb/breadcrumb.component';
 
 @Component({
   selector: 'swp-transaction-container',
@@ -29,6 +30,15 @@ export class TransactionContainerComponent implements OnInit, OnDestroy {
   tickets$: Observable<Ticket[]>;
   userSession: SessionState;
   dataLoading$ = new BehaviorSubject<boolean>(false);
+  breadcrumbs: Breadcrumb[] = [
+    {
+      label: 'Dashboard',
+      url: '/dashboard'
+    },
+    {
+      label: 'Transactions',
+    }
+  ]
   constructor(
     private modalService: NzModalService,
     private ticketService: TicketService,

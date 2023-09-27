@@ -14,6 +14,7 @@ import { TicketViewerModule } from 'src/features/shared-module/ticket-viewer/tic
 import { TicketStore } from '../ticketing/store/tickets.store';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { TableCardModule } from 'src/features/shared-module/table-card/table-card.module';
+import { BreadcrumbModule } from 'src/features/shared-module/breadcrumb/breadcrumb.module';
 
 @NgModule({
   declarations: [TransactionContainerComponent],
@@ -30,7 +31,8 @@ import { TableCardModule } from 'src/features/shared-module/table-card/table-car
     RouterModule,
     TicketViewerModule,
     NzIconModule,
-    TableCardModule
+    TableCardModule,
+    BreadcrumbModule
   ],
   exports: [TransactionContainerComponent]
 })

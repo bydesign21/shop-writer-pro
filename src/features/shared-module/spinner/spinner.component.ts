@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, TemplateRef } from '@angular
 import { NzSizeLDSType } from 'ng-zorro-antd/core/types';
 
 @Component({
-  selector: 'app-spinner',
+  selector: 'swp-spinner',
   templateUrl: './spinner.component.html',
   styleUrls: ['./spinner.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

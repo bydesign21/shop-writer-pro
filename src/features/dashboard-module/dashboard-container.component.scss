@@ -1,39 +1,8 @@
-::ng-deep .layout {
-  min-height: 100vh;
-}
-
-nz-content {
-  margin: 24px 16px 0;
-}
-
-.inner-content {
-  padding: 24px;
-  background: #fff;
-  min-height: 360px;
-}
-
-nz-footer {
-  text-align: center;
-}
-
-::ng-deep .ticket-viewer-modal > .ant-modal-content > .ant-modal-body {
-  height: 600px;
-  overflow-y: scroll;
-}
-
-.dashboard-content-spinner {
+.header .__logo img {
+  scale: 0.8;
+  min-width: fit-content;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   position: relative;
-  top: 20vh;
-}
-
-@media (max-width: 767px) {
-  ::ng-deep nz-content.ant-layout-content {
-    margin: 0 !important;
-  }
-
-  .inner-content {
-    padding: 25px !important;
-  }
+  left: 0.1rem;
 }

@@ -1,36 +1,54 @@
-<nz-layout class="layout">
+<nz-layout class="min-h-screen bg-gray-100">
+  <!-- Drawer Section -->
   <nz-drawer
     nzWrapClassName="dashboard-menu"
     #navigationMenu
     (nzOnClose)="menuIsVisible = !menuIsVisible"
     [nzVisible]="menuIsVisible"
     nzPlacement="left"
-    [nzWidth]="'200px'"
+    [nzWidth]="'250px'"
     [nzClosable]="true"
+    class="shadow-lg"
   >
     <ng-container *nzDrawerContent>
       <ul class="navigation-menu-list" nz-menu nzTheme="light" nzMode="inline">
-        <li nz-menu-item nzMatchRouter>
-          <a [routerLink]="'home'" routerLinkActive="true">
-            <span nz-icon nzType="home"></span>
+        <li nz-menu-item nzMatchRouter class="hover:bg-gray-100 p-2">
+          <a
+            [routerLink]="'home'"
+            routerLinkActive="true"
+            class="flex items-center text-gray-700"
+          >
+            <span nz-icon nzType="home" class="mr-2 relative bottom-[0.25rem]"></span>
             <span>Home</span>
           </a>
         </li>
-        <li nz-menu-item nzMatchRouter>
-          <a [routerLink]="'profile'" routerLinkActive="true">
-            <span nz-icon nzType="user"></span>
+        <li nz-menu-item nzMatchRouter class="hover:bg-gray-100 p-2">
+          <a
+            [routerLink]="'profile'"
+            routerLinkActive="true"
+            class="flex items-center text-gray-700"
+          >
+            <span nz-icon nzType="user" class="mr-2 relative bottom-[0.25rem]"></span>
             <span>Profile</span>
           </a>
         </li>
-        <li nz-menu-item nzMatchRouter>
-          <a [routerLink]="'transactions'" routerLinkActive="true">
-            <span nz-icon nzType="unordered-list"></span>
+        <li nz-menu-item nzMatchRouter class="hover:bg-gray-100 p-2">
+          <a
+            [routerLink]="'transactions'"
+            routerLinkActive="true"
+            class="flex items-center text-gray-700"
+          >
+            <span nz-icon nzType="unordered-list" class="mr-2 relative bottom-[0.25rem]"></span>
             <span>Transactions</span>
           </a>
         </li>
-        <li nz-menu-item nzMatchRouter>
-          <a (click)="handleSignOutClicked($event)" routerLinkActive="true">
-            <span nz-icon nzType="poweroff"></span>
+        <li nz-menu-item nzMatchRouter class="hover:bg-gray-100 p-2">
+          <a
+            (click)="handleSignOutClicked($event)"
+            routerLinkActive="true"
+            class="flex items-center text-gray-700"
+          >
+            <span nz-icon nzType="poweroff" class="mr-2 relative bottom-[0.25rem]"></span>
             <span>Logout</span>
           </a>
         </li>
@@ -38,26 +56,40 @@
     </ng-container>
   </nz-drawer>
 
+  <!-- Content Section -->
   <nz-layout>
-    <nz-header>
-      <div class="header">
+    <nz-header class="bg-white shadow-lg p-4">
+      <div class="header flex justify-between items-center">
+        <!-- Logo Section -->
         <div class="__logo">
-          <img [routerLink]="['/home']" src="../../assets/images/logo.png" />
+          <img
+            [routerLink]="['/home']"
+            src="../../assets/images/logo.png"
+            alt="Logo"
+            class="w-16 h-16"
+          />
         </div>
+        <!-- Menu Button -->
         <div class="__menu-button">
           <span
             (click)="handleMenuButtonClicked()"
             nz-icon
             nzType="menu"
+            class="text-gray-700"
           ></span>
         </div>
       </div>
     </nz-header>
-    <nz-content>
+
+    <nz-content class="p-4 m-4">
       <div class="inner-content">
         <router-outlet></router-outlet>
       </div>
     </nz-content>
-    <nz-footer>Shop Writer Pro ©2023</nz-footer>
+
+    <!-- Footer Section -->
+    <nz-footer class="bg-gray-800 text-white text-center p-4">
+      Shop Writer Pro ©2023
+    </nz-footer>
   </nz-layout>
 </nz-layout>

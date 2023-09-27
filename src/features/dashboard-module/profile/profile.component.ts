@@ -8,6 +8,7 @@ import { SessionQuery } from 'src/app/session-store/domain-state/session.query';
 import { SessionState } from 'src/app/session-store/domain-state/session.store';
 import { AuthService } from 'src/features/auth-module/auth-service.service';
 import { TicketService } from '../ticketing/ticket.service';
+import { Breadcrumb } from 'src/features/shared-module/breadcrumb/breadcrumb.component';
 
 @Component({
   selector: 'swp-profile',
@@ -26,6 +27,15 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
   userForm!: FormGroup;
   fileList: NzUploadFile[] = [];
   user: SessionState;
+  breadcrumbs: Breadcrumb[] = [
+    {
+      label: 'Dashboard',
+      url: '/dashboard'
+    },
+    {
+      label: 'Profile',
+    }
+  ]
 
   destroy$ = new Subject();
   constructor(

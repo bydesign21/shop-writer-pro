@@ -1,41 +1,47 @@
-img.review-form__img {
-  width: -webkit-fill-available;
-  max-width: 500px;
-}
-
 .review-form {
   display: flex;
   flex-direction: column;
-  vertical-align: middle;
-  position: relative;
-  top: 2rem;
 }
 
 .edit-button {
-  position: relative;
-  display: flex;
-  justify-content: flex-end;
+  position: absolute;
+  top: 1.8rem;
+  max-height: 2rem;
+  padding: 0.5rem;
   z-index: 1000;
-  top: 2.5rem;
-  right: 2rem;
-  font-size: large;
-  color: grey;
-}
-
-::ng-deep {
-  .ant-modal-footer {
-    display: none;
-  }
-  .ant-form-item {
-    margin-bottom: 5px;
-  }
-  button.ant-btn {
-    margin-top: 12px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  right: 1.5rem;
+  svg {
+    display: flex !important;
   }
 }
 
-::ng-deep span.admin-tags {
-  nz-tag {
-    padding: 0.25rem;
-  }
+::ng-deep .ant-modal-footer {
+  display: none;
+}
+
+::ng-deep .ant-form-item {
+  margin-bottom: 0.3rem;
+}
+
+::ng-deep button.ant-btn {
+  margin-top: 0.75rem;
+}
+
+::ng-deep span.admin-tags nz-tag {
+  padding: 0.25rem;
+}
+
+::ng-deep .ant-image-preview-img-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+img.review-form__img {
+  width: 100%;
+  max-width: 500px;
 }

@@ -1,134 +1,54 @@
-<nz-row>
-  <nz-col nzSpan="24">
-    <nz-breadcrumb nz-page-header-breadcrumb>
-      <nz-breadcrumb-item>
-        <a [routerLink]="['../home']">Home</a>
-      </nz-breadcrumb-item>
-      <nz-breadcrumb-item>
-        <a>Profile</a>
-      </nz-breadcrumb-item>
-    </nz-breadcrumb>
-  </nz-col>
-</nz-row>
-<nz-layout>
-  <nz-content class="user-profile__wrapper">
-    <div class="user-profile">
-      <div class="avatar-container">
-        <nz-avatar nzSize="large" [nzSrc]="user['custom:avatarUrl']" *ngIf="!editing"></nz-avatar>
-        <div *ngIf="editing">
-          <span class="upload-icon" nz-icon [nzType]="loading ? 'loading' : null"></span>
-          <nz-upload
-
-            [nzAction]="'https://jsonplaceholder.typicode.com/posts/'"
-            nzListType="picture-card"
-            [(nzFileList)]="fileList"
-            [nzMultiple]="false"
-            [nzCustomRequest]="customReq"
-            (nzChange)="handleChange($event)"
-            nzLimit='1'
-            [nzPreview]="null"
-            (nzFileListChange)="handleFileListChange($event)"
-
-          >
+<div class="container mx-auto">
+ <swp-breadcrumb [breadcrumbs]="breadcrumbs"></swp-breadcrumb>
+  <div class="flex flex-col md:flex-row bg-white p-6 rounded-lg shadow-lg">
+    <div class="mb-4 md:mb-0 md:mr-6">
+      <img [src]="user['custom:avatarUrl']" class="rounded-full h-32 w-32 object-cover mb-4" *ngIf="!editing" />
+      <div *ngIf="editing" class="relative h-32 w-32">
+        <nz-upload class="h-full w-full"
+          [nzAction]="'https://jsonplaceholder.typicode.com/posts/'"
+          [(nzFileList)]="fileList"
+          [nzMultiple]="false"
+          [nzCustomRequest]="customReq"
+          (nzChange)="handleChange($event)"
+          nzLimit='1'
+          [nzPreview]="null"
+          (nzFileListChange)="handleFileListChange($event)"
+        >
+          <div class="absolute inset-0 flex items-center justify-center bg-gray-200 text-gray-500 rounded-full">
             <i nz-icon nzType="plus"></i>
-            <div class="ant-upload-text">Upload</div>
-          </nz-upload>
-        </div>
-      </div>
-      <div class="user-details">
-        <div *ngIf="!editing">
-          <h3 #nameEl class="truncate" nz-tooltip [nzTooltipTitle]="isTextTruncated ? user.name : null">{{ user.name }}</h3>
-          <p #emailEl class="truncate" nz-tooltip [nzTooltipTitle]="isTextTruncated ? user.email : null">{{ user.email }}</p>
-          <p #phoneNumberEl class="truncate" nz-tooltip [nzTooltipTitle]="isTextTruncated ? user.phone_number : null">{{ user.phone_number }}</p>
-          <p #companyNameEl class="truncate" nz-tooltip [nzTooltipTitle]="isTextTruncated ? user['custom:companyName'] : null">{{ user['custom:companyName'] }}</p>
-          <p #addressEl class="truncate" nz-tooltip [nzTooltipTitle]="isTextTruncated ? user.address : null">{{ user.address }}</p>
-        </div>
-        <form *ngIf="editing" [formGroup]="userForm">
-          <nz-row>
-            <nz-col [nzXs]="0" [nzSm]="3" [nzSpan]="3">
-              <nz-form-item>
-                <nz-form-label>Name</nz-form-label>
-              </nz-form-item>
-            </nz-col>
-            <nz-col [nzXs]="24" [nzSm]="18" [nzSpan]="18">
-              <nz-form-item >
-                <nz-form-control>
-                  <input nz-input formControlName="name" />
-                </nz-form-control>
-              </nz-form-item>
-            </nz-col>
-          </nz-row>
-          <nz-row>
-            <nz-col [nzXs]="0" [nzSm]="3" [nzSpan]="3">
-              <nz-form-item>
-                <nz-form-label>Email</nz-form-label>
-              </nz-form-item>
-            </nz-col>
-            <nz-col [nzXs]="24" [nzSm]="18" [nzSpan]="18">
-              <nz-form-item>
-                <nz-form-control>
-                  <input nz-input formControlName="email" />
-                </nz-form-control>
-              </nz-form-item>
-            </nz-col>
-          </nz-row>
-          <nz-row>
-            <nz-col  [nzXs]="0" [nzSm]="3" [nzSpan]="3">
-              <nz-form-item>
-                <nz-form-label>Phone Number</nz-form-label>
-              </nz-form-item>
-            </nz-col>
-            <nz-col [nzXs]="24" [nzSm]="18" [nzSpan]="18">
-              <nz-form-item>
-                <nz-form-control>
-                  <input nz-input formControlName="phone_number" />
-                </nz-form-control>
-              </nz-form-item>
-            </nz-col>
-          </nz-row>
-          <nz-row>
-            <nz-col [nzXs]="0" [nzSm]="3" [nzSpan]="3">
-              <nz-form-item>
-                <nz-form-label>Company Name</nz-form-label>
-              </nz-form-item>
-            </nz-col>
-            <nz-col [nzXs]="24" [nzSm]="18" [nzSpan]="18">
-              <nz-form-item>
-                <nz-form-control>
-                  <input nz-input formControlName="custom:companyName" />
-                </nz-form-control>
-              </nz-form-item>
-            </nz-col>
-          </nz-row>
-          <nz-row>
-            <nz-col [nzXs]="0" [nzSm]="3" [nzSpan]="3">
-              <nz-form-item>
-                <nz-form-label>Address</nz-form-label>
-              </nz-form-item>
-            </nz-col>
-            <nz-col [nzXs]="24" [nzSm]="18" [nzSpan]="18">
-              <nz-form-item>
-                <nz-form-control>
-                  <input ngx-google-places-autocomplete id="address" nz-input (onAddressChange)="handleAddressChange($event)" formControlName="address" />
-                </nz-form-control>
-              </nz-form-item>
-            </nz-col>
-          </nz-row>
-          <input nz-input formControlName="custom:avatarUrl" hidden="true">
-        </form>
-      </div>
-      <div style="display: flex; justify-content: space-between;" class="control-buttons">
-        <div class="edit-btn">
-          <button nz-button (click)="toggleEdit()" [nzType]="editing ? 'default' : 'primary'">
-            {{ editing ? 'Cancel' : 'Edit' }}
-          </button>
-        </div>
-        <div *ngIf="editing" class="edit-btn">
-          <button nz-button nzType="primary" (click)="saveUserDetails()" [nzLoading]="loading" [disabled]="!userForm.valid && userForm.untouched">
-            Save
-          </button>
-        </div>
+            <div>Upload</div>
+          </div>
+        </nz-upload>
       </div>
     </div>
-  </nz-content>
-</nz-layout>
+    <div class="flex-grow">
+      <div *ngIf="!editing" class="mb-4">
+        <h3 class="text-lg font-semibold mb-2">{{ user.name }}</h3>
+        <p class="text-gray-500 mb-1">{{ user.email }}</p>
+        <p class="text-gray-500 mb-1">{{ user.phone_number }}</p>
+        <p class="text-gray-500 mb-1">{{ user['custom:companyName'] }}</p>
+        <p class="text-gray-500">{{ user.address }}</p>
+      </div>
+      <form *ngIf="editing" [formGroup]="userForm" class="space-y-4">
+        <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4">
+          <input nz-input formControlName="name" placeholder="Name" class="flex-grow p-2 border rounded" />
+          <input nz-input formControlName="email" placeholder="Email" class="flex-grow p-2 border rounded" />
+        </div>
+        <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4">
+          <input nz-input formControlName="phone_number" placeholder="Phone Number" class="flex-grow p-2 border rounded" />
+          <input nz-input formControlName="custom:companyName" placeholder="Company Name" class="flex-grow p-2 border rounded" />
+        </div>
+        <input ngx-google-places-autocomplete id="address" nz-input (onAddressChange)="handleAddressChange($event)" formControlName="address" placeholder="Address" class="p-2 border rounded" />
+        <input nz-input formControlName="custom:avatarUrl" hidden="true">
+      </form>
+    </div>
+  </div>
+  <div class="flex justify-between mt-6">
+    <button (click)="toggleEdit()" class="py-2 px-4 rounded bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+      {{ editing ? 'Cancel' : 'Edit' }}
+    </button>
+    <button *ngIf="editing" (click)="saveUserDetails()" [disabled]="!userForm.valid && userForm.untouched" class="py-2 px-4 rounded bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+      Save
+    </button>
+  </div>
+</div>

@@ -1,29 +1,23 @@
-<nz-row>
-  <nz-col nzSpan="24">
-    <nz-breadcrumb nz-page-header-breadcrumb>
-      <nz-breadcrumb-item>
-        <a [routerLink]="['../home']">Home</a>
-      </nz-breadcrumb-item>
-      <nz-breadcrumb-item>
-        <a>Transactions</a>
-      </nz-breadcrumb-item>
-    </nz-breadcrumb>
-  </nz-col>
-</nz-row>
-<nz-row class="__first-row">
-  <nz-col class="open-orders" nzSpan="24">
-        <swp-table-card
-        [data$]="openOrders$"
-        [cardTitle]="'All Transactions'"
-        [isLoading$]="dataLoading$"
-        [noResultRef]="(dataLoading$ | async) ? null : 'No results'"
-        [pageLimit]="openOrderTableLimit"
-        [loadingIndicatorRef]="loadingIndicator"
-        [rules]="userSession.role"
-        (ticketUpdated)="handleTicketUpdated($event)"
-        ></swp-table-card>
-  </nz-col>
-</nz-row>
+<!-- Breadcrumbs -->
+<swp-breadcrumb [breadcrumbs]="breadcrumbs"></swp-breadcrumb>
+
+<!-- First Row -->
+<div class="px-4 py-2">
+  <div class="bg-white shadow rounded-lg p-4">
+    <swp-table-card
+      [data$]="openOrders$"
+      [cardTitle]="'All Transactions'"
+      [isLoading$]="dataLoading$"
+      [noResultRef]="(dataLoading$ | async) ? null : 'No results'"
+      [pageLimit]="openOrderTableLimit"
+      [loadingIndicatorRef]="loadingIndicator"
+      [rules]="userSession.role"
+      (ticketUpdated)="handleTicketUpdated($event)"
+    ></swp-table-card>
+  </div>
+</div>
+
+<!-- Modal Content -->
 <ng-template #nzModalContent>
   <swp-ticket-viewer
     class="ticket-viewer"
@@ -31,6 +25,8 @@
     (ticketSubmitted)="loadData()"
   ></swp-ticket-viewer>
 </ng-template>
+
+<!-- Loading Indicator -->
 <ng-template #loadingIndicator>
-  <span style="font-size: xxx-large;" nz-icon nzType="loading"></span>
+  <span class="[&>*]:text-[3rem] [&>*]:relative [&>*]:top-[2rem]" nz-icon nzType="loading"></span>
 </ng-template>

@@ -1,7 +1,7 @@
 <div>
-  <ng-container>
-    <ng-template #paymentTemplate>
-      <div>
+  <div>
+    <div *ngIf="paymentSuccess" class="success-icon">
+      <div class="slide-heading">
         <span>Payment</span>
         <h1>Payment Successful</h1>
         <h4>
@@ -9,12 +9,8 @@
           <a (click)="handleModalClose()">Dashboard</a>
         </h4>
       </div>
-    </ng-template>
-  </ng-container>
-  <div>
-    <div *ngIf="paymentSuccess" class="success-icon">
       <span
-        class="success-circle"
+        class="success-circle mt-5"
         nz-icon
         [nzType]="'check-circle'"
         [nzTheme]="'twotone'"

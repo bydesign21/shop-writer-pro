@@ -213,8 +213,8 @@ export class TicketingComponent implements OnInit, OnDestroy {
   }
 
   handlePaymentStatusChange(status: boolean) {
+    this.paymentSuccess = status;
     this.forms.get('step6').patchValue({ paymentSuccess: status });
-
   }
 
 }

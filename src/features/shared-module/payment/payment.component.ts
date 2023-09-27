@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/core';
 import { PaymentIntentResult, loadStripe } from '@stripe/stripe-js';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -12,7 +12,7 @@ import { TicketService } from 'src/features/dashboard-module/ticketing/ticket.se
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.scss']
 })
-export class PaymentComponent {
+export class PaymentComponent implements AfterViewInit {
   @Input() ticketsInOrder: any[];
   @Output() paymentStatus = new EventEmitter<boolean>();
   public formLoaded$ = new BehaviorSubject<boolean>(false);
@@ -30,6 +30,10 @@ export class PaymentComponent {
   ) {
   }
 
+  ngAfterViewInit(): void {
+    this.getPaymentIntent();
+  }
+
   calculateOrderTotal() {
     let orderTotal = 0;
     this.ticketsInOrder.forEach(ticket => {
@@ -38,25 +42,31 @@ export class PaymentComponent {
     return orderTotal;
   }
 
-  getPaymentIntent() {
-    this.spinner.show('payment-spinner')
-    this.ticketService.getPaymentIntent(this.ticketsInOrder).then((res) => {
-      this.clientSecret = res;
+  async getPaymentIntent() {
+    try {
+      this.spinner.show('payment-spinner');
+      this.clientSecret = await this.ticketService.getPaymentIntent(this.ticketsInOrder);
       this.spinner.hide('payment-spinner');
       this.handlePayment();
       this.formLoaded$.next(true);
-    });
+    } catch (error) {
+      console.error(error);
+      this.spinner.hide('payment-spinner');
+    }
   }
 
   async handlePayment() {
-    const stripe = await this.stripe;
-    const options = {
-      clientSecret: this.clientSecret,
-      appearance: {},
-    };
-    this.elements = stripe.elements(options);
-    const paymentElement = this.elements.create('payment');
-    paymentElement.mount('#payment-element');
+    try {
+      const stripe = await this.stripe;
+      const options = {
+        clientSecret: this.clientSecret,
+      };
+      this.elements = stripe.elements(options);
+      const paymentElement = this.elements.create('payment');
+      paymentElement.mount('#payment-element');
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async submitPayment() {
@@ -68,7 +78,6 @@ export class PaymentComponent {
     }));
 
     paymentResponse$
-    .pipe(takeUntil(this.destroy$))
     .subscribe((res: any) => this.handlePaymentResponse(res));
   }
 
@@ -84,6 +93,7 @@ export class PaymentComponent {
     } else {
       this.paymentSuccess = true;
       this.messageService.success('Payment Successful');
+      this.paymentStatus.emit(true);
     }
   }
 

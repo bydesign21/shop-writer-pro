@@ -41,6 +41,10 @@
   min-height: 100vh;
 }
 
+::ng-deep .ant-image-preview-operations {
+  background-color: rgba(5, 4, 4, 0.928);
+}
+
 img.review-form__img {
   width: 100%;
   max-width: 500px;

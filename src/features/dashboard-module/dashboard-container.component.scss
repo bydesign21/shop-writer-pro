@@ -6,3 +6,10 @@
   position: relative;
   left: 0.1rem;
 }
+
+::ng-deep {
+  .cdk-overlay-backdrop-showing,
+  .cdk-overlay-backdrop.ant-modal-mask {
+    background: rgba(5, 4, 4, 0.928) !important;
+  }
+}

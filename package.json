@@ -28,7 +28,7 @@
     "@aws-amplify/storage": "^5.1.0",
     "@aws-amplify/ui-angular": "^3.2.8",
     "@aws-sdk/middleware-retry": "^3.235.0",
-    "@datorama/akita": "^8.0.0",
+    "@datorama/akita": "^8.0.1",
     "@datorama/akita-ngdevtools": "^7.0.0",
     "@stripe/stripe-js": "^1.46.0",
     "aws-amplify": "^5.0.10",
@@ -41,7 +41,7 @@
     "ng-zorro-antd": "^16.2.0",
     "ng2-pdf-viewer": "^9.1.5",
     "ngx-google-places-autocomplete": "^2.0.5",
-    "ngx-spinner": "^15.0.1",
+    "ngx-spinner": "^16.0.2",
     "rxjs": "^7.5.7",
     "zone.js": "~0.13.3"
   },

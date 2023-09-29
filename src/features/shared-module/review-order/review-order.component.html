@@ -38,7 +38,7 @@
                   nz-image
                   class="review-form__img"
                   *ngFor="let img of formValues.step3.imageUpload"
-                  nzSrc="{{ img }}"
+                  nzSrc="{{ img.response.Location }}"
                 />
               </nz-image-group>
             </div>

@@ -1,27 +1,27 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DashboardHomeComponent } from './dashboard-home.component';
-import { NzLayoutModule } from 'ng-zorro-antd/layout';
-import { NzGridModule } from 'ng-zorro-antd/grid';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NzModalModule } from 'ng-zorro-antd/modal';
-import { NzTableModule } from 'ng-zorro-antd/table'
-import { TicketingModule } from '../ticketing/ticketing.module';
+import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
-import {NzTagModule} from 'ng-zorro-antd/tag'
-import { SpinnerModule } from 'src/features/shared-module/spinner/spinner.module';
-import { TicketViewerModule } from 'src/features/shared-module/ticket-viewer/ticket-viewer.module';
-import { TicketStore } from '../ticketing/store/tickets.store';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 import { SessionStore } from 'src/app/session-store/domain-state/session.store';
+import { SpinnerModule } from 'src/features/shared-module/spinner/spinner.module';
 import { TableCardModule } from 'src/features/shared-module/table-card/table-card.module';
+import { TicketViewerModule } from 'src/features/shared-module/ticket-viewer/ticket-viewer.module';
+
+import { TicketStore } from '../ticketing/store/tickets.store';
+import { TicketingModule } from '../ticketing/ticketing.module';
+
+import { DashboardHomeComponent } from './dashboard-home.component';
 
 @NgModule({
-  declarations: [
-    DashboardHomeComponent,
-  ],
+  declarations: [DashboardHomeComponent],
   imports: [
     CommonModule,
     NzLayoutModule,
@@ -37,8 +37,8 @@ import { TableCardModule } from 'src/features/shared-module/table-card/table-car
     NzTagModule,
     TicketViewerModule,
     NzSpinModule,
-    TableCardModule
+    TableCardModule,
   ],
-  providers: [TicketStore, SessionStore]
+  providers: [TicketStore, SessionStore],
 })
-export class DashboardHomeModule { }
+export class DashboardHomeModule {}

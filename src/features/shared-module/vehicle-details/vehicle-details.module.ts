@@ -1,12 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NzFormModule } from 'ng-zorro-antd/form';
-import { VehicleDetailsComponent } from './vehicle-details.component';
-import { NzInputModule } from 'ng-zorro-antd/input';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
 
-
+import { VehicleDetailsComponent } from './vehicle-details.component';
 
 @NgModule({
   declarations: [VehicleDetailsComponent],
@@ -15,8 +14,8 @@ import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
     NzFormModule,
     NzInputModule,
     ReactiveFormsModule,
-    NzAutocompleteModule
+    NzAutocompleteModule,
   ],
-  exports: [VehicleDetailsComponent]
+  exports: [VehicleDetailsComponent],
 })
-export class VehicleDetailsModule { }
+export class VehicleDetailsModule {}

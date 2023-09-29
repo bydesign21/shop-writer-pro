@@ -1,13 +1,17 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzUploadFile, NzUploadXHRArgs, NzUploadChangeParam } from 'ng-zorro-antd/upload';
+import {
+  NzUploadFile,
+  NzUploadXHRArgs,
+  NzUploadChangeParam,
+} from 'ng-zorro-antd/upload';
 import { Subject, takeUntil } from 'rxjs';
 import { TicketService } from 'src/features/dashboard-module/ticketing/ticket.service';
 
 @Component({
   selector: 'swp-upload-documents',
   templateUrl: './upload-documents.component.html',
-  styleUrls: ['./upload-documents.component.scss']
+  styleUrls: ['./upload-documents.component.scss'],
 })
 export class UploadDocumentsComponent implements OnInit {
   @Input() selectedFiles: NzUploadFile[] = [];
@@ -17,8 +21,8 @@ export class UploadDocumentsComponent implements OnInit {
 
   constructor(
     private ticketService: TicketService,
-    private messageService: NzMessageService
-  ) { }
+    private messageService: NzMessageService,
+  ) {}
 
   ngOnInit(): void {
     if (this.selectedFiles.length) {
@@ -27,7 +31,10 @@ export class UploadDocumentsComponent implements OnInit {
   }
 
   customReq = (item: NzUploadXHRArgs) => {
-    return this.ticketService.uploadMedia(item).pipe(takeUntil(this.destroy$)).subscribe();
+    return this.ticketService
+      .uploadMedia(item)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe();
   };
 
   handleChange({ file, fileList }: NzUploadChangeParam): void {
@@ -39,12 +46,14 @@ export class UploadDocumentsComponent implements OnInit {
       this.filesUploaded.emit(this.selectedFiles);
       this.messageService.success(`${file.name} file uploaded successfully.`);
     } else if (status === 'error') {
-      this.messageService.error(`${file.name} file upload failed. File too large.`);
+      this.messageService.error(
+        `${file.name} file upload failed. File too large.`,
+      );
     }
   }
 
   handleImageRemove = (file: NzUploadFile) => {
-    this.selectedFiles = this.selectedFiles.filter(item => file !== item);
+    this.selectedFiles = this.selectedFiles.filter((item) => file !== item);
     return true;
-  }
+  };
 }

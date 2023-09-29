@@ -3,8 +3,14 @@
     <nz-row class="contact-container">
       <nz-col class="mb-16 lg:mb-0" nzSpan="24" nzLg="10">
         <h1 class="mb-6 text-2xl font-semibold">Get in touch</h1>
-        <p class="mb-8">We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
-        <swp-contact-form #contactForm (formSubmit)="handleContactFormSubmit($event)"></swp-contact-form>
+        <p class="mb-8">
+          We'd love to hear from you. Send us a message and we'll respond as
+          soon as possible.
+        </p>
+        <swp-contact-form
+          #contactForm
+          (formSubmit)="handleContactFormSubmit($event)"
+        ></swp-contact-form>
       </nz-col>
       <nz-col class="lg:ml-20" nzSpan="24" nzLg="12">
         <swp-contact-info></swp-contact-info>

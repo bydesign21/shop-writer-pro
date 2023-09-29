@@ -1,18 +1,17 @@
-
-
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, switchMap, take, takeUntil, tap } from 'rxjs';
 import { SessionState } from 'src/app/session-store/domain-state/session.store';
 import { SharedUtilsService } from 'src/features/shared-module/shared-utils/shared-utils.service';
+
 import { Ticket } from '../ticketing/store/ticket.model';
 import { TicketService } from '../ticketing/ticket.service';
 
 @Component({
   selector: 'swp-profile-data',
   templateUrl: './profile-data.component.html',
-  styleUrls: ['./profile-data.component.scss']
+  styleUrls: ['./profile-data.component.scss'],
 })
 export class ProfileDataComponent implements OnInit {
   public data$ = new BehaviorSubject<Ticket[]>(null);
@@ -28,7 +27,7 @@ export class ProfileDataComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private ticketService: TicketService,
     private utilService: SharedUtilsService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
   ) {}
 
   ngOnInit(): void {
@@ -40,8 +39,11 @@ export class ProfileDataComponent implements OnInit {
           const { email, role } = params;
           this.profileRole$.next(role);
           this.email = email;
-          return this.ticketService.getUserTickets({ email, role } as SessionState, false);
-        })
+          return this.ticketService.getUserTickets(
+            { email, role } as SessionState,
+            false,
+          );
+        }),
       )
       .subscribe({
         next: (tickets) => {
@@ -50,17 +52,18 @@ export class ProfileDataComponent implements OnInit {
         },
         error: (err) => {
           console.log(err);
-        }
+        },
       });
     this.getProfileDetails(this.email);
   }
 
   getProfileDetails(userId: string) {
-    this.utilService.getUserProfileData(userId)
+    this.utilService
+      .getUserProfileData(userId)
       .pipe(
         tap(() => this.loading$.next(true)),
         take(2),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
       )
       .subscribe((res) => {
         console.log(res);

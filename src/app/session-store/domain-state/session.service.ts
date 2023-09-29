@@ -1,15 +1,15 @@
 import { Inject, Injectable, NgZone } from '@angular/core';
-import { SessionStore, SessionState } from './session.store';
 import { PersistState } from '@datorama/akita';
 
-@Injectable({
-  providedIn: 'root'
-})
+import { SessionStore, SessionState } from './session.store';
 
+@Injectable({
+  providedIn: 'root',
+})
 export class SessionService {
   constructor(
     private sessionStore: SessionStore,
-    @Inject('persistStorage') private persistStorage: PersistState
+    @Inject('persistStorage') private persistStorage: PersistState,
   ) {}
 
   setSession(session: SessionState) {
@@ -29,5 +29,4 @@ export class SessionService {
   updateSession(session: SessionState) {
     this.sessionStore.updateSession(session);
   }
-
 }

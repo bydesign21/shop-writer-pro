@@ -1,28 +1,24 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ContactFormComponent } from './contact-form.component';
-import { NzFormModule } from 'ng-zorro-antd/form';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
+
 import { FormControlErrorModule } from '../form-control-error/form-control-error.module';
 import { SwpButtonModule } from '../swp-button/swp-button.module';
 
-
+import { ContactFormComponent } from './contact-form.component';
 
 @NgModule({
-  declarations: [
-    ContactFormComponent
-  ],
+  declarations: [ContactFormComponent],
   imports: [
     CommonModule,
     NzFormModule,
     ReactiveFormsModule,
     NzInputModule,
     FormControlErrorModule,
-    SwpButtonModule
+    SwpButtonModule,
   ],
-  exports: [
-    ContactFormComponent
-  ]
+  exports: [ContactFormComponent],
 })
-export class ContactFormModule { }
+export class ContactFormModule {}

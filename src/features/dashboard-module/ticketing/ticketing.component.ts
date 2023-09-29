@@ -1,20 +1,28 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Subject, from, take, takeUntil } from 'rxjs';
-import { SessionQuery } from 'src/app/session-store/domain-state/session.query';
-import { TicketService } from './ticket.service';
-import { DecimalPipe } from '@angular/common';
-import { Ticket } from './store/ticket.model';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { Subject, from, take, takeUntil } from 'rxjs';
+import { SessionQuery } from 'src/app/session-store/domain-state/session.query';
+
+import { Ticket } from './store/ticket.model';
+import { TicketService } from './ticket.service';
 
 @Component({
   selector: 'swp-ticketing',
   templateUrl: './ticketing.component.html',
   styleUrls: ['./ticketing.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DecimalPipe]
+  providers: [DecimalPipe],
 })
 export class TicketingComponent implements OnInit, OnDestroy {
   userId: string;
@@ -26,48 +34,44 @@ export class TicketingComponent implements OnInit, OnDestroy {
   destroy$ = new Subject();
   ticketsInOrder: Partial<Ticket>[] = [];
 
-
   @Output() ticketSubmitted = new EventEmitter<boolean>(false);
 
   steps = [
     {
       step: 1,
-      percentage: 0
+      percentage: 0,
     },
     {
       step: 2,
-      percentage: 20
+      percentage: 20,
     },
     {
       step: 3,
-      percentage: 40
+      percentage: 40,
     },
     {
       step: 4,
-      percentage: 60
+      percentage: 60,
     },
     {
       step: 5,
-      percentage: 78
+      percentage: 78,
     },
     {
       step: 6,
-      percentage: 100
-    }
+      percentage: 100,
+    },
   ];
 
   constructor(
     private messageService: NzMessageService,
     private sessionQuery: SessionQuery,
     private ticketService: TicketService,
-    private modalService: NzModalService
+    private modalService: NzModalService,
   ) {
     this.sessionQuery.email$
-      .pipe(
-        take(1),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(email => this.userId = email);
+      .pipe(take(1), takeUntil(this.destroy$))
+      .subscribe((email) => (this.userId = email));
   }
 
   ngOnInit() {
@@ -111,8 +115,7 @@ export class TicketingComponent implements OnInit, OnDestroy {
         make: new FormControl('', [Validators.required]),
         year: new FormControl('', [Validators.required]),
         model: new FormControl('', [Validators.required]),
-        mileage: new FormControl('', [Validators.required])
-
+        mileage: new FormControl('', [Validators.required]),
       }),
       step4: new FormGroup({
         damage: new FormControl('', [Validators.required]),
@@ -125,7 +128,7 @@ export class TicketingComponent implements OnInit, OnDestroy {
       }),
       step6: new FormGroup({
         paymentSuccess: new FormControl('', [Validators.required]),
-      })
+      }),
     });
   }
 
@@ -135,15 +138,14 @@ export class TicketingComponent implements OnInit, OnDestroy {
   }
 
   async submitTicket(): Promise<any> {
-    return await this.ticketService.submitTickets(this.ticketsInOrder)
-    .then(
+    return await this.ticketService.submitTickets(this.ticketsInOrder).then(
       (res) => {
         return res;
       },
       (err) => {
         return err;
-      }
-    )
+      },
+    );
   }
 
   mapFormData(formData: any) {
@@ -158,8 +160,8 @@ export class TicketingComponent implements OnInit, OnDestroy {
       images: this.getFileLocationsFromUploads(formData.step3.imageUpload),
       plan: formData.step1.plan.name as string,
       totalUSD: formData.step1.plan.cost as number,
-      userId: this.userId
-    }
+      userId: this.userId,
+    };
     return mappedData;
   }
 
@@ -187,8 +189,8 @@ export class TicketingComponent implements OnInit, OnDestroy {
 
   calculateOrderTotal() {
     let orderTotal = 0;
-    this.ticketsInOrder.forEach(ticket => {
-      orderTotal = orderTotal + ticket.totalUSD
+    this.ticketsInOrder.forEach((ticket) => {
+      orderTotal = orderTotal + ticket.totalUSD;
     });
     return orderTotal;
   }
@@ -211,7 +213,7 @@ export class TicketingComponent implements OnInit, OnDestroy {
 
   getFileLocationsFromUploads(uploads: NzUploadFile[]): string[] {
     const files = [];
-    uploads.forEach(file => files.push(file.response.Location));
+    uploads.forEach((file) => files.push(file.response.Location));
     return files;
   }
 
@@ -231,9 +233,8 @@ export class TicketingComponent implements OnInit, OnDestroy {
           },
           error: (err) => {
             this.ticketSubmitted.next(false);
-          }
+          },
         });
     }
   }
-
 }

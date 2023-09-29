@@ -1,34 +1,74 @@
 <nz-layout class="relative">
   <nz-content>
-    <nz-row class="relative bg-cover bg-center h-screen" style="background-image: url('../../assets/images/hero-banner-image.jpg')">
+    <nz-row
+      class="relative bg-cover bg-center h-screen"
+      style="
+        background-image: url(&quot;../../assets/images/hero-banner-image.jpg&quot;);
+      "
+    >
       <div class="absolute inset-0 bg-black opacity-60"></div>
-      <nz-col nzSpan="24" class="relative z-10 flex items-center justify-center text-center">
+      <nz-col
+        nzSpan="24"
+        class="relative z-10 flex items-center justify-center text-center"
+      >
         <div class="space-y-6">
-          <h1 class="text-4xl md:text-5xl text-white font-bold">Estimates Made Easy</h1>
+          <h1 class="text-4xl md:text-5xl text-white font-bold">
+            Estimates Made Easy
+          </h1>
           <p class="text-lg md:text-xl text-white max-w-2xl mx-auto">
-            At Shop Writer Pro, we offer an excellent alternative to paying the salary of an in-house adjuster at your collision shop. With our team of licensed and experienced adjusters, we provide accurate estimates benefiting body shops when negotiating with insurance companies. Have your estimates written more efficiently, accurate, and cost-effective with no appointment needed.
+            At Shop Writer Pro, we offer an excellent alternative to paying the
+            salary of an in-house adjuster at your collision shop. With our team
+            of licensed and experienced adjusters, we provide accurate estimates
+            benefiting body shops when negotiating with insurance companies.
+            Have your estimates written more efficiently, accurate, and
+            cost-effective with no appointment needed.
           </p>
           <div class="space-x-4">
-            <swp-button [routerLink]="['/auth/login']" [nzSize]="'large'" [nzType]="'primary'" [content]="'Log In'"></swp-button>
-            <swp-button (click)="onLearnMoreClick()" [nzSize]="'large'" [content]="'Pricing'"></swp-button>
+            <swp-button
+              [routerLink]="['/auth/login']"
+              [nzSize]="'large'"
+              [nzType]="'primary'"
+              [content]="'Log In'"
+            ></swp-button>
+            <swp-button
+              (click)="onLearnMoreClick()"
+              [nzSize]="'large'"
+              [content]="'Pricing'"
+            ></swp-button>
           </div>
         </div>
       </nz-col>
     </nz-row>
     <nz-row class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-8">
       <nz-col class="flex justify-center" *ngFor="let card of cards">
-        <swp-card [title]="card.title" [photo]="card.photo" [description]="card.description"></swp-card>
+        <swp-card
+          [title]="card.title"
+          [photo]="card.photo"
+          [description]="card.description"
+        ></swp-card>
       </nz-col>
     </nz-row>
     <nz-row class="grid grid-cols-1 lg:grid-cols-2 gap-6 p-8 items-center">
       <nz-col>
         <div class="space-y-4 pl-4 pr-4 md:pl-8 md:pr-8">
           <h2 class="text-2xl font-semibold">No More Hassle</h2>
-          <p>Oftentimes, writing estimates for incoming damaged cars can be tedious. If done incorrectly, parts and repair procedures may be missing from the estimate, delaying the repair process with supplements later being needed. If you're constantly struggling with writing accurate estimates, hiring reliable adjusters, or spending too much time & money on estimates and supplements, then Shop Writer Pro is for you!</p>
+          <p>
+            Oftentimes, writing estimates for incoming damaged cars can be
+            tedious. If done incorrectly, parts and repair procedures may be
+            missing from the estimate, delaying the repair process with
+            supplements later being needed. If you're constantly struggling with
+            writing accurate estimates, hiring reliable adjusters, or spending
+            too much time & money on estimates and supplements, then Shop Writer
+            Pro is for you!
+          </p>
         </div>
       </nz-col>
       <nz-col class="flex justify-center">
-        <img src="../../assets/images/content1.png" alt="Fast Estimates With Shop Writer Pro" class="max-w-md rounded-lg shadow-lg">
+        <img
+          src="../../assets/images/content1.png"
+          alt="Fast Estimates With Shop Writer Pro"
+          class="max-w-md rounded-lg shadow-lg"
+        />
       </nz-col>
     </nz-row>
   </nz-content>

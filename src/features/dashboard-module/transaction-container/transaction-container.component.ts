@@ -1,20 +1,35 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, Observable, of, Subject, take, takeUntil } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  of,
+  Subject,
+  take,
+  takeUntil,
+} from 'rxjs';
 import { SessionQuery } from 'src/app/session-store/domain-state/session.query';
 import { SessionState } from 'src/app/session-store/domain-state/session.store';
+import { Breadcrumb } from 'src/features/shared-module/breadcrumb/breadcrumb.component';
 import { TicketViewerComponent } from 'src/features/shared-module/ticket-viewer/ticket-viewer.component';
 import { UserRole } from 'src/models/model';
+
 import { Ticket } from '../ticketing/store/ticket.model';
 import { TicketQuery } from '../ticketing/store/ticket.query';
 import { TicketService } from '../ticketing/ticket.service';
-import { Breadcrumb } from 'src/features/shared-module/breadcrumb/breadcrumb.component';
 
 @Component({
   selector: 'swp-transaction-container',
   templateUrl: './transaction-container.component.html',
-  styleUrls: ['./transaction-container.component.scss']
+  styleUrls: ['./transaction-container.component.scss'],
 })
 export class TransactionContainerComponent implements OnInit, OnDestroy {
   @ViewChild('nzModalContent')
@@ -33,28 +48,27 @@ export class TransactionContainerComponent implements OnInit, OnDestroy {
   breadcrumbs: Breadcrumb[] = [
     {
       label: 'Dashboard',
-      url: '/dashboard'
+      url: '/dashboard',
     },
     {
       label: 'Transactions',
-    }
-  ]
+    },
+  ];
   constructor(
     private modalService: NzModalService,
     private ticketService: TicketService,
     private cd: ChangeDetectorRef,
     private ticketQuery: TicketQuery,
     private sessionQuery: SessionQuery,
-    private messageService: NzMessageService
+    private messageService: NzMessageService,
   ) {}
 
   ngOnInit(): void {
     this.sessionQuery.allState$
-      .pipe(
-        takeUntil(this.destroy$))
-      .subscribe(userState => {
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((userState) => {
         this.userSession = userState;
-      })
+      });
     this.loadData(this.userSession.role as UserRole);
   }
 
@@ -62,22 +76,24 @@ export class TransactionContainerComponent implements OnInit, OnDestroy {
     this.dataLoading$.next(true);
     await this.ticketService.getUserTickets(this.userSession);
     this.tickets$ = this.ticketQuery.selectAll();
-    this.tickets$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((tickets) => {
-        if (role !== UserRole.ADMIN)  {
-          this.openOrders$.next(tickets);
-        } else {
-          this.openOrders$.next(tickets.map((ticket) => ticket.ticket))
-        }
-        this.dataLoading$.next(false);
-        this.cd.detectChanges();
-      });
+    this.tickets$.pipe(takeUntil(this.destroy$)).subscribe((tickets) => {
+      if (role !== UserRole.ADMIN) {
+        this.openOrders$.next(tickets);
+      } else {
+        this.openOrders$.next(tickets.map((ticket) => ticket.ticket));
+      }
+      this.dataLoading$.next(false);
+      this.cd.detectChanges();
+    });
   }
 
   handleRecentOrderPageChange(index: number) {
     this.recentOrderPageIndex = index;
-    this.recentOrderPagedData = this.updatePagedData(this.recentOrders, this.recentOrderPageIndex, this.recentOrderTableLimit);
+    this.recentOrderPagedData = this.updatePagedData(
+      this.recentOrders,
+      this.recentOrderPageIndex,
+      this.recentOrderTableLimit,
+    );
   }
 
   updatePagedData(data: Ticket[], pageIndex: number, tableLimit: number) {
@@ -93,15 +109,12 @@ export class TransactionContainerComponent implements OnInit, OnDestroy {
       nzTitle: `Ticket Details - ${ticketDate} `,
       nzContent: this.nzModalContent,
       nzClassName: 'ticket-viewer-modal',
-    })
+    });
   }
 
   handleTicketUpdated(ticket: Ticket): void {
     of(this.ticketService.updateTicket(ticket, this.userSession))
-      .pipe(
-        takeUntil(this.destroy$),
-        take(1)
-      )
+      .pipe(takeUntil(this.destroy$), take(1))
       .subscribe({
         next: () => {
           this.messageService.remove();
@@ -109,7 +122,7 @@ export class TransactionContainerComponent implements OnInit, OnDestroy {
         },
         error: (err) => {
           this.messageService.error(err.message);
-        }
+        },
       });
   }
 

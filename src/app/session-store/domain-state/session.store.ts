@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store, StoreConfig } from '@datorama/akita';
 
-
 export interface SessionState {
   id: string;
   name: string;
@@ -28,23 +27,22 @@ export function createInitialState(): SessionState {
     isAuthenticated: false,
     'custom:avatarUrl': '',
     'custom:companyName': '',
-    role: 'user'
+    role: 'user',
   };
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 @StoreConfig({ name: 'session' })
 export class SessionStore extends Store<SessionState> {
-
   constructor() {
     super(createInitialState());
   }
 
   endSession(): void {
     this.startSession();
-    setTimeout(() => localStorage.removeItem('AkitaStores'), 50)
+    setTimeout(() => localStorage.removeItem('AkitaStores'), 50);
   }
 
   startSession(): void {

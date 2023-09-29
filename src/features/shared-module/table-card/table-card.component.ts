@@ -1,9 +1,21 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { BehaviorSubject, Subject, take, takeUntil } from 'rxjs';
 import { Ticket } from 'src/features/dashboard-module/ticketing/store/ticket.model';
 import { TicketStatus, UserRole } from 'src/models/model';
+
 import { SharedUtilsService } from '../shared-utils/shared-utils.service';
 import { TicketViewerComponent } from '../ticket-viewer/ticket-viewer.component';
 
@@ -11,7 +23,7 @@ import { TicketViewerComponent } from '../ticket-viewer/ticket-viewer.component'
   selector: 'swp-table-card',
   templateUrl: './table-card.component.html',
   styleUrls: ['./table-card.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableCardComponent implements OnInit, OnDestroy {
   @ViewChild('viewTicketModal')
@@ -36,7 +48,7 @@ export class TableCardComponent implements OnInit, OnDestroy {
       title: 'Date',
       key: 'date',
       sortFn: (a: any, b: any) => a.date.localeCompare(b.date),
-      width: '100px'
+      width: '100px',
     },
     {
       title: 'Status',
@@ -48,37 +60,37 @@ export class TableCardComponent implements OnInit, OnDestroy {
         { text: 'Pending', value: 'pending' },
         { text: 'Completed', value: 'completed' || 'resolved' },
         { text: 'Cancelled', value: 'cancelled' },
-        { text: 'In Progress', value: 'in progress' || 'in_progress' }
+        { text: 'In Progress', value: 'in progress' || 'in_progress' },
       ],
       width: '35px',
       nzFilterFn: (status: string[], item: any) => {
         return status.some((status) => item.status.indexOf(status) !== -1);
-      }
+      },
     },
     {
       title: 'Vin',
       key: 'vin',
       sortFn: (a: any, b: any) => a.vin.localeCompare(b.vin),
-      width: '100px'
+      width: '100px',
     },
     {
       title: 'Model',
       key: 'model',
       sortFn: (a: any, b: any) => a.model.localeCompare(b.model),
-      width: '100px'
+      width: '100px',
     },
     {
       title: 'Actions',
       key: 'actions',
-      width: '35px'
-    }
+      width: '35px',
+    },
   ];
   tableHeadersAdmin = [
     {
       title: 'Date',
       key: 'date',
       sortFn: (a: any, b: any) => a.date.localeCompare(b.date),
-      width: '100px'
+      width: '100px',
     },
     {
       title: 'Status',
@@ -90,40 +102,39 @@ export class TableCardComponent implements OnInit, OnDestroy {
         { text: 'Pending', value: 'pending' },
         { text: 'Completed', value: 'completed' || 'resolved' },
         { text: 'Cancelled', value: 'cancelled' },
-        { text: 'In Progress', value: 'in progress' || 'in_progress' }
+        { text: 'In Progress', value: 'in progress' || 'in_progress' },
       ],
       width: '35px',
       nzFilterFn: (status: string[], item: any) => {
         return status.some((status) => item.status.indexOf(status) !== -1);
-      }
+      },
     },
     {
       title: 'Assigned To',
       key: 'assignedTo',
       sortFn: (a: any, b: any) => a.assignedTo.localeCompare(b.assignedTo),
-      width: '100px'
-    }
-  ]
+      width: '100px',
+    },
+  ];
 
   constructor(
     private modalService: NzModalService,
     private cd: ChangeDetectorRef,
     private utilService: SharedUtilsService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit() {
-    this.isLoading$
-      .pipe(
-        takeUntil(this.destroy$)
-      )
-      .subscribe((isLoading) => {
-        this.pagedData =
-          !isLoading
-            ? this.updatePagedData(this.data$.getValue(), this.pageIndex, this.pageLimit)
-            : [];
-        this.cd.detectChanges();
-      });
+    this.isLoading$.pipe(takeUntil(this.destroy$)).subscribe((isLoading) => {
+      this.pagedData = !isLoading
+        ? this.updatePagedData(
+            this.data$.getValue(),
+            this.pageIndex,
+            this.pageLimit,
+          )
+        : [];
+      this.cd.detectChanges();
+    });
   }
 
   ngOnDestroy(): void {
@@ -139,7 +150,11 @@ export class TableCardComponent implements OnInit, OnDestroy {
 
   handlePageChange(index: number) {
     this.pageIndex = index;
-    this.pagedData = this.updatePagedData(this.data$.getValue(), this.pageIndex, this.pageLimit);
+    this.pagedData = this.updatePagedData(
+      this.data$.getValue(),
+      this.pageIndex,
+      this.pageLimit,
+    );
   }
 
   handleUpdateTicket(ticket: Ticket) {
@@ -154,8 +169,14 @@ export class TableCardComponent implements OnInit, OnDestroy {
       nzTitle: `Ticket Details - ${ticketDate}`,
       nzContent: this.viewRowRef,
       nzClassName: 'ticket-viewer-modal',
-      nzFooter: [{ label: 'Close', type: 'default', onClick: () => this.modalService.closeAll() }]
-    })
+      nzFooter: [
+        {
+          label: 'Close',
+          type: 'default',
+          onClick: () => this.modalService.closeAll(),
+        },
+      ],
+    });
   }
 
   getTicketStatusPillColor(status: TicketStatus) {
@@ -164,11 +185,13 @@ export class TableCardComponent implements OnInit, OnDestroy {
 
   handleAssignedToClick(assignedToEmail: any) {
     this.modalService.closeAll();
-    this.router.navigate(['/dashboard/profile/data'], { queryParams: { email: assignedToEmail, role: UserRole.EMPLOYEE } });
+    this.router.navigate(['/dashboard/profile/data'], {
+      queryParams: { email: assignedToEmail, role: UserRole.EMPLOYEE },
+    });
   }
 
   sortFn = (a: any, b: any) => {
-    console.log(a, b)
+    console.log(a, b);
     return a.localCompare(b);
-  }
+  };
 }

@@ -5,12 +5,11 @@ import { NzButtonSize, NzButtonType } from 'ng-zorro-antd/button';
   selector: 'swp-button',
   templateUrl: './swp-button.component.html',
   styleUrls: ['./swp-button.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SwpButtonComponent {
   @Input() content?: string;
   @Input() nzType: NzButtonType = 'default';
   @Input() nzSize: NzButtonSize = 'large';
-  @Input() disabled = false; 
+  @Input() disabled = false;
 }
-

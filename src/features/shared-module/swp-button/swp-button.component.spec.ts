@@ -8,9 +8,8 @@ describe('SwpButtonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SwpButtonComponent ]
-    })
-    .compileComponents();
+      declarations: [SwpButtonComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SwpButtonComponent);
     component = fixture.componentInstance;

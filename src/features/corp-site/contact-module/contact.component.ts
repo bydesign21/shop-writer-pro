@@ -2,7 +2,10 @@ import { Component, ViewChild } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { take } from 'rxjs';
 import { ContactFormComponent } from 'src/features/shared-module/contact-form/contact-form.component';
-import { EmailOptions, SharedUtilsService } from 'src/features/shared-module/shared-utils/shared-utils.service';
+import {
+  EmailOptions,
+  SharedUtilsService,
+} from 'src/features/shared-module/shared-utils/shared-utils.service';
 
 @Component({
   selector: 'swp-contact',
@@ -21,10 +24,11 @@ export class ContactComponent {
     const options: EmailOptions = {
       name,
       email,
-      message
-    }
+      message,
+    };
     const CONTACT_US_TEMPLATE_ID = 'contact-us';
-    this.utilService.sendEmail(options, CONTACT_US_TEMPLATE_ID)
+    this.utilService
+      .sendEmail(options, CONTACT_US_TEMPLATE_ID)
       .pipe(take(1))
       .subscribe({
         next: (res) => {
@@ -33,7 +37,7 @@ export class ContactComponent {
         },
         error: (err) => {
           this.messageService.error('Error sending message', err);
-        }
+        },
       });
   }
 }

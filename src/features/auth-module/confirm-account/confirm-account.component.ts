@@ -1,15 +1,22 @@
-import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { combineLatest, Observable, Subject, take, takeUntil } from 'rxjs';
+
 import { AuthService } from '../auth-service.service';
 
 @Component({
   selector: 'app-confirm-account',
   templateUrl: './confirm-account.component.html',
   styleUrls: ['./confirm-account.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfirmAccountComponent implements OnInit, OnDestroy {
   destroy$ = new Subject();
@@ -20,22 +27,19 @@ export class ConfirmAccountComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
-    private messageService: NzMessageService
-  ) { }
+    private messageService: NzMessageService,
+  ) {}
 
   ngOnInit(): void {
-    console.log('hello')
+    console.log('hello');
     this.destroy$.next(false);
     this.activatedRoute.queryParams
-      .pipe(
-        take(1),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(params => {
+      .pipe(take(1), takeUntil(this.destroy$))
+      .subscribe((params) => {
         if (!params['userId']) {
-          this.router.navigate(['auth/login'])
+          this.router.navigate(['auth/login']);
         } else {
-          this.userId = params['userId']
+          this.userId = params['userId'];
         }
       });
     this.initForm();
@@ -53,14 +57,19 @@ export class ConfirmAccountComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.authService.handleConfimAccount({ username: this.userId, code: this.confirmForm.get('code').value })
-      .subscribe(_ => {
-        this.messageService.success('Account successfully confirmed.');
-        this.router.navigate(['auth/login']);
-      },
-        err => {
+    this.authService
+      .handleConfimAccount({
+        username: this.userId,
+        code: this.confirmForm.get('code').value,
+      })
+      .subscribe(
+        (_) => {
+          this.messageService.success('Account successfully confirmed.');
+          this.router.navigate(['auth/login']);
+        },
+        (err) => {
           this.messageService.error(err.message);
-        }
+        },
       );
   }
 
@@ -68,6 +77,8 @@ export class ConfirmAccountComponent implements OnInit, OnDestroy {
     this.authService
       .handleResendCode(this.userId)
       .pipe(take(1))
-      .subscribe(res => this.messageService.success('Code sent successfully', res));
+      .subscribe((res) =>
+        this.messageService.success('Code sent successfully', res),
+      );
   }
 }

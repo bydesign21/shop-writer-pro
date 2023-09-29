@@ -1,15 +1,32 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Subject, debounceTime, filter, distinctUntilChanged, switchMap, takeUntil, map } from 'rxjs';
-import { SharedUtilsService } from '../shared-utils/shared-utils.service';
+import {
+  Subject,
+  debounceTime,
+  filter,
+  distinctUntilChanged,
+  switchMap,
+  takeUntil,
+  map,
+} from 'rxjs';
 import { insuranceList } from 'src/features/shared-module/shared-utils/shared.model';
+
+import { SharedUtilsService } from '../shared-utils/shared-utils.service';
 
 @Component({
   selector: 'swp-vehicle-details',
   templateUrl: './vehicle-details.component.html',
   styleUrls: ['./vehicle-details.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VehicleDetailsComponent implements OnDestroy, OnInit {
   @Input() vehicleDetails: any = null;
@@ -30,9 +47,9 @@ export class VehicleDetailsComponent implements OnDestroy, OnInit {
 
   constructor(
     private utilService: SharedUtilsService,
-    private messageService: NzMessageService
+    private messageService: NzMessageService,
   ) {
-    this.vehicleDetailsForm.get('vin').valueChanges.subscribe(vin => {
+    this.vehicleDetailsForm.get('vin').valueChanges.subscribe((vin) => {
       this.vinSubject$.next(vin);
     });
 
@@ -40,8 +57,8 @@ export class VehicleDetailsComponent implements OnDestroy, OnInit {
       .pipe(
         takeUntil(this.destroy$),
         map((res: any) => {
-          return { ...res, insurance: res.insurance.label }
-        })
+          return { ...res, insurance: res.insurance.label };
+        }),
       )
       .subscribe((res: any) => {
         console.log('vehicleDetailsForm', res);
@@ -67,10 +84,10 @@ export class VehicleDetailsComponent implements OnDestroy, OnInit {
     this.vinSubject$
       .pipe(
         debounceTime(500),
-        filter(vin => vin.length > 4 && vin.length < 25),
+        filter((vin) => vin.length > 4 && vin.length < 25),
         distinctUntilChanged(),
         switchMap((vin: string) => this.utilService.getVehichleByVin(vin)),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
       )
       .subscribe((res: any) => {
         const { year, make, model } = res;

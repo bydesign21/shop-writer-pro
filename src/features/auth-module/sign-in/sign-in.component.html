@@ -1,7 +1,11 @@
 <div class="bg-gray-100 p-8 rounded-lg max-w-md mx-auto mt-10">
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-5">
     <div class="mb-5">
-      <label class="block text-sm font-semibold text-gray-600 mb-2" for="username">Username</label>
+      <label
+        class="block text-sm font-semibold text-gray-600 mb-2"
+        for="username"
+        >Username</label
+      >
       <input
         type="text"
         id="username"
@@ -11,7 +15,11 @@
       />
     </div>
     <div class="mb-5">
-      <label class="block text-sm font-semibold text-gray-600 mb-2" for="password">Password</label>
+      <label
+        class="block text-sm font-semibold text-gray-600 mb-2"
+        for="password"
+        >Password</label
+      >
       <input
         type="password"
         id="password"
@@ -22,10 +30,16 @@
     </div>
     <div class="flex justify-between items-center">
       <label class="flex items-center">
-        <input type="checkbox" formControlName="rememberMe" class="form-checkbox text-blue-500">
+        <input
+          type="checkbox"
+          formControlName="rememberMe"
+          class="form-checkbox text-blue-500"
+        />
         <span class="ml-2 text-gray-600 text-sm">Remember me</span>
       </label>
-      <a (click)="handleForgotPassword()" class="text-blue-500 text-sm">Forgot password?</a>
+      <a (click)="handleForgotPassword()" class="text-blue-500 text-sm"
+        >Forgot password?</a
+      >
     </div>
     <div class="flex space-x-4">
       <button
@@ -41,9 +55,16 @@
         Sign Up
       </button>
     </div>
-    <div *ngIf="form.hasError('required')" class="text-red-500 text-sm">Name is required</div>
+    <div *ngIf="form.hasError('required')" class="text-red-500 text-sm">
+      Name is required
+    </div>
   </form>
   <div class="text-center mt-8 text-gray-600">
-    <p>By Signing In, You Agree to The <a (click)="handleTermsConditionsClicked()" class="text-blue-500">Terms and Conditions</a></p>
+    <p>
+      By Signing In, You Agree to The
+      <a (click)="handleTermsConditionsClicked()" class="text-blue-500"
+        >Terms and Conditions</a
+      >
+    </p>
   </div>
 </div>

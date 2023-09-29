@@ -1,12 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ConfirmAccountComponent } from './confirm-account.component';
-import { NzFormModule } from 'ng-zorro-antd/form';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { SwpButtonModule } from 'src/features/shared-module/swp-button/swp-button.module';
 
-
+import { ConfirmAccountComponent } from './confirm-account.component';
 
 @NgModule({
   declarations: [ConfirmAccountComponent],
@@ -16,8 +15,8 @@ import { SwpButtonModule } from 'src/features/shared-module/swp-button/swp-butto
     FormsModule,
     ReactiveFormsModule,
     NzInputModule,
-    SwpButtonModule
+    SwpButtonModule,
   ],
-  exports: [ConfirmAccountComponent]
+  exports: [ConfirmAccountComponent],
 })
-export class ConfirmAccountModule { }
+export class ConfirmAccountModule {}

@@ -128,8 +128,8 @@
               nz-input
               required="true"
               [disabled]="!editVehicleInfo"
-              [placeholder]="updatedTicket.mileage | number : '1.0-0'"
-              [ngModel]="updatedTicket.mileage | number : '1.0-0'"
+              [placeholder]="updatedTicket.mileage | number: '1.0-0'"
+              [ngModel]="updatedTicket.mileage | number: '1.0-0'"
               (ngModelChange)="
                 updatedTicket.mileage = $event.replaceAll(',', '')
               "

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -13,6 +13,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { NzModalModule, NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
@@ -32,7 +33,6 @@ import { SpinnerModule } from '../../shared-module/spinner/spinner.module';
 import { SwpButtonModule } from '../../shared-module/swp-button/swp-button.module';
 
 import { TicketingComponent } from './ticketing.component';
-
 @NgModule({
   declarations: [TicketingComponent],
   imports: [
@@ -65,8 +65,9 @@ import { TicketingComponent } from './ticketing.component';
     VehicleDetailsDamageModule,
     ReviewOrderModule,
     PaymentModule,
+    NzModalModule,
   ],
   exports: [TicketingComponent],
-  providers: [SharedUtilsService],
+  providers: [SharedUtilsService, DecimalPipe],
 })
-export class TicketingModule {}
+export class TicketingModule { }

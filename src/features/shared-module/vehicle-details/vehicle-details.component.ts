@@ -7,7 +7,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import {
   Subject,
@@ -78,6 +78,32 @@ export class VehicleDetailsComponent implements OnDestroy, OnInit {
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.complete();
+  }
+
+  formatNumberWithCommas(value: string): string {
+    const onlyDigits = this.formatInputToNumericalOnlyValue(value);
+    const withCommas = onlyDigits.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return withCommas;
+  }
+
+  getErrorMessage(control: AbstractControl): string {
+    console.log(control.errors);
+    if (control.hasError('required')) {
+      return 'You must enter a valid value';
+    } else if (control.hasError('email')) {
+      return 'Not a valid email';
+    }
+    return 'Invalid input';
+  }
+
+  isInvalidAndDirty(name: string): boolean {
+    const control = this.vehicleDetailsForm.get(name);
+    return control.invalid && (control.dirty || control.touched);
+  }
+
+  formatInputToNumericalOnlyValue(value: string) {
+    const onlyDigits = value.replace(/\D/g, '');
+    return onlyDigits;
   }
 
   handleVehicleDetailsAutoFill() {

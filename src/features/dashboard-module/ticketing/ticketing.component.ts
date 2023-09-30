@@ -1,4 +1,3 @@
-import { DecimalPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -22,7 +21,6 @@ import { TicketService } from './ticket.service';
   templateUrl: './ticketing.component.html',
   styleUrls: ['./ticketing.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DecimalPipe],
 })
 export class TicketingComponent implements OnInit, OnDestroy {
   userId: string;
@@ -79,6 +77,10 @@ export class TicketingComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    if (this.paymentSuccess) {
+      this.ticketSubmitted.emit(true);
+      this.ticketSubmitted.complete();
+    }
     this.destroy$.next(true);
     this.destroy$.complete();
   }
@@ -165,10 +167,6 @@ export class TicketingComponent implements OnInit, OnDestroy {
     return mappedData;
   }
 
-  // numberFormatter(value: string) {
-  //   this.vehicleMileage = this.decimalPipe.transform(value.replace(',', ''), '1.0-0');
-  // }
-
   handleAddVehicle() {
     this.addTicketToOrder();
     this.resetFormsAndValues();
@@ -176,9 +174,14 @@ export class TicketingComponent implements OnInit, OnDestroy {
   }
 
   addTicketToOrder() {
-    const formData = this.formValues;
-    const mappedData = this.mapFormData(formData);
-    this.ticketsInOrder.push(mappedData);
+    const ticket = this.mapFormData(this.formValues);
+    const ticketExists = this.ticketsInOrder.find((t) => t.vin === ticket.vin);
+    if (ticketExists) {
+      const index = this.ticketsInOrder.indexOf(ticketExists);
+      this.ticketsInOrder[index] = ticket;
+    } else {
+      this.ticketsInOrder.push(ticket);
+    }
   }
 
   resetFormsAndValues() {

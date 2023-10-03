@@ -21,5 +21,5 @@ import 'zone.js/dist/zone';
 (window as any).global = window;
 global.Buffer = global.Buffer || require('buffer').Buffer;
 (window as any).process = {
-  version: ''
+  version: '',
 };

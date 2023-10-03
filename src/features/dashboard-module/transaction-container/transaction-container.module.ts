@@ -1,20 +1,20 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TransactionContainerComponent } from './transaction-container.component';
-import { NzTableModule } from 'ng-zorro-antd/table';
-import { NzLayoutModule } from 'ng-zorro-antd/layout';
-import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
-import { NzTagModule } from 'ng-zorro-antd/tag';
-import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
-import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
-import { RouterModule } from '@angular/router';
-import { TicketViewerModule } from 'src/features/shared-module/ticket-viewer/ticket-viewer.module';
-import { TicketStore } from '../ticketing/store/tickets.store';
+import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { TableCardModule } from 'src/features/shared-module/table-card/table-card.module';
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 import { BreadcrumbModule } from 'src/features/shared-module/breadcrumb/breadcrumb.module';
+import { TableCardModule } from 'src/features/shared-module/table-card/table-card.module';
+import { TicketViewerModule } from 'src/features/shared-module/ticket-viewer/ticket-viewer.module';
+
+import { TransactionContainerComponent } from './transaction-container.component';
 
 @NgModule({
   declarations: [TransactionContainerComponent],
@@ -32,8 +32,8 @@ import { BreadcrumbModule } from 'src/features/shared-module/breadcrumb/breadcru
     TicketViewerModule,
     NzIconModule,
     TableCardModule,
-    BreadcrumbModule
+    BreadcrumbModule,
   ],
-  exports: [TransactionContainerComponent]
+  exports: [TransactionContainerComponent],
 })
-export class TransactionContainerModule { }
+export class TransactionContainerModule {}

@@ -1,11 +1,12 @@
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import awsmobile from './aws-exports';
-import { Amplify, Auth } from 'aws-amplify';
-import { AppModule } from './app/app.module';
 import { persistState } from '@datorama/akita';
+import { Amplify, Auth } from 'aws-amplify';
+
+import { AppModule } from './app/app.module';
+import awsmobile from './aws-exports';
 
 const storage = persistState({
-  include: ['session']
+  include: ['session'],
 });
 
 const providers = [{ provide: 'persistStorage', useValue: storage }];

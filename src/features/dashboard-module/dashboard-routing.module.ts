@@ -1,17 +1,19 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
-import { DashboardGuard } from "../auth-module/dashboard.guard";
-import { DashboardContainerComponent } from "./dashboard-container.component";
-import { DashboardHomeComponent } from "./dashboard-home/dashboard-home.component";
-import { ProfileDataComponent } from "./profile-data/profile-data.component";
-import { ProfileComponent } from "./profile/profile.component";
-import { TransactionContainerComponent } from "./transaction-container/transaction-container.component";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+
+import { DashboardGuard } from '../auth-module/dashboard.guard';
+
+import { DashboardContainerComponent } from './dashboard-container.component';
+import { DashboardHomeComponent } from './dashboard-home/dashboard-home.component';
+import { ProfileComponent } from './profile/profile.component';
+import { ProfileDataComponent } from './profile-data/profile-data.component';
+import { TransactionContainerComponent } from './transaction-container/transaction-container.component';
 
 const routes: Routes = [
   {
     path: '',
     redirectTo: 'home',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: '',
@@ -24,22 +26,22 @@ const routes: Routes = [
       },
       {
         path: 'transactions',
-        component: TransactionContainerComponent
+        component: TransactionContainerComponent,
       },
       {
         path: 'profile',
-        component: ProfileComponent
+        component: ProfileComponent,
       },
       {
         path: 'profile/data',
-        component: ProfileDataComponent
-      }
-    ]
-  }
+        component: ProfileDataComponent,
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class DashboardRoutingModule { }
+export class DashboardRoutingModule {}

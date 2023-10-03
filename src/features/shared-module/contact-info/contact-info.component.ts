@@ -4,4 +4,4 @@ import { Component } from '@angular/core';
   selector: 'swp-contact-info',
   templateUrl: './contact-info.component.html',
 })
-export class ContactInfoComponent { }
+export class ContactInfoComponent {}

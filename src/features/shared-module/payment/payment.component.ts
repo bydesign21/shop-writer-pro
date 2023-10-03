@@ -1,24 +1,31 @@
-import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+} from '@angular/core';
 import { PaymentIntentResult, loadStripe } from '@stripe/stripe-js';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { BehaviorSubject, from, takeUntil } from 'rxjs';
+import { BehaviorSubject, Subject, from, takeUntil } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { TicketService } from 'src/features/dashboard-module/ticketing/ticket.service';
 
 @Component({
   selector: 'swp-payment',
   templateUrl: './payment.component.html',
-  styleUrls: ['./payment.component.scss']
+  styleUrls: ['./payment.component.scss'],
 })
-export class PaymentComponent implements AfterViewInit {
+export class PaymentComponent implements AfterViewInit, OnDestroy {
   @Input() ticketsInOrder: any[];
   @Output() paymentStatus = new EventEmitter<boolean>();
   public formLoaded$ = new BehaviorSubject<boolean>(false);
   public paymentSuccess = false;
   private stripe: Promise<any> = loadStripe(environment?.STRIPE_API);
-  private destroy$ = new BehaviorSubject<boolean>(false);
+  private destroy$ = new Subject<boolean>();
   private clientSecret: string;
   private elements: any;
 
@@ -26,18 +33,22 @@ export class PaymentComponent implements AfterViewInit {
     private messageService: NzMessageService,
     private ticketService: TicketService,
     private spinner: NgxSpinnerService,
-    private modalService: NzModalService
-  ) {
-  }
+    private modalService: NzModalService,
+  ) {}
 
   ngAfterViewInit(): void {
     this.getPaymentIntent();
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
+  }
+
   calculateOrderTotal() {
     let orderTotal = 0;
-    this.ticketsInOrder.forEach(ticket => {
-      orderTotal = orderTotal + ticket.totalUSD
+    this.ticketsInOrder.forEach((ticket) => {
+      orderTotal = orderTotal + ticket.totalUSD;
     });
     return orderTotal;
   }
@@ -45,7 +56,9 @@ export class PaymentComponent implements AfterViewInit {
   async getPaymentIntent() {
     try {
       this.spinner.show('payment-spinner');
-      this.clientSecret = await this.ticketService.getPaymentIntent(this.ticketsInOrder);
+      this.clientSecret = await this.ticketService.getPaymentIntent(
+        this.ticketsInOrder,
+      );
       this.spinner.hide('payment-spinner');
       this.handlePayment();
       this.formLoaded$.next(true);
@@ -72,13 +85,16 @@ export class PaymentComponent implements AfterViewInit {
   async submitPayment() {
     this.spinner.show('payment-spinner');
     this.formLoaded$.next(false);
-    const paymentResponse$ = from((await this.stripe).confirmPayment({
-      elements: this.elements,
-      redirect: 'if_required'
-    }));
+    const paymentResponse$ = from(
+      (await this.stripe).confirmPayment({
+        elements: this.elements,
+        redirect: 'if_required',
+      }),
+    );
 
     paymentResponse$
-    .subscribe((res: any) => this.handlePaymentResponse(res));
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res: any) => this.handlePaymentResponse(res));
   }
 
   handlePaymentResponse(response: PaymentIntentResult) {

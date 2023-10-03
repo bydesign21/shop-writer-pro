@@ -1,16 +1,13 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CorpSiteContainerComponent } from './corp-site-container.component';
-import { NavbarModule } from 'src/features/shared-module/navbar/navbar.module';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { NavbarModule } from 'src/features/shared-module/navbar/navbar.module';
+
+import { CorpSiteContainerComponent } from './corp-site-container.component';
 
 @NgModule({
   declarations: [CorpSiteContainerComponent],
-  imports: [
-    CommonModule,
-    NavbarModule,
-    RouterModule
-  ],
-  exports: [CorpSiteContainerComponent]
+  imports: [CommonModule, NavbarModule, RouterModule],
+  exports: [CorpSiteContainerComponent],
 })
-export class CorpSiteContainerModule { }
+export class CorpSiteContainerModule {}

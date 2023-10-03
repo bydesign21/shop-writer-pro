@@ -101,6 +101,7 @@
                 </h4>
               </div>
               <swp-vehicle-details-damage
+                [damage]="formValues.step4.damage"
                 (additionalDetailsOutput)="handleVehicleDetailsDamage($event)"
               ></swp-vehicle-details-damage>
             </div>
@@ -134,6 +135,14 @@
                 <span>Payment</span>
                 <h1>Submit Order</h1>
                 <h4>Please proceed through checkout to submit your order.</h4>
+              </div>
+              <div *ngIf="paymentSuccess" class="slide-heading">
+                <span>Payment</span>
+                <h1>Payment Successful</h1>
+                <h4>
+                  Your order has been submitted. View recent orders in your
+                  <a (click)="handleModalClose()">Dashboard</a>
+                </h4>
               </div>
               <swp-payment
                 [ticketsInOrder]="ticketsInOrder"

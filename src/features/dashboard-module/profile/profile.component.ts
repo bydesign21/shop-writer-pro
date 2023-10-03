@@ -1,23 +1,38 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzUploadChangeParam, NzUploadFile, NzUploadXHRArgs } from 'ng-zorro-antd/upload';
+import {
+  NzUploadChangeParam,
+  NzUploadFile,
+  NzUploadXHRArgs,
+} from 'ng-zorro-antd/upload';
 import { from, map, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
 import { SessionQuery } from 'src/app/session-store/domain-state/session.query';
 import { SessionState } from 'src/app/session-store/domain-state/session.store';
 import { AuthService } from 'src/features/auth-module/auth-service.service';
-import { TicketService } from '../ticketing/ticket.service';
 import { Breadcrumb } from 'src/features/shared-module/breadcrumb/breadcrumb.component';
+
+import { TicketService } from '../ticketing/ticket.service';
 
 @Component({
   selector: 'swp-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+  styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('nameEl') nameElement: ElementRef<HTMLParagraphElement>;
-  @ViewChild('companyNameEl') companyNameElement: ElementRef<HTMLParagraphElement>;
+  @ViewChild('companyNameEl')
+  companyNameElement: ElementRef<HTMLParagraphElement>;
   @ViewChild('phoneNumberEl') phoneElement: ElementRef<HTMLParagraphElement>;
   @ViewChild('emailEl') emailElement: ElementRef<HTMLParagraphElement>;
   @ViewChild('addressEl') addressElement: ElementRef<HTMLParagraphElement>;
@@ -30,12 +45,12 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
   breadcrumbs: Breadcrumb[] = [
     {
       label: 'Dashboard',
-      url: '/dashboard'
+      url: '/dashboard',
     },
     {
       label: 'Profile',
-    }
-  ]
+    },
+  ];
 
   destroy$ = new Subject();
   constructor(
@@ -45,8 +60,8 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
     private cd: ChangeDetectorRef,
     private messageService: NzMessageService,
     private ticketService: TicketService,
-    private router: Router
-  ) { }
+    private router: Router,
+  ) {}
 
   @HostListener('window:resize')
   onResize() {
@@ -60,25 +75,27 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.sessionQuery.allState$.pipe(takeUntil(this.destroy$)).subscribe(res => {
-      this.user = {
-        ...res,
-        name: res.name,
-        email: res.email,
-        phone_number: res.phone_number,
-        address: res.address,
-        'custom:avatarUrl': res['custom:avatarUrl'],
-        'custom:companyName': res['custom:companyName']
-      }
-    });
-    console.log(this.user, 'User init')
+    this.sessionQuery.allState$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res) => {
+        this.user = {
+          ...res,
+          name: res.name,
+          email: res.email,
+          phone_number: res.phone_number,
+          address: res.address,
+          'custom:avatarUrl': res['custom:avatarUrl'],
+          'custom:companyName': res['custom:companyName'],
+        };
+      });
+    console.log(this.user, 'User init');
     this.userForm = this.fb.group({
       name: [this.user.name, [Validators.required]],
       email: [this.user.email, [Validators.required, Validators.email]],
       phone_number: [this.user.phone_number, [Validators.required]],
       address: [this.user.address, [Validators.required]],
       'custom:companyName': [this.user['custom:companyName'], null],
-      'custom:avatarUrl': [this.user['custom:avatarUrl'], null]
+      'custom:avatarUrl': [this.user['custom:avatarUrl'], null],
     });
     this.userForm.get('email').disable();
     this.userForm.markAsUntouched();
@@ -99,7 +116,7 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
         phone_number: this.user.phone_number,
         address: this.user.address,
         'custom:companyName': this.user['custom:companyName'],
-        'custom:avatarUrl': this.user['custom:avatarUrl']
+        'custom:avatarUrl': this.user['custom:avatarUrl'],
       });
       this.userForm.markAsUntouched();
       this.cd.detectChanges();
@@ -109,15 +126,17 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
   saveUserDetails(): void {
     // const oldUsername = this.user.email;
     // const newUsername = this.userForm.get('email').value;
-    this.authService.handleUpdateProfile({ ...this.userForm.value })
+    this.authService
+      .handleUpdateProfile({ ...this.userForm.value })
       .pipe(
         take(1),
-        tap(_ => {
+        takeUntil(this.destroy$),
+        tap((_) => {
           this.editing = false;
           this.fileList = [];
           this.messageService.success('Profile updated successfully');
           this.cd.detectChanges();
-          console.log('success callback executed')
+          console.log('success callback executed');
         }),
         // switchMap(_ => {
         //   return from(this.ticketService.updateUserRecordEntryId(oldUsername, newUsername)).pipe(
@@ -129,12 +148,13 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
         //     })
         //   )
         // })
-      ).subscribe(res => console.log(res))
+      )
+      .subscribe((res) => console.log(res));
   }
 
   handleAddressChange(address: any): void {
     this.userForm.patchValue({
-      address: address.formatted_address
+      address: address.formatted_address,
     });
   }
 
@@ -144,20 +164,26 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
       this.userForm.get('custom:avatarUrl').patchValue(file.response.Location);
       this.cd.detectChanges();
     } else if (status === 'error') {
-      this.messageService.error('There Was An Error Uploading Your Profile Picture')
+      this.messageService.error(
+        'There Was An Error Uploading Your Profile Picture',
+      );
     }
   }
 
   handleFileListChange($event: NzUploadFile[]) {
     this.fileList = $event;
-    const uploadEl = document.getElementsByClassName('ant-upload-select')[0] as HTMLElement;
+    const uploadEl = document.getElementsByClassName(
+      'ant-upload-select',
+    )[0] as HTMLElement;
     uploadEl.hidden = !uploadEl.hidden;
   }
 
   public customReq = (item: NzUploadXHRArgs) => {
-    return this.ticketService.uploadMedia(item).pipe(takeUntil(this.destroy$)).subscribe();
+    return this.ticketService
+      .uploadMedia(item)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe();
   };
-
 
   setActiveTooltips() {
     const elementArr: HTMLParagraphElement[] = [
@@ -165,9 +191,9 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
       this.emailElement?.nativeElement,
       this.phoneElement?.nativeElement,
       this.companyNameElement?.nativeElement,
-      this.addressElement?.nativeElement
+      this.addressElement?.nativeElement,
     ];
-    this.isTextTruncated = elementArr.some(el => {
+    this.isTextTruncated = elementArr.some((el) => {
       return el?.offsetWidth < el?.scrollWidth;
     });
     this.cd.detectChanges();

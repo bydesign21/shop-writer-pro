@@ -1,17 +1,16 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NzGridModule } from 'ng-zorro-antd/grid';
-import { NavbarComponent } from './navbar.component';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { SwpButtonComponent } from '../swp-button/swp-button.component';
-import { SwpButtonModule } from '../swp-button/swp-button.module';
+import { NzDrawerModule } from 'ng-zorro-antd/drawer';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
-import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 
+import { SwpButtonModule } from '../swp-button/swp-button.module';
 
+import { NavbarComponent } from './navbar.component';
 
 @NgModule({
   declarations: [NavbarComponent],
@@ -24,8 +23,8 @@ import { NzDrawerModule } from 'ng-zorro-antd/drawer';
     NzMenuModule,
     NzDropDownModule,
     NzIconModule,
-    NzDrawerModule
+    NzDrawerModule,
   ],
-  exports: [NavbarComponent]
+  exports: [NavbarComponent],
 })
-export class NavbarModule { }
+export class NavbarModule {}

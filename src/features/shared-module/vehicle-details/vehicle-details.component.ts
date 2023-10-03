@@ -1,15 +1,37 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  AbstractControl,
+} from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Subject, debounceTime, filter, distinctUntilChanged, switchMap, takeUntil, map } from 'rxjs';
-import { SharedUtilsService } from '../shared-utils/shared-utils.service';
+import {
+  Subject,
+  debounceTime,
+  filter,
+  distinctUntilChanged,
+  switchMap,
+  takeUntil,
+  map,
+} from 'rxjs';
 import { insuranceList } from 'src/features/shared-module/shared-utils/shared.model';
+
+import { SharedUtilsService } from '../shared-utils/shared-utils.service';
 
 @Component({
   selector: 'swp-vehicle-details',
   templateUrl: './vehicle-details.component.html',
   styleUrls: ['./vehicle-details.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VehicleDetailsComponent implements OnDestroy, OnInit {
   @Input() vehicleDetails: any = null;
@@ -30,18 +52,21 @@ export class VehicleDetailsComponent implements OnDestroy, OnInit {
 
   constructor(
     private utilService: SharedUtilsService,
-    private messageService: NzMessageService
+    private messageService: NzMessageService,
   ) {
-    this.vehicleDetailsForm.get('vin').valueChanges.subscribe(vin => {
-      this.vinSubject$.next(vin);
-    });
+    this.vehicleDetailsForm
+      .get('vin')
+      .valueChanges.pipe(takeUntil(this.destroy$))
+      .subscribe((vin) => {
+        this.vinSubject$.next(vin);
+      });
 
     this.vehicleDetailsForm.valueChanges
       .pipe(
         takeUntil(this.destroy$),
         map((res: any) => {
-          return { ...res, insurance: res.insurance.label }
-        })
+          return { ...res, insurance: res.insurance.label };
+        }),
       )
       .subscribe((res: any) => {
         console.log('vehicleDetailsForm', res);
@@ -63,14 +88,40 @@ export class VehicleDetailsComponent implements OnDestroy, OnInit {
     this.destroy$.complete();
   }
 
+  formatNumberWithCommas(value: string): string {
+    const onlyDigits = this.formatInputToNumericalOnlyValue(value);
+    const withCommas = onlyDigits.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return withCommas;
+  }
+
+  getErrorMessage(control: AbstractControl): string {
+    console.log(control.errors);
+    if (control.hasError('required')) {
+      return 'You must enter a valid value';
+    } else if (control.hasError('email')) {
+      return 'Not a valid email';
+    }
+    return 'Invalid input';
+  }
+
+  isInvalidAndDirty(name: string): boolean {
+    const control = this.vehicleDetailsForm.get(name);
+    return control.invalid && (control.dirty || control.touched);
+  }
+
+  formatInputToNumericalOnlyValue(value: string) {
+    const onlyDigits = value.replace(/\D/g, '');
+    return onlyDigits;
+  }
+
   handleVehicleDetailsAutoFill() {
     this.vinSubject$
       .pipe(
         debounceTime(500),
-        filter(vin => vin.length > 4 && vin.length < 25),
+        filter((vin) => vin.length > 4 && vin.length < 25),
         distinctUntilChanged(),
         switchMap((vin: string) => this.utilService.getVehichleByVin(vin)),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
       )
       .subscribe((res: any) => {
         const { year, make, model } = res;

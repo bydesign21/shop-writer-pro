@@ -2,7 +2,9 @@
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-5">
     <!-- Email -->
     <div>
-      <label class="block text-sm font-semibold text-gray-600 mb-2" for="email">Email</label>
+      <label class="block text-sm font-semibold text-gray-600 mb-2" for="email"
+        >Email</label
+      >
       <input
         type="text"
         id="email"
@@ -13,7 +15,9 @@
     </div>
     <!-- Full Name -->
     <div>
-      <label class="block text-sm font-semibold text-gray-600 mb-2" for="name">Full Name</label>
+      <label class="block text-sm font-semibold text-gray-600 mb-2" for="name"
+        >Full Name</label
+      >
       <input
         type="text"
         id="name"
@@ -24,7 +28,11 @@
     </div>
     <!-- Address -->
     <div>
-      <label class="block text-sm font-semibold text-gray-600 mb-2" for="address">Address</label>
+      <label
+        class="block text-sm font-semibold text-gray-600 mb-2"
+        for="address"
+        >Address</label
+      >
       <input
         type="text"
         id="address"
@@ -35,7 +43,11 @@
     </div>
     <!-- Company -->
     <div>
-      <label class="block text-sm font-semibold text-gray-600 mb-2" for="company">Company</label>
+      <label
+        class="block text-sm font-semibold text-gray-600 mb-2"
+        for="company"
+        >Company</label
+      >
       <input
         type="text"
         id="company"
@@ -46,7 +58,11 @@
     </div>
     <!-- Phone Number -->
     <div>
-      <label class="block text-sm font-semibold text-gray-600 mb-2" for="phoneNumber">Phone Number</label>
+      <label
+        class="block text-sm font-semibold text-gray-600 mb-2"
+        for="phoneNumber"
+        >Phone Number</label
+      >
       <input
         type="tel"
         id="phoneNumber"
@@ -57,7 +73,11 @@
     </div>
     <!-- Password -->
     <div class="relative">
-      <label class="block text-sm font-semibold text-gray-600 mb-2" for="password">Password</label>
+      <label
+        class="block text-sm font-semibold text-gray-600 mb-2"
+        for="password"
+        >Password</label
+      >
       <input
         [type]="isPasswordVisible ? 'text' : 'password'"
         id="password"
@@ -67,13 +87,18 @@
       />
       <span
         class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
-        (click)="handlePasswordViewClick()">
+        (click)="handlePasswordViewClick()"
+      >
         <i nz-icon nzType="eye" class="text-gray-400 relative top-[0.8rem]"></i>
       </span>
     </div>
     <!-- Confirm Password -->
     <div class="relative">
-      <label class="block text-sm font-semibold text-gray-600 mb-2" for="passwordConfirm">Confirm Password</label>
+      <label
+        class="block text-sm font-semibold text-gray-600 mb-2"
+        for="passwordConfirm"
+        >Confirm Password</label
+      >
       <input
         [type]="isPasswordConfirmVisible ? 'text' : 'password'"
         id="passwordConfirm"
@@ -83,18 +108,25 @@
       />
       <span
         class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
-        (click)="handlePasswordViewClick(true)">
+        (click)="handlePasswordViewClick(true)"
+      >
         <i nz-icon nzType="eye" class="text-gray-400 relative top-[0.8rem]"></i>
       </span>
     </div>
     <!-- Sign Up Button -->
     <button
       type="submit"
-      class="w-full bg-blue-500 text-white py-2 px-4 rounded-lg focus:ring-4 focus:ring-blue-300 focus:outline-none">
+      class="w-full bg-blue-500 text-white py-2 px-4 rounded-lg focus:ring-4 focus:ring-blue-300 focus:outline-none"
+    >
       Sign Up
     </button>
   </form>
   <div class="text-center mt-8 text-gray-600">
-    <p>By Signing In, You Agree to The <a (click)="handleTermsConditionsClicked()" class="text-blue-500">Terms and Conditions</a></p>
+    <p>
+      By Signing In, You Agree to The
+      <a (click)="handleTermsConditionsClicked()" class="text-blue-500"
+        >Terms and Conditions</a
+      >
+    </p>
   </div>
 </div>

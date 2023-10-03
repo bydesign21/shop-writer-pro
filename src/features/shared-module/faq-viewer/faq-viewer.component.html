@@ -1,12 +1,20 @@
 <nz-layout class="bg-white shadow-md">
-  <nz-content class="max-h-full md:max-h-[500px] max-w-xl mx-auto p-8 md:p-6 sm:p-4 bg-white rounded-md">
+  <nz-content
+    class="max-h-full md:max-h-[500px] max-w-xl mx-auto p-8 md:p-6 sm:p-4 bg-white rounded-md"
+  >
     <nz-row>
       <nz-col nzSpan="24">
-        <h1 class="text-2xl font-semibold mb-8 text-gray-800 border-b pb-2">Frequently Asked Questions</h1>
+        <h1 class="text-2xl font-semibold mb-8 text-gray-800 border-b pb-2">
+          Frequently Asked Questions
+        </h1>
         <div class="max-h-full md:max-h-[400px] overflow-auto">
           <nz-collapse class="text-gray-700 text-base">
-            <nz-collapse-panel *ngFor="let faq of faqs" [nzHeader]="faq.question" class="mb-3">
-              <p class="mt-2 text-sm">{{faq.answer}}</p>
+            <nz-collapse-panel
+              *ngFor="let faq of faqs"
+              [nzHeader]="faq.question"
+              class="mb-3"
+            >
+              <p class="mt-2 text-sm">{{ faq.answer }}</p>
             </nz-collapse-panel>
           </nz-collapse>
         </div>

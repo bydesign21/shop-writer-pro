@@ -20,12 +20,21 @@
       >
         <thead>
           <tr>
-            <th [nzColumnKey]="item?.key" [nzFilterFn]="item?.nzFilterFn" [nzFilters]="item?.nzFilters" [nzSortFn]="item?.sortFn" *ngFor="let item of tableHeadersDefault" class="py-2 px-3 text-left">{{ item.title }}</th>
+            <th
+              [nzColumnKey]="item?.key"
+              [nzFilterFn]="item?.nzFilterFn"
+              [nzFilters]="item?.nzFilters"
+              [nzSortFn]="item?.sortFn"
+              *ngFor="let item of tableHeadersDefault"
+              class="py-2 px-3 text-left"
+            >
+              {{ item.title }}
+            </th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let item of filterTable?.data">
-            <td class="py-2 px-3">{{ item.date | date : "MMM, dd. yyyy." }}</td>
+            <td class="py-2 px-3">{{ item.date | date: "MMM, dd. yyyy." }}</td>
             <td class="py-2 px-3">
               <nz-tag
                 class="rounded-full"
@@ -37,7 +46,11 @@
             <td class="py-2 px-3">{{ item.vin }}</td>
             <td class="py-2 px-3">{{ item.model }}</td>
             <td class="py-2 px-3">
-              <a (click)="viewTableRow(item)" class="text-blue-500 hover:underline">View</a>
+              <a
+                (click)="viewTableRow(item)"
+                class="text-blue-500 hover:underline"
+                >View</a
+              >
             </td>
           </tr>
         </tbody>
@@ -50,54 +63,64 @@
 <nz-card *ngIf="assignmentTable" class="table-card" [nzTitle]="cardTitle">
   <div class="overflow-x-auto">
     <div>
-    <nz-spin
-      class="flex justify-center items-center table-card__container"
-      [nzSpinning]="isLoading$ | async"
-      [nzIndicator]="loadingIndicatorRef"
-    >
-      <nz-table
-        #filterTable
-        class="min-w-full"
-        [nzLoading]="isLoading$ | async"
-        [nzLoadingIndicator]="loadingIndicatorRef"
-        [nzPageIndex]="pageIndex"
-        [nzTotal]="(data$ | async)?.length"
-        [nzNoResult]="noResultRef"
-        (nzPageIndexChange)="handlePageChange($event)"
-        [nzPageSize]="pageLimit"
-        [nzData]="data$ | async"
+      <nz-spin
+        class="flex justify-center items-center table-card__container"
+        [nzSpinning]="isLoading$ | async"
+        [nzIndicator]="loadingIndicatorRef"
       >
-        <thead>
-          <tr>
-            <th [nzColumnKey]="item?.key" [nzFilterFn]="item?.nzFilterFn" [nzFilters]="item?.nzFilters" [nzSortFn]="item?.sortFn" *ngFor="let item of tableHeadersAdmin" class="py-2 px-3 text-left">{{ item.title }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of filterTable?.data">
-            <td class="py-2 px-3">{{ item.date | date : "MMM, dd. yyyy." }}</td>
-            <td class="py-2 px-3">
-              <nz-tag
-                class="rounded-full"
-                [nzColor]="getTicketStatusPillColor(item.status)"
+        <nz-table
+          #filterTable
+          class="min-w-full"
+          [nzLoading]="isLoading$ | async"
+          [nzLoadingIndicator]="loadingIndicatorRef"
+          [nzPageIndex]="pageIndex"
+          [nzTotal]="(data$ | async)?.length"
+          [nzNoResult]="noResultRef"
+          (nzPageIndexChange)="handlePageChange($event)"
+          [nzPageSize]="pageLimit"
+          [nzData]="data$ | async"
+        >
+          <thead>
+            <tr>
+              <th
+                [nzColumnKey]="item?.key"
+                [nzFilterFn]="item?.nzFilterFn"
+                [nzFilters]="item?.nzFilters"
+                [nzSortFn]="item?.sortFn"
+                *ngFor="let item of tableHeadersAdmin"
+                class="py-2 px-3 text-left"
               >
-                {{ item?.ticket?.status }}
-              </nz-tag>
-            </td>
-            <td class="py-2 px-3">
-              <nz-tag
-                (click)="handleAssignedToClick(item.ticket.assignedTo)"
-                class="assignment_tag rounded-full text-white"
-                [nzColor]="'#00000073'"
-              >
-                {{ item.ticket.assignedTo }}
-              </nz-tag>
-            </td>
-          </tr>
-        </tbody>
-      </nz-table>
-    </nz-spin>
+                {{ item.title }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of filterTable?.data">
+              <td class="py-2 px-3">
+                {{ item.date | date: "MMM, dd. yyyy." }}
+              </td>
+              <td class="py-2 px-3">
+                <nz-tag
+                  class="rounded-full"
+                  [nzColor]="getTicketStatusPillColor(item.status)"
+                >
+                  {{ item?.ticket?.status }}
+                </nz-tag>
+              </td>
+              <td class="py-2 px-3">
+                <nz-tag
+                  (click)="handleAssignedToClick(item.ticket.assignedTo)"
+                  class="assignment_tag rounded-full text-white"
+                  [nzColor]="'#00000073'"
+                >
+                  {{ item.ticket.assignedTo }}
+                </nz-tag>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </nz-spin>
     </div>
-
   </div>
 </nz-card>
 

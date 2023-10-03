@@ -1,24 +1,14 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReviewOrderComponent } from './review-order.component';
-import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { NgModule } from '@angular/core';
 import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzImageModule } from 'ng-zorro-antd/image';
 
-
+import { ReviewOrderComponent } from './review-order.component';
 
 @NgModule({
-  declarations: [
-    ReviewOrderComponent
-  ],
-  imports: [
-    CommonModule,
-    NzCollapseModule,
-    NzCardModule,
-    NzImageModule
-  ],
-  exports: [
-    ReviewOrderComponent
-  ]
+  declarations: [ReviewOrderComponent],
+  imports: [CommonModule, NzCollapseModule, NzCardModule, NzImageModule],
+  exports: [ReviewOrderComponent],
 })
-export class ReviewOrderModule { }
+export class ReviewOrderModule {}

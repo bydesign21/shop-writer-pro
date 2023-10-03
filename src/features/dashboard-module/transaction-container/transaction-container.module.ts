@@ -36,4 +36,4 @@ import { TransactionContainerComponent } from './transaction-container.component
   ],
   exports: [TransactionContainerComponent],
 })
-export class TransactionContainerModule { }
+export class TransactionContainerModule {}

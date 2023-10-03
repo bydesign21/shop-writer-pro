@@ -42,7 +42,7 @@ export class TicketViewerComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private modalService: NzModalService,
     private router: Router,
-  ) { }
+  ) {}
   tableData$ = new BehaviorSubject<Ticket[]>(null);
   destroy$ = new Subject();
   updatedTicket: Ticket;

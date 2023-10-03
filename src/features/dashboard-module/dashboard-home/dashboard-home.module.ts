@@ -15,11 +15,11 @@ import { SpinnerModule } from 'src/features/shared-module/spinner/spinner.module
 import { TableCardModule } from 'src/features/shared-module/table-card/table-card.module';
 import { TicketViewerModule } from 'src/features/shared-module/ticket-viewer/ticket-viewer.module';
 
+import { TicketQuery } from '../ticketing/store/ticket.query';
 import { TicketStore } from '../ticketing/store/tickets.store';
 import { TicketingModule } from '../ticketing/ticketing.module';
 
 import { DashboardHomeComponent } from './dashboard-home.component';
-import { TicketQuery } from '../ticketing/store/ticket.query';
 
 @NgModule({
   declarations: [DashboardHomeComponent],
@@ -41,4 +41,4 @@ import { TicketQuery } from '../ticketing/store/ticket.query';
     TableCardModule,
   ],
 })
-export class DashboardHomeModule { }
+export class DashboardHomeModule {}

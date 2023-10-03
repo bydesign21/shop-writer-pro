@@ -2,7 +2,15 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { BehaviorSubject, Subject, of, switchMap, take, takeUntil, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  Subject,
+  of,
+  switchMap,
+  take,
+  takeUntil,
+  tap,
+} from 'rxjs';
 import { SessionQuery } from 'src/app/session-store/domain-state/session.query';
 import { SessionState } from 'src/app/session-store/domain-state/session.store';
 import { SharedUtilsService } from 'src/features/shared-module/shared-utils/shared-utils.service';
@@ -41,11 +49,10 @@ export class ProfileDataComponent implements OnInit, OnDestroy {
     private utilService: SharedUtilsService,
     private messageService: NzMessageService,
     private sessionQuery: SessionQuery,
-    private cd: ChangeDetectorRef
-  ) { }
+    private cd: ChangeDetectorRef,
+  ) {}
 
   ngOnInit(): void {
-
     this.sessionQuery.allState$
       .pipe(takeUntil(this.destroy$))
       .subscribe((session) => {
@@ -61,9 +68,10 @@ export class ProfileDataComponent implements OnInit, OnDestroy {
           const { email, role } = params;
           this.profileRole$.next(role);
           this.email = email;
-          return this.ticketService.getUserTickets(
-            { email, role } as SessionState,
-          );
+          return this.ticketService.getUserTickets({
+            email,
+            role,
+          } as SessionState);
         }),
       )
       .subscribe({
@@ -102,7 +110,11 @@ export class ProfileDataComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$), take(1))
       .subscribe({
         next: () => {
-          this.data$.next(this.data$.value.map((t) => (t.ticketId === ticket.ticketId ? ticket : t)));
+          this.data$.next(
+            this.data$.value.map((t) =>
+              t.ticketId === ticket.ticketId ? ticket : t,
+            ),
+          );
           this.messageService.remove();
           this.messageService.success('Ticket updated successfully');
         },

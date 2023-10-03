@@ -46,7 +46,7 @@ export class ProfileCardComponent implements OnInit, AfterViewInit, OnDestroy {
     private cd: ChangeDetectorRef,
     private ticketService: TicketService,
     private fb: FormBuilder,
-  ) { }
+  ) {}
 
   @HostListener('window:resize')
   onResize() {
@@ -100,7 +100,12 @@ export class ProfileCardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   saveUserDetails(): void {
     this.authService
-      .handleUpdateProfile({ ...this.userForm.value, 'custom:avatarUrl': this.userForm.get('custom:avatarUrl').value || this.user$.getValue()['custom:avatarUrl'] })
+      .handleUpdateProfile({
+        ...this.userForm.value,
+        'custom:avatarUrl':
+          this.userForm.get('custom:avatarUrl').value ||
+          this.user$.getValue()['custom:avatarUrl'],
+      })
       .pipe(
         take(1),
         takeUntil(this.destroy$),

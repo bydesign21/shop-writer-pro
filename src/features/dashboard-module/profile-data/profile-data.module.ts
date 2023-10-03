@@ -22,8 +22,8 @@ import { ProfileDataComponent } from './profile-data.component';
     RouterModule,
     TicketViewerModule,
     ProfileCardModule,
-    BreadcrumbModule
+    BreadcrumbModule,
   ],
   exports: [ProfileDataComponent],
 })
-export class ProfileDataModule { }
+export class ProfileDataModule {}

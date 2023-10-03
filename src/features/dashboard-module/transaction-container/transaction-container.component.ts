@@ -26,8 +26,8 @@ import { UserRole } from 'src/models/model';
 
 import { Ticket } from '../ticketing/store/ticket.model';
 import { TicketQuery } from '../ticketing/store/ticket.query';
-import { TicketService } from '../ticketing/ticket.service';
 import { TicketStore } from '../ticketing/store/tickets.store';
+import { TicketService } from '../ticketing/ticket.service';
 
 @Component({
   selector: 'swp-transaction-container',
@@ -65,7 +65,7 @@ export class TransactionContainerComponent implements OnInit, OnDestroy {
     private sessionQuery: SessionQuery,
     private ticketStore: TicketStore,
     private messageService: NzMessageService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.sessionQuery.allState$
@@ -84,15 +84,16 @@ export class TransactionContainerComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
         switchMap((tickets) => {
           if (!tickets.length) {
-            return this.ticketService.getUserTickets(this.userSession)
-              .pipe(
-                tap((tickets) => this.openOrders$.next(tickets))
-              );
+            return this.ticketService
+              .getUserTickets(this.userSession)
+              .pipe(tap((tickets) => this.openOrders$.next(tickets)));
           } else {
             this.openOrders$.next(tickets);
             return of(tickets);
           }
-        })).subscribe();
+        }),
+      )
+      .subscribe();
     this.dataLoading$.next(false);
     this.cd.detectChanges();
   }

@@ -31,7 +31,7 @@ export class TicketService {
   constructor(
     private ticketStore: TicketStore,
     private utilService: SharedUtilsService,
-  ) { }
+  ) {}
 
   uploadMedia(item: NzUploadXHRArgs): Observable<HttpEvent<any>> {
     const formData = new FormData();
@@ -81,10 +81,8 @@ export class TicketService {
         {
           withCredentials: false,
         },
-      ))
-      .pipe(
-        switchMap((request) => this.utilService.executeRequest(request)),
-      );
+      ),
+    ).pipe(switchMap((request) => this.utilService.executeRequest(request)));
   }
 
   async updateTicket(ticket: Ticket, user: SessionState): Promise<Ticket> {
@@ -96,8 +94,9 @@ export class TicketService {
       ticket,
       { withCredentials: false },
     );
-    return lastValueFrom(this.utilService.executeRequest(request))
-      .then(res => res?.body);
+    return lastValueFrom(this.utilService.executeRequest(request)).then(
+      (res) => res?.body,
+    );
   }
 
   async updateUserRecordEntryId(oldEntryId: string, newEntryId: string) {

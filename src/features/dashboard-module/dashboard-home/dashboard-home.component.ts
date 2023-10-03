@@ -31,9 +31,9 @@ import {
 
 import { Ticket } from '../ticketing/store/ticket.model';
 import { TicketQuery } from '../ticketing/store/ticket.query';
+import { TicketStore } from '../ticketing/store/tickets.store';
 import { TicketService } from '../ticketing/ticket.service';
 import { TicketingComponent } from '../ticketing/ticketing.component';
-import { TicketStore } from '../ticketing/store/tickets.store';
 
 @Component({
   selector: 'swp-dashboard-home',
@@ -60,7 +60,7 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
     private ticketQuery: TicketQuery,
     private ticketStore: TicketStore,
     private messageService: NzMessageService,
-  ) { }
+  ) {}
 
   handleSubmitTicketClicked() {
     this.modalService.create({
@@ -91,23 +91,24 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
         switchMap((tickets) => {
           if (!tickets.length) {
-            return this.ticketService.getUserTickets(this.userSession)
-              .pipe(
-                map(
-                  tickets => {
-                    this.ticketStore.set(tickets);
-                    this.updateData(tickets);
-                    this.dataLoading$.next(false);
-                    this.cd.detectChanges();
-                    return tickets;
-                  }))
+            return this.ticketService.getUserTickets(this.userSession).pipe(
+              map((tickets) => {
+                this.ticketStore.set(tickets);
+                this.updateData(tickets);
+                this.dataLoading$.next(false);
+                this.cd.detectChanges();
+                return tickets;
+              }),
+            );
           } else {
             this.updateData(tickets);
             this.dataLoading$.next(false);
             this.cd.detectChanges();
             return tickets;
           }
-        })).subscribe();
+        }),
+      )
+      .subscribe();
   }
 
   updateData(tickets: Ticket[]) {
@@ -127,7 +128,6 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
     this.openOrders$.next([...openOrders]);
     this.recentOrders$.next([...recentOrders]);
   }
-
 
   handleTicketUpdated(ticket: Ticket): void {
     from(this.ticketService.updateTicket(ticket, this.userSession))

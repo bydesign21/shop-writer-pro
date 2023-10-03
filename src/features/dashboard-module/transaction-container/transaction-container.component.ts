@@ -87,7 +87,7 @@ export class TransactionContainerComponent implements OnInit, OnDestroy {
             return this.ticketService
               .getUserTickets(this.userSession)
               .pipe(
-                tap((tickets) => this.ticketStore.set(tickets))
+                tap((tickets) => tickets.length ? this.ticketStore.set(tickets) : null)
               );
           } else {
             return of(tickets);

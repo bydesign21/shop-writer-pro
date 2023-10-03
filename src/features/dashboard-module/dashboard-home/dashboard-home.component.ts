@@ -19,6 +19,7 @@ import {
   switchMap,
   take,
   takeUntil,
+  tap,
 } from 'rxjs';
 import { SessionQuery } from 'src/app/session-store/domain-state/session.query';
 import { SessionState } from 'src/app/session-store/domain-state/session.store';
@@ -60,7 +61,7 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
     private ticketQuery: TicketQuery,
     private ticketStore: TicketStore,
     private messageService: NzMessageService,
-  ) {}
+  ) { }
 
   handleSubmitTicketClicked() {
     this.modalService.create({
@@ -86,30 +87,25 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
 
   loadData() {
     this.dataLoading$.next(true);
-    this.tickets$
-      .pipe(
-        takeUntil(this.destroy$),
-        switchMap((tickets) => {
-          if (!tickets.length) {
-            return this.ticketService.getUserTickets(this.userSession).pipe(
-              map((tickets) => {
-                this.ticketStore.set(tickets);
-                this.updateData(tickets);
-                this.dataLoading$.next(false);
-                this.cd.detectChanges();
-                return tickets;
-              }),
-            );
-          } else {
-            this.updateData(tickets);
-            this.dataLoading$.next(false);
-            this.cd.detectChanges();
-            return tickets;
-          }
-        }),
-      )
-      .subscribe();
+
+    this.tickets$.pipe(
+      take(1),
+      switchMap(tickets => {
+        if (!tickets.length) {
+          return this.ticketService.getUserTickets(this.userSession);
+        } else {
+          return of(tickets);
+        }
+      }),
+      tap(tickets => {
+        this.ticketStore.set(tickets);
+        this.updateData(tickets);
+        this.dataLoading$.next(false);
+        this.cd.detectChanges();
+      })
+    ).subscribe();
   }
+
 
   updateData(tickets: Ticket[]) {
     const openOrders = [];
@@ -137,6 +133,7 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
           this.ticketStore.update(ticket.ticketId, updatedTicket);
           this.messageService.remove();
           this.messageService.success('Ticket updated successfully');
+          this.loadData();
         },
         error: (err) => {
           this.messageService.error(err.message);

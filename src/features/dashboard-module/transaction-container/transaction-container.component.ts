@@ -65,7 +65,7 @@ export class TransactionContainerComponent implements OnInit, OnDestroy {
     private sessionQuery: SessionQuery,
     private ticketStore: TicketStore,
     private messageService: NzMessageService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.sessionQuery.allState$
@@ -86,16 +86,19 @@ export class TransactionContainerComponent implements OnInit, OnDestroy {
           if (!tickets.length) {
             return this.ticketService
               .getUserTickets(this.userSession)
-              .pipe(tap((tickets) => this.openOrders$.next(tickets)));
+              .pipe(
+                tap((tickets) => this.ticketStore.set(tickets))
+              );
           } else {
-            this.openOrders$.next(tickets);
             return of(tickets);
           }
         }),
+        tap((tickets) => {
+          this.openOrders$.next(tickets);
+          this.dataLoading$.next(false);
+        })
       )
       .subscribe();
-    this.dataLoading$.next(false);
-    this.cd.detectChanges();
   }
 
   handleRecentOrderPageChange(index: number) {

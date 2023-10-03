@@ -31,7 +31,7 @@ export class TicketService {
   constructor(
     private ticketStore: TicketStore,
     private utilService: SharedUtilsService,
-  ) {}
+  ) { }
 
   uploadMedia(item: NzUploadXHRArgs): Observable<HttpEvent<any>> {
     const formData = new FormData();
@@ -67,32 +67,24 @@ export class TicketService {
     );
   }
 
-  async getUserTickets(
-    user: SessionState,
-    resetState = true,
-  ): Promise<Ticket[]> {
+  getUserTickets(user: SessionState): Observable<Ticket[]> {
     const { email, role } = user;
-    const request = await this.utilService.createRequest(
-      'GET',
-      `${environment.API_BASE_URL}/core/query/users/data`,
-      {
-        userId: email,
-        entryId: role,
-      },
-      null,
-      {
-        withCredentials: false,
-      },
-    );
-
-    return lastValueFrom(this.utilService.executeRequest(request)).then(
-      (tickets) => {
-        if (resetState) {
-          this.ticketStore.set(tickets);
-        }
-        return tickets;
-      },
-    );
+    return from(
+      this.utilService.createRequest(
+        'GET',
+        `${environment.API_BASE_URL}/core/query/users/data`,
+        {
+          userId: email,
+          entryId: role,
+        },
+        null,
+        {
+          withCredentials: false,
+        },
+      ))
+      .pipe(
+        switchMap((request) => this.utilService.executeRequest(request)),
+      );
   }
 
   async updateTicket(ticket: Ticket, user: SessionState): Promise<Ticket> {
@@ -104,18 +96,8 @@ export class TicketService {
       ticket,
       { withCredentials: false },
     );
-    return lastValueFrom(this.utilService.executeRequest(request)).then(
-      (res) => {
-        const updatedTicket = res?.body;
-        console.log(updatedTicket);
-        if (updatedTicket) {
-          this.ticketStore.update(ticket?.ticketId, updatedTicket);
-          return updatedTicket;
-        } else {
-          return null;
-        }
-      },
-    );
+    return lastValueFrom(this.utilService.executeRequest(request))
+      .then(res => res?.body);
   }
 
   async updateUserRecordEntryId(oldEntryId: string, newEntryId: string) {

@@ -13,8 +13,10 @@ import {
   Observable,
   of,
   Subject,
+  switchMap,
   take,
   takeUntil,
+  tap,
 } from 'rxjs';
 import { SessionQuery } from 'src/app/session-store/domain-state/session.query';
 import { SessionState } from 'src/app/session-store/domain-state/session.store';
@@ -25,6 +27,7 @@ import { UserRole } from 'src/models/model';
 import { Ticket } from '../ticketing/store/ticket.model';
 import { TicketQuery } from '../ticketing/store/ticket.query';
 import { TicketService } from '../ticketing/ticket.service';
+import { TicketStore } from '../ticketing/store/tickets.store';
 
 @Component({
   selector: 'swp-transaction-container',
@@ -60,8 +63,9 @@ export class TransactionContainerComponent implements OnInit, OnDestroy {
     private cd: ChangeDetectorRef,
     private ticketQuery: TicketQuery,
     private sessionQuery: SessionQuery,
+    private ticketStore: TicketStore,
     private messageService: NzMessageService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.sessionQuery.allState$
@@ -69,22 +73,28 @@ export class TransactionContainerComponent implements OnInit, OnDestroy {
       .subscribe((userState) => {
         this.userSession = userState;
       });
+    this.tickets$ = this.ticketQuery.selectAll();
     this.loadData(this.userSession.role as UserRole);
   }
 
-  async loadData(role = UserRole.USER): Promise<void> {
+  loadData(role = UserRole.USER) {
     this.dataLoading$.next(true);
-    await this.ticketService.getUserTickets(this.userSession);
-    this.tickets$ = this.ticketQuery.selectAll();
-    this.tickets$.pipe(takeUntil(this.destroy$)).subscribe((tickets) => {
-      if (role !== UserRole.ADMIN) {
-        this.openOrders$.next(tickets);
-      } else {
-        this.openOrders$.next(tickets.map((ticket) => ticket.ticket));
-      }
-      this.dataLoading$.next(false);
-      this.cd.detectChanges();
-    });
+    this.tickets$
+      .pipe(
+        takeUntil(this.destroy$),
+        switchMap((tickets) => {
+          if (!tickets.length) {
+            return this.ticketService.getUserTickets(this.userSession)
+              .pipe(
+                tap((tickets) => this.openOrders$.next(tickets))
+              );
+          } else {
+            this.openOrders$.next(tickets);
+            return of(tickets);
+          }
+        })).subscribe();
+    this.dataLoading$.next(false);
+    this.cd.detectChanges();
   }
 
   handleRecentOrderPageChange(index: number) {
@@ -117,6 +127,7 @@ export class TransactionContainerComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$), take(1))
       .subscribe({
         next: () => {
+          this.ticketStore.update(ticket.ticketId, ticket);
           this.messageService.remove();
           this.messageService.success('Ticket updated successfully');
         },

@@ -8,12 +8,12 @@ import {
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { combineLatest, Observable, Subject, take, takeUntil } from 'rxjs';
+import { Subject, take, takeUntil } from 'rxjs';
 
 import { AuthService } from '../auth-service.service';
 
 @Component({
-  selector: 'app-confirm-account',
+  selector: 'swp-confirm-account',
   templateUrl: './confirm-account.component.html',
   styleUrls: ['./confirm-account.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -62,6 +62,7 @@ export class ConfirmAccountComponent implements OnInit, OnDestroy {
         username: this.userId,
         code: this.confirmForm.get('code').value,
       })
+      .pipe(take(1), takeUntil(this.destroy$))
       .subscribe(
         (_) => {
           this.messageService.success('Account successfully confirmed.');
@@ -76,7 +77,7 @@ export class ConfirmAccountComponent implements OnInit, OnDestroy {
   handleResendCode() {
     this.authService
       .handleResendCode(this.userId)
-      .pipe(take(1))
+      .pipe(take(1), takeUntil(this.destroy$))
       .subscribe((res) =>
         this.messageService.success('Code sent successfully', res),
       );

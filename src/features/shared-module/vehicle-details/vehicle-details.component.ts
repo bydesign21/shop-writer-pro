@@ -7,7 +7,12 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  AbstractControl,
+} from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import {
   Subject,
@@ -49,9 +54,12 @@ export class VehicleDetailsComponent implements OnDestroy, OnInit {
     private utilService: SharedUtilsService,
     private messageService: NzMessageService,
   ) {
-    this.vehicleDetailsForm.get('vin').valueChanges.subscribe((vin) => {
-      this.vinSubject$.next(vin);
-    });
+    this.vehicleDetailsForm
+      .get('vin')
+      .valueChanges.pipe(takeUntil(this.destroy$))
+      .subscribe((vin) => {
+        this.vinSubject$.next(vin);
+      });
 
     this.vehicleDetailsForm.valueChanges
       .pipe(
@@ -82,7 +90,7 @@ export class VehicleDetailsComponent implements OnDestroy, OnInit {
 
   formatNumberWithCommas(value: string): string {
     const onlyDigits = this.formatInputToNumericalOnlyValue(value);
-    const withCommas = onlyDigits.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const withCommas = onlyDigits.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     return withCommas;
   }
 

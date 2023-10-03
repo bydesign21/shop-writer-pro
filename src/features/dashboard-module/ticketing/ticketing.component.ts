@@ -229,13 +229,14 @@ export class TicketingComponent implements OnInit, OnDestroy {
       this.paymentSuccess = status;
       this.forms.get('step6').patchValue({ paymentSuccess: status });
       from(this.submitTicket())
-        .pipe(take(1))
+        .pipe(take(1), takeUntil(this.destroy$))
         .subscribe({
           next: (res) => {
-            this.ticketSubmitted.next(true);
+            this.messageService.success('Ticket Submitted Successfully');
           },
-          error: (err) => {
+          error: (err: Error) => {
             this.ticketSubmitted.next(false);
+            this.messageService.error(`Error Submitting Ticket ${err.message}`);
           },
         });
     }

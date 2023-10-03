@@ -12,7 +12,7 @@
       <p>
         Customer:
         <nz-tag
-          class="cursor-pointer bg-gray-200 px-2 py-1 rounded"
+          class="cursor-pointer ml-2 rounded-3xl bg-gray-200 mt-2 px-2 py-1 rounded"
           (click)="handleUserProfileClick($event.target, 'user')"
           [nzColor]="'grey'"
         >
@@ -22,7 +22,7 @@
       <p>
         Assigned To:
         <nz-tag
-          class="cursor-pointer bg-gray-200 px-2 py-1 rounded"
+          class="cursor-pointer ml-2 bg-gray-200 rounded-3xl px-2 mt-2 py-1 rounded"
           (click)="handleUserProfileClick($event.target, 'employee')"
           [nzColor]="'black'"
         >
@@ -249,7 +249,7 @@
   <ng-container>
     <ng-template #ticketStatusRef>
       <nz-select
-        class="w-60 h-16 bg-white border border-gray-300 rounded shadow-lg"
+        class="w-[10rem] bg-white border border-gray-300 rounded shadow-lg"
         (ngModelChange)="handleTicketStatusChange($event)"
         [(ngModel)]="updatedTicket.status"
         [nzPlaceHolder]="'Ticket Status'"

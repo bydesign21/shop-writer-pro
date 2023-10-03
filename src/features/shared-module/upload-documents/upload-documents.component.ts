@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import {
   NzUploadFile,
@@ -13,7 +20,7 @@ import { TicketService } from 'src/features/dashboard-module/ticketing/ticket.se
   templateUrl: './upload-documents.component.html',
   styleUrls: ['./upload-documents.component.scss'],
 })
-export class UploadDocumentsComponent implements OnInit {
+export class UploadDocumentsComponent implements OnInit, OnDestroy {
   @Input() selectedFiles: NzUploadFile[] = [];
   @Output() filesUploaded = new EventEmitter<NzUploadFile[]>();
   imageList: string[] = [];
@@ -28,6 +35,11 @@ export class UploadDocumentsComponent implements OnInit {
     if (this.selectedFiles.length) {
       this.filesUploaded.emit(this.selectedFiles);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   customReq = (item: NzUploadXHRArgs) => {

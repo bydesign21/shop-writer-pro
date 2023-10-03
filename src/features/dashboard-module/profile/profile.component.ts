@@ -130,6 +130,7 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
       .handleUpdateProfile({ ...this.userForm.value })
       .pipe(
         take(1),
+        takeUntil(this.destroy$),
         tap((_) => {
           this.editing = false;
           this.fileList = [];

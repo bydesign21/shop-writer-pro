@@ -14,8 +14,6 @@ import { BreadcrumbModule } from 'src/features/shared-module/breadcrumb/breadcru
 import { TableCardModule } from 'src/features/shared-module/table-card/table-card.module';
 import { TicketViewerModule } from 'src/features/shared-module/ticket-viewer/ticket-viewer.module';
 
-import { TicketStore } from '../ticketing/store/tickets.store';
-
 import { TransactionContainerComponent } from './transaction-container.component';
 
 @NgModule({
@@ -38,4 +36,4 @@ import { TransactionContainerComponent } from './transaction-container.component
   ],
   exports: [TransactionContainerComponent],
 })
-export class TransactionContainerModule {}
+export class TransactionContainerModule { }

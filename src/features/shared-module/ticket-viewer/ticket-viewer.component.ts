@@ -16,7 +16,7 @@ import {
   NzUploadFile,
   NzUploadXHRArgs,
 } from 'ng-zorro-antd/upload';
-import { BehaviorSubject, takeUntil } from 'rxjs';
+import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { Ticket } from 'src/features/dashboard-module/ticketing/store/ticket.model';
 import { TicketService } from 'src/features/dashboard-module/ticketing/ticket.service';
 import { TicketStatus, UploadFileStatus, UserRole } from 'src/models/model';
@@ -30,8 +30,10 @@ import { insuranceList } from '../shared-utils/shared.model';
   providers: [DecimalPipe],
 })
 export class TicketViewerComponent implements OnInit, OnDestroy {
-  @Output() ticketSubmitted = new EventEmitter<boolean>(false);
+  @Input() ticket: Ticket;
   @Input() rules: UserRole | string;
+  @Output() ticketUpdated = new EventEmitter<Ticket>();
+  @Output() ticketSubmitted = new EventEmitter<boolean>(false);
   userRole = UserRole;
 
   constructor(
@@ -40,11 +42,9 @@ export class TicketViewerComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private modalService: NzModalService,
     private router: Router,
-  ) {}
-  @Input() ticket: Ticket;
-  @Output() ticketUpdated = new EventEmitter<Ticket>();
+  ) { }
   tableData$ = new BehaviorSubject<Ticket[]>(null);
-  destroy$ = new EventEmitter();
+  destroy$ = new Subject();
   updatedTicket: Ticket;
   editVehicleInfo = false;
   insuranceList = insuranceList;
@@ -217,6 +217,7 @@ export class TicketViewerComponent implements OnInit, OnDestroy {
     if (url.response.Location) {
       this.http
         .get(url.response.Location, { responseType: 'blob' })
+        .pipe(takeUntil(this.destroy$))
         .subscribe((response) => {
           const blob = new Blob([response], { type: 'application/pdf' });
           const urlCreator = window.URL || window.webkitURL;

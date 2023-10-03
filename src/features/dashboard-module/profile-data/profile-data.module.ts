@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { BreadcrumbModule } from 'src/features/shared-module/breadcrumb/breadcrumb.module';
 import { ProfileCardModule } from 'src/features/shared-module/profile-card/profile-card.module';
 import { TableCardModule } from 'src/features/shared-module/table-card/table-card.module';
 import { TicketViewerModule } from 'src/features/shared-module/ticket-viewer/ticket-viewer.module';
@@ -21,7 +22,8 @@ import { ProfileDataComponent } from './profile-data.component';
     RouterModule,
     TicketViewerModule,
     ProfileCardModule,
+    BreadcrumbModule
   ],
   exports: [ProfileDataComponent],
 })
-export class ProfileDataModule {}
+export class ProfileDataModule { }

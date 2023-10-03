@@ -3,13 +3,14 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnDestroy,
   Output,
 } from '@angular/core';
 import { PaymentIntentResult, loadStripe } from '@stripe/stripe-js';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { BehaviorSubject, from } from 'rxjs';
+import { BehaviorSubject, Subject, from, takeUntil } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { TicketService } from 'src/features/dashboard-module/ticketing/ticket.service';
 
@@ -18,13 +19,13 @@ import { TicketService } from 'src/features/dashboard-module/ticketing/ticket.se
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.scss'],
 })
-export class PaymentComponent implements AfterViewInit {
+export class PaymentComponent implements AfterViewInit, OnDestroy {
   @Input() ticketsInOrder: any[];
   @Output() paymentStatus = new EventEmitter<boolean>();
   public formLoaded$ = new BehaviorSubject<boolean>(false);
   public paymentSuccess = false;
   private stripe: Promise<any> = loadStripe(environment?.STRIPE_API);
-  private destroy$ = new BehaviorSubject<boolean>(false);
+  private destroy$ = new Subject<boolean>();
   private clientSecret: string;
   private elements: any;
 
@@ -37,6 +38,11 @@ export class PaymentComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.getPaymentIntent();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   calculateOrderTotal() {
@@ -86,7 +92,9 @@ export class PaymentComponent implements AfterViewInit {
       }),
     );
 
-    paymentResponse$.subscribe((res: any) => this.handlePaymentResponse(res));
+    paymentResponse$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res: any) => this.handlePaymentResponse(res));
   }
 
   handlePaymentResponse(response: PaymentIntentResult) {

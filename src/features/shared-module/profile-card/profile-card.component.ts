@@ -16,7 +16,7 @@ import {
   NzUploadFile,
   NzUploadXHRArgs,
 } from 'ng-zorro-antd/upload';
-import { takeUntil, take, tap, Subject } from 'rxjs';
+import { takeUntil, take, tap, Subject, BehaviorSubject } from 'rxjs';
 import { AuthService } from 'src/features/auth-module/auth-service.service';
 import { TicketService } from 'src/features/dashboard-module/ticketing/ticket.service';
 
@@ -32,7 +32,7 @@ export class ProfileCardComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('phoneNumberEl') phoneElement: ElementRef<HTMLParagraphElement>;
   @ViewChild('emailEl') emailElement: ElementRef<HTMLParagraphElement>;
   @ViewChild('addressEl') addressElement: ElementRef<HTMLParagraphElement>;
-  @Input() user$;
+  @Input() user$: BehaviorSubject<any>;
   @Input() loading$: Subject<boolean>;
   editing = false;
   isTextTruncated = false;
@@ -46,7 +46,7 @@ export class ProfileCardComponent implements OnInit, AfterViewInit, OnDestroy {
     private cd: ChangeDetectorRef,
     private ticketService: TicketService,
     private fb: FormBuilder,
-  ) {}
+  ) { }
 
   @HostListener('window:resize')
   onResize() {
@@ -60,7 +60,7 @@ export class ProfileCardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.user$?.subscribe((user) => {
+    this.user$.pipe(takeUntil(this.destroy$)).subscribe((user) => {
       this.userForm = this.fb.group({
         name: [user?.name, [Validators.required]],
         email: [user?.email, [Validators.required, Validators.email]],
@@ -82,6 +82,7 @@ export class ProfileCardComponent implements OnInit, AfterViewInit, OnDestroy {
   toggleEdit(): void {
     this.editing = !this.editing;
     const user = this.user$.getValue();
+    console.log('user', user);
     if (!this.editing) {
       this.fileList = [];
       this.userForm.patchValue({
@@ -98,12 +99,11 @@ export class ProfileCardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   saveUserDetails(): void {
-    // const oldUsername = this.user.email;
-    // const newUsername = this.userForm.get('email').value;
     this.authService
-      .handleUpdateProfile({ ...this.userForm.value })
+      .handleUpdateProfile({ ...this.userForm.value, 'custom:avatarUrl': this.userForm.get('custom:avatarUrl').value || this.user$.getValue()['custom:avatarUrl'] })
       .pipe(
         take(1),
+        takeUntil(this.destroy$),
         tap((_) => {
           this.editing = false;
           this.fileList = [];

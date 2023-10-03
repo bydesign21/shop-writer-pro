@@ -8,7 +8,6 @@ import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { AuthModule } from 'src/features/auth-module/auth-module.module';
-import { TicketStore } from 'src/features/dashboard-module/ticketing/store/tickets.store';
 import { SpinnerModule } from 'src/features/shared-module/spinner/spinner.module';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -31,10 +30,9 @@ registerLocaleData(en);
   ],
   providers: [
     SessionService,
-    TicketStore,
     NzMessageService,
     { provide: NZ_I18N, useValue: en_US },
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

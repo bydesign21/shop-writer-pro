@@ -70,4 +70,4 @@ import { TicketingComponent } from './ticketing.component';
   exports: [TicketingComponent],
   providers: [SharedUtilsService, DecimalPipe],
 })
-export class TicketingModule { }
+export class TicketingModule {}

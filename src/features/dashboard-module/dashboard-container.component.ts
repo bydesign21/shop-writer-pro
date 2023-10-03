@@ -1,8 +1,13 @@
 import { Location } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Subject, take } from 'rxjs';
+import { Subject, take, takeUntil } from 'rxjs';
 
 import { AuthService } from '../auth-module/auth-service.service';
 import { SpinnerService } from '../shared-module/spinner/spinner.service';
@@ -13,7 +18,7 @@ import { SpinnerService } from '../shared-module/spinner/spinner.service';
   styleUrls: ['./dashboard-container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DashboardContainerComponent implements OnInit {
+export class DashboardContainerComponent implements OnInit, OnDestroy {
   menuIsVisible = false;
   destroy$ = new Subject();
   constructor(
@@ -28,11 +33,16 @@ export class DashboardContainerComponent implements OnInit {
     this.menuIsVisible = !this.menuIsVisible;
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
+  }
+
   handleSignOutClicked(event: any) {
     this.spinner.show();
     this.authService
       .handleSignOut()
-      .pipe(take(1))
+      .pipe(take(1), takeUntil(this.destroy$))
       .subscribe({
         next: (_) => this.messageService.success('Successfully Signed Out'),
         error: (err) => this.messageService.error(err.message),

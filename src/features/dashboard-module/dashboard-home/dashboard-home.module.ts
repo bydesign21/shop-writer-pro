@@ -19,6 +19,7 @@ import { TicketStore } from '../ticketing/store/tickets.store';
 import { TicketingModule } from '../ticketing/ticketing.module';
 
 import { DashboardHomeComponent } from './dashboard-home.component';
+import { TicketQuery } from '../ticketing/store/ticket.query';
 
 @NgModule({
   declarations: [DashboardHomeComponent],
@@ -39,6 +40,5 @@ import { DashboardHomeComponent } from './dashboard-home.component';
     NzSpinModule,
     TableCardModule,
   ],
-  providers: [TicketStore, SessionStore],
 })
-export class DashboardHomeModule {}
+export class DashboardHomeModule { }

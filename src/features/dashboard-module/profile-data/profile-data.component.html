@@ -1,15 +1,4 @@
-<nz-row class="breadcrumb-row">
-  <nz-col nzSpan="24">
-    <nz-breadcrumb nz-page-header-breadcrumb>
-      <nz-breadcrumb-item>
-        <a [routerLink]="['../../../dashboard/home']">Home</a>
-      </nz-breadcrumb-item>
-      <nz-breadcrumb-item>
-        <a>Profile Transactions</a>
-      </nz-breadcrumb-item>
-    </nz-breadcrumb>
-  </nz-col>
-</nz-row>
+<swp-breadcrumb [breadcrumbs]="breadcrumbs"></swp-breadcrumb>
 <nz-row class="__first-row">
   <nz-col class="open-orders" nzSpan="24">
     <swp-profile-card
@@ -28,6 +17,7 @@
       [pageLimit]="tableLimit"
       [rules]="profileRole$ | async"
       [loadingIndicatorRef]="loadingIndicator"
+      (ticketUpdated)="handleTicketUpdated($event)"
     ></swp-table-card>
   </nz-col>
 </nz-row>

@@ -13,6 +13,7 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { BreadcrumbModule } from 'src/features/shared-module/breadcrumb/breadcrumb.module';
+import { ProfileCardModule } from 'src/features/shared-module/profile-card/profile-card.module';
 
 import { ProfileComponent } from './profile.component';
 
@@ -34,7 +35,8 @@ import { ProfileComponent } from './profile.component';
     NzToolTipModule,
     RouterModule,
     BreadcrumbModule,
+    ProfileCardModule
   ],
   exports: [ProfileComponent],
 })
-export class ProfileModule {}
+export class ProfileModule { }

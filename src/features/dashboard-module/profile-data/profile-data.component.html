@@ -3,7 +3,8 @@
   <nz-col class="open-orders" nzSpan="24">
     <swp-profile-card
       [loading$]="loading$"
-      [user$]="userProfile$"
+      [user]="userProfile"
+      (userUpdated)="handleUserInfoUpdated($event)"
     ></swp-profile-card>
   </nz-col>
 </nz-row>
@@ -21,13 +22,6 @@
     ></swp-table-card>
   </nz-col>
 </nz-row>
-<ng-template #nzModalContent>
-  <!-- <swp-ticket-viewer
-    class="ticket-viewer"
-    [ticket]="selectedTicket"
-    (ticketSubmitted)="loadData()"
-  ></swp-ticket-viewer> -->
-</ng-template>
 <ng-template #loadingIndicator>
   <span style="font-size: xxx-large" nz-icon nzType="loading"></span>
 </ng-template>

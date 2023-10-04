@@ -45,6 +45,20 @@ export class SharedUtilsService {
     ).pipe(switchMap((request) => this.executeRequest(request)));
   }
 
+  adminUpdateUserProfile(payload: any, username: string) {
+    return from(
+      this.createRequest(
+        'POST',
+        `${environment.API_BASE_URL}/core/query/users/profile`,
+        { username },
+        { ...payload },
+        {
+          withCredentials: false,
+        },
+      ),
+    ).pipe(switchMap((request) => this.executeRequest(request)));
+  }
+
   async createRequest(
     method: string,
     url: string,

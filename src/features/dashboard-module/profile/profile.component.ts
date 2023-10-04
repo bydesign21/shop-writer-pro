@@ -8,9 +8,7 @@ import {
 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import {
-  NzUploadFile,
-} from 'ng-zorro-antd/upload';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { BehaviorSubject, map, Subject, take, takeUntil, tap } from 'rxjs';
 import { SessionQuery } from 'src/app/session-store/domain-state/session.query';
 import { SessionState } from 'src/app/session-store/domain-state/session.store';
@@ -51,16 +49,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private cd: ChangeDetectorRef,
     private messageService: NzMessageService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.loading$.next(true);
     this.sessionQuery.allState$
-      .pipe(takeUntil(this.destroy$),
+      .pipe(
+        takeUntil(this.destroy$),
         map((session) => {
           this.user = session;
           this.initForm();
-        }))
+        }),
+      )
       .subscribe();
     this.loading$.next(false);
   }

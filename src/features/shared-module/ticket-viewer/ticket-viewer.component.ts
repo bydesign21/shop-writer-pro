@@ -42,7 +42,7 @@ export class TicketViewerComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private modalService: NzModalService,
     private router: Router,
-  ) {}
+  ) { }
   tableData$ = new BehaviorSubject<Ticket[]>(null);
   destroy$ = new Subject();
   updatedTicket: Ticket;
@@ -128,7 +128,30 @@ export class TicketViewerComponent implements OnInit, OnDestroy {
           id: 5,
         },
       ];
+    } else if (this.updatedTicket.documents?.length && this.rules === this.userRole.USER) {
+      this.panels = [
+        ...this.panels,
+        {
+          active: false,
+          disabled: false,
+          name: 'Review Documents',
+          id: 6,
+        },
+      ];
     }
+  }
+
+  downloadFile(url: string, filename: string): void {
+    this.http.get(url, { responseType: 'blob' }).pipe(takeUntil(this.destroy$)).subscribe(blob => {
+      const blobUrl = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = blobUrl;
+      a.download = filename;
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    });
   }
 
   ngOnDestroy(): void {

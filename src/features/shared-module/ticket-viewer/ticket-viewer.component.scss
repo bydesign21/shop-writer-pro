@@ -45,6 +45,14 @@
   background-color: rgba(5, 4, 4, 0.928);
 }
 
+@media screen and (max-width: 768px) {
+  ::ng-deep {
+    .ant-modal-body {
+      padding: 0;
+    }
+  }
+}
+
 img.review-form__img {
   width: 100%;
   max-width: 500px;

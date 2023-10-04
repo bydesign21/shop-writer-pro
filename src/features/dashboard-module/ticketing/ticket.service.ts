@@ -102,7 +102,7 @@ export class TicketService {
   async updateUserRecordEntryId(oldEntryId: string, newEntryId: string) {
     const request = await this.utilService.createRequest(
       'POST',
-      '${environment.API_BASE_URL}/core/update-entryId/username',
+      `${environment.API_BASE_URL}/core/update-entryId/username`,
       {},
       {
         oldUsername: oldEntryId,

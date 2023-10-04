@@ -61,7 +61,7 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
     private ticketQuery: TicketQuery,
     private ticketStore: TicketStore,
     private messageService: NzMessageService,
-  ) { }
+  ) {}
 
   handleSubmitTicketClicked() {
     this.modalService.create({
@@ -88,24 +88,25 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
   loadData() {
     this.dataLoading$.next(true);
 
-    this.tickets$.pipe(
-      take(1),
-      switchMap(tickets => {
-        if (!tickets.length) {
-          return this.ticketService.getUserTickets(this.userSession);
-        } else {
-          return of(tickets);
-        }
-      }),
-      tap(tickets => {
-        this.ticketStore.set(tickets);
-        this.updateData(tickets);
-        this.dataLoading$.next(false);
-        this.cd.detectChanges();
-      })
-    ).subscribe();
+    this.tickets$
+      .pipe(
+        take(1),
+        switchMap((tickets) => {
+          if (!tickets.length) {
+            return this.ticketService.getUserTickets(this.userSession);
+          } else {
+            return of(tickets);
+          }
+        }),
+        tap((tickets) => {
+          this.ticketStore.set(tickets);
+          this.updateData(tickets);
+          this.dataLoading$.next(false);
+          this.cd.detectChanges();
+        }),
+      )
+      .subscribe();
   }
-
 
   updateData(tickets: Ticket[]) {
     const openOrders = [];

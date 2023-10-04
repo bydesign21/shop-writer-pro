@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import {
   BehaviorSubject,
@@ -17,6 +17,7 @@ import { SharedUtilsService } from 'src/features/shared-module/shared-utils/shar
 
 import { Ticket } from '../ticketing/store/ticket.model';
 import { TicketService } from '../ticketing/ticket.service';
+import { UserRole } from 'src/models/model';
 
 @Component({
   selector: 'swp-profile-data',
@@ -27,12 +28,12 @@ export class ProfileDataComponent implements OnInit, OnDestroy {
   public data$ = new BehaviorSubject<Ticket[]>(null);
   private destroy$ = new Subject();
   private userSession: SessionState;
-  loading$ = new BehaviorSubject<boolean>(null);
+  loading$ = new BehaviorSubject<boolean>(true);
   dataLoading$ = new BehaviorSubject<boolean>(false);
   profileRole$ = new BehaviorSubject<string>(null);
   tableLimit = 10;
   email: string;
-  userProfile$ = new BehaviorSubject<any>(null);
+  userProfile: any;
   userForm: FormGroup;
   breadcrumbs = [
     {
@@ -50,13 +51,17 @@ export class ProfileDataComponent implements OnInit, OnDestroy {
     private messageService: NzMessageService,
     private sessionQuery: SessionQuery,
     private cd: ChangeDetectorRef,
-  ) {}
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.sessionQuery.allState$
       .pipe(takeUntil(this.destroy$))
       .subscribe((session) => {
         this.userSession = session;
+        // if (this.userSession.role !== UserRole.ADMIN) {
+        //   this.router.navigate(['/dashboard']);
+        // }
       });
 
     this.activatedRoute.queryParams
@@ -100,9 +105,35 @@ export class ProfileDataComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
       )
       .subscribe((res) => {
-        this.userProfile$.next(res);
+        this.userProfile = res;
         this.loading$.next(false);
       });
+  }
+
+  handleUserInfoUpdated(payload: any): void {
+    this.utilService.adminUpdateUserProfile(payload, this.email)
+      .pipe(take(1), takeUntil(this.destroy$))
+      .subscribe(
+        res => {
+          if (res.success) {
+            this.handleSuccessResponse(res);
+          } else {
+            this.handleErrorResponse(res);
+          }
+        },
+        err => {
+          this.messageService.error('Unexpected error occurred.');
+        }
+      );
+  }
+
+  private handleSuccessResponse(res: any) {
+    this.messageService.success(res.message);
+    this.cd.detectChanges();
+  }
+
+  private handleErrorResponse(res: any) {
+    this.messageService.error(res.message);
   }
 
   handleTicketUpdated(ticket: Ticket): void {

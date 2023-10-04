@@ -1,6 +1,6 @@
 <div
-  *ngIf="user$ | async as user"
-  class="flex flex-col md:flex-row bg-white p-6 rounded-lg shadow-lg"
+  *ngIf="(loading$ | async) === false; else loadingIndicator"
+  class="flex flex-col md:flex-row bg-white h-[12rem] p-6 rounded-lg shadow-lg"
 >
   <div class="mb-4 md:mb-0 md:mr-6">
     <img
@@ -99,3 +99,15 @@
     Save
   </button>
 </div>
+
+<ng-template #loadingIndicator>
+  <div
+    class="flex h-[12rem] item-center justify-center flex-auto md:flex-row bg-white p-6 rounded-lg shadow-lg"
+  >
+    <span
+      class="[&>*]:text-[3rem] [&>*]:relative [&>*]:top-[3rem]"
+      nz-icon
+      nzType="loading"
+    ></span>
+  </div>
+</ng-template>

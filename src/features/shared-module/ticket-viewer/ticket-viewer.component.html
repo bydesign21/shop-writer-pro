@@ -1,34 +1,37 @@
-<!-- LET SOOOOO GOOOO -->
-
 <div class="overflow-y-scroll h-[55vh] p-4 bg-gray-50">
   <!-- Card Section -->
   <nz-card
-    class="mb-4 text-sm shadow-lg border border-gray-300 p-4 bg-white rounded-md"
+    class="mb-4 sm:text-left text-center text-sm shadow-lg border border-gray-300 p-4 bg-white rounded-md space-y-3"
     [nzTitle]="updatedTicket.plan"
     [nzExtra]="'$' + updatedTicket.totalUSD"
   >
     <p class="text-gray-700">Summary: {{ updatedTicket.description }}</p>
-    <div class="admin-tags text-gray-500" *ngIf="rules === userRole.ADMIN">
-      <p>
-        Customer:
+    <div
+      class="admin-tags text-gray-500 space-y-2"
+      *ngIf="rules === userRole.ADMIN"
+    >
+      <div class="flex text-center sm:text-left items-center flex-wrap">
+        <span class="mr-2">Customer:</span>
         <nz-tag
-          class="cursor-pointer ml-2 rounded-3xl bg-gray-200 mt-2 px-2 py-1 rounded"
+          class="cursor-pointer mt-2 ml-2 rounded-3xl bg-gray-200 px-2 py-1 rounded hover:bg-gray-300 transition-colors duration-200 ease-in-out whitespace-nowrap overflow-hidden"
           (click)="handleUserProfileClick($event.target, 'user')"
-          [nzColor]="'grey'"
+          [nzColor]="'processing'"
+          [nz-tooltip]="updatedTicket.userId"
         >
           {{ updatedTicket.userId }}
         </nz-tag>
-      </p>
-      <p>
-        Assigned To:
+      </div>
+      <div class="flex items-center flex-wrap">
+        <span class="mr-2">Assigned To:</span>
         <nz-tag
-          class="cursor-pointer ml-2 bg-gray-200 rounded-3xl px-2 mt-2 py-1 rounded"
+          class="cursor-pointer mt-2 ml-2 bg-gray-200 rounded-3xl px-2 py-1 rounded hover:bg-gray-300 transition-colors duration-200 ease-in-out whitespace-nowrap overflow-hidden"
           (click)="handleUserProfileClick($event.target, 'employee')"
-          [nzColor]="'black'"
+          [nzColor]="'success'"
+          [nz-tooltip]="updatedTicket.assignedTo"
         >
           {{ updatedTicket.assignedTo }}
         </nz-tag>
-      </p>
+      </div>
     </div>
   </nz-card>
 
@@ -238,6 +241,42 @@
               uploading company data or other band files
             </p>
           </nz-upload>
+        </nz-card>
+      </div>
+
+      <!-- Uploaded Files Card Customer-->
+      <div class="relative" *ngIf="panel.id === 6">
+        <nz-card [nzTitle]="panel.name">
+          <div
+            *ngFor="let document of selectedFiles"
+            class="mb-4 p-3 bg-gray-100 shadow-md rounded-lg transition-all hover:shadow-xl hover:bg-gray-100"
+          >
+            <button
+              (click)="downloadFile(document.response.Location, document.name)"
+              class="flex justify-between min-w-full items-center space-x-2"
+            >
+              <!-- File Icon -->
+              <span
+                nz-icon
+                nzType="file"
+                nzTheme="outline"
+                class="text-blue-500"
+              ></span>
+
+              <!-- File Name -->
+              <span class="text-blue-600 hover:underline">
+                {{ document.name }}
+              </span>
+
+              <!-- Download Icon -->
+              <span
+                nz-icon
+                nzType="download"
+                nzTheme="outline"
+                class="ml-auto text-gray-400 hover:text-blue-500"
+              ></span>
+            </button>
+          </div>
         </nz-card>
       </div>
 

@@ -46,7 +46,7 @@ export class ProfileCardComponent implements OnInit, AfterViewInit, OnDestroy {
     private cd: ChangeDetectorRef,
     private ticketService: TicketService,
     private fb: FormBuilder,
-  ) { }
+  ) {}
 
   @HostListener('window:resize')
   onResize() {
@@ -70,7 +70,7 @@ export class ProfileCardComponent implements OnInit, AfterViewInit, OnDestroy {
       phone_number: ['', [Validators.required]],
       address: ['', [Validators.required]],
       'custom:companyName': [null],
-      'custom:avatarUrl': [null]
+      'custom:avatarUrl': [null],
     });
 
     this.userForm.get('email').disable();
@@ -83,7 +83,7 @@ export class ProfileCardComponent implements OnInit, AfterViewInit, OnDestroy {
       phone_number: user.phone_number,
       address: user.address,
       'custom:companyName': user['custom:companyName'],
-      'custom:avatarUrl': user['custom:avatarUrl']
+      'custom:avatarUrl': user['custom:avatarUrl'],
     });
   }
 
@@ -117,7 +117,10 @@ export class ProfileCardComponent implements OnInit, AfterViewInit, OnDestroy {
   private preparePayload() {
     return {
       ...this.userForm.value,
-      'custom:avatarUrl': this.userForm.get('custom:avatarUrl').value || this.user['custom:avatarUrl'] || ''
+      'custom:avatarUrl':
+        this.userForm.get('custom:avatarUrl').value ||
+        this.user['custom:avatarUrl'] ||
+        '',
     };
   }
 

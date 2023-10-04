@@ -17,7 +17,6 @@ import { SharedUtilsService } from 'src/features/shared-module/shared-utils/shar
 
 import { Ticket } from '../ticketing/store/ticket.model';
 import { TicketService } from '../ticketing/ticket.service';
-import { UserRole } from 'src/models/model';
 
 @Component({
   selector: 'swp-profile-data',
@@ -51,8 +50,8 @@ export class ProfileDataComponent implements OnInit, OnDestroy {
     private messageService: NzMessageService,
     private sessionQuery: SessionQuery,
     private cd: ChangeDetectorRef,
-    private router: Router
-  ) { }
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     this.sessionQuery.allState$
@@ -111,19 +110,20 @@ export class ProfileDataComponent implements OnInit, OnDestroy {
   }
 
   handleUserInfoUpdated(payload: any): void {
-    this.utilService.adminUpdateUserProfile(payload, this.email)
+    this.utilService
+      .adminUpdateUserProfile(payload, this.email)
       .pipe(take(1), takeUntil(this.destroy$))
       .subscribe(
-        res => {
+        (res) => {
           if (res.success) {
             this.handleSuccessResponse(res);
           } else {
             this.handleErrorResponse(res);
           }
         },
-        err => {
+        (err) => {
           this.messageService.error('Unexpected error occurred.');
-        }
+        },
       );
   }
 

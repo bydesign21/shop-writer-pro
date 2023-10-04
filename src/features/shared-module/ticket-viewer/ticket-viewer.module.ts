@@ -16,6 +16,7 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 
@@ -44,7 +45,8 @@ import { TicketViewerComponent } from './ticket-viewer.component';
     NzTagModule,
     NzModalModule,
     NzTableModule,
+    NzToolTipModule,
   ],
   exports: [TicketViewerComponent],
 })
-export class TicketViewerModule {}
+export class TicketViewerModule { }

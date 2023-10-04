@@ -31,7 +31,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     private cd: ChangeDetectorRef,
     private router: Router,
     private modalService: NzModalService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.initForm();

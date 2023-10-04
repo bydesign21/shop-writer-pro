@@ -35,8 +35,8 @@ import { ProfileComponent } from './profile.component';
     NzToolTipModule,
     RouterModule,
     BreadcrumbModule,
-    ProfileCardModule
+    ProfileCardModule,
   ],
   exports: [ProfileComponent],
 })
-export class ProfileModule { }
+export class ProfileModule {}

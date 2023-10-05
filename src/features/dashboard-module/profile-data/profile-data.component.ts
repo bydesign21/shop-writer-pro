@@ -51,7 +51,7 @@ export class ProfileDataComponent implements OnInit, OnDestroy {
     private sessionQuery: SessionQuery,
     private cd: ChangeDetectorRef,
     private router: Router,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.sessionQuery.allState$
@@ -84,7 +84,7 @@ export class ProfileDataComponent implements OnInit, OnDestroy {
           this.dataLoading$.next(false);
         },
         error: (err) => {
-          console.log(err);
+          this.messageService.error(err.message);
         },
       });
     this.getProfileDetails(this.email);

@@ -36,7 +36,7 @@ export class SignInComponent implements OnInit, OnDestroy {
     private spinner: SpinnerService,
     private activatedRoute: ActivatedRoute,
     private modalService: NzModalService,
-  ) {}
+  ) { }
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
@@ -63,7 +63,6 @@ export class SignInComponent implements OnInit, OnDestroy {
           this.cd.detectChanges();
         },
         (error) => {
-          console.log(error);
           this.handleErrorResponse(error?.name);
           this.spinner.hide();
           this.messageService.error(error.message);
@@ -90,35 +89,23 @@ export class SignInComponent implements OnInit, OnDestroy {
 
     switch (errorCode) {
       case 'AuthError':
-        this.handleAuthError();
+        this.messageService.error('Invalid username or password');
         break;
       case 'UserNotFoundException':
-        this.handleUserNotFoundError();
+        this.messageService.error('Invalid username or password');
         this.form.setErrors({});
         break;
       case 'NotAuthorizedException':
-        this.handleNotAuthError();
+        this.messageService.error('Invalid username or password');
+        this.form.setErrors({});
         break;
       case 'UserNotConfirmedException':
         this.handleUserNotConfirmedError();
         break;
       default:
-        this.handleLoginFail();
+        this.messageService.error('Something went wrong');
         break;
     }
-  }
-
-  //TODO Write logic to handle various login errors
-  handleAuthError() {
-    console.log('authError');
-  }
-
-  handleUserNotFoundError() {
-    console.log('userNotFound');
-  }
-
-  handleNotAuthError() {
-    console.log('notAuth');
   }
 
   handleUserNotConfirmedError() {
@@ -132,10 +119,6 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.router.navigate(['forgot-password'], {
       relativeTo: this.activatedRoute,
     });
-  }
-
-  handleLoginFail() {
-    console.log('Login Failed IDK');
   }
 
   public mapLoginResToSession(loginRes: any): SessionState {

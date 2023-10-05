@@ -69,7 +69,6 @@ export class VehicleDetailsComponent implements OnDestroy, OnInit {
         }),
       )
       .subscribe((res: any) => {
-        console.log('vehicleDetailsForm', res);
         this.vehicleDetailsOutput.emit(res);
       });
 
@@ -95,7 +94,6 @@ export class VehicleDetailsComponent implements OnDestroy, OnInit {
   }
 
   getErrorMessage(control: AbstractControl): string {
-    console.log(control.errors);
     if (control.hasError('required')) {
       return 'You must enter a valid value';
     } else if (control.hasError('email')) {

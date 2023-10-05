@@ -92,7 +92,6 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
       .pipe(
         take(1),
         switchMap((tickets) => {
-          console.log('tickets', tickets);
           if (!tickets.length) {
             return this.ticketService.getUserTickets(this.userSession);
           } else {

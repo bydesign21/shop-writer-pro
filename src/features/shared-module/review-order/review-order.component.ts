@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'swp-review-order',
   templateUrl: './review-order.component.html',
   styleUrls: ['./review-order.component.scss'],
 })
-export class ReviewOrderComponent implements OnInit {
+export class ReviewOrderComponent {
   @Input() panels: any[] = [
     {
       active: true,
@@ -37,9 +37,5 @@ export class ReviewOrderComponent implements OnInit {
 
   addAdditionalVehicle() {
     this.addVehicle.emit();
-  }
-
-  ngOnInit(): void {
-    console.log('formValues', this.formValues);
   }
 }

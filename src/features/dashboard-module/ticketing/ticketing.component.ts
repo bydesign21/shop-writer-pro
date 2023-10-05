@@ -135,7 +135,6 @@ export class TicketingComponent implements OnInit, OnDestroy {
   }
 
   getFormData() {
-    console.log(this.forms.getRawValue(), 'formValTicketingComp');
     this.formValues = this.forms.getRawValue();
   }
 

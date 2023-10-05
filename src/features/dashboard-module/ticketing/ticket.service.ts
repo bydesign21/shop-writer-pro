@@ -31,7 +31,7 @@ export class TicketService {
   constructor(
     private ticketStore: TicketStore,
     private utilService: SharedUtilsService,
-  ) {}
+  ) { }
 
   uploadMedia(item: NzUploadXHRArgs): Observable<HttpEvent<any>> {
     const formData = new FormData();
@@ -53,8 +53,8 @@ export class TicketService {
         if (event.type === HttpEventType.Response) {
           item.onSuccess?.(event.body, item.file, event);
         } else if (event.type === HttpEventType.UploadProgress) {
-          const percentDone = Math.round((100 * event.loaded) / event.total);
-          console.log(`File is ${percentDone}% uploaded.`);
+          // const percentDone = Math.round((100 * event.loaded) / event.total);
+          // console.log(`File is ${percentDone}% uploaded.`);
         } else if (event.Location) {
           // If the response body is interpreted as an event
           item.onSuccess?.(event, item.file, event);

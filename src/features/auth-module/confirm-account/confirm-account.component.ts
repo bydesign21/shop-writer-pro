@@ -28,10 +28,9 @@ export class ConfirmAccountComponent implements OnInit, OnDestroy {
     private router: Router,
     private authService: AuthService,
     private messageService: NzMessageService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    console.log('hello');
     this.destroy$.next(false);
     this.activatedRoute.queryParams
       .pipe(take(1), takeUntil(this.destroy$))

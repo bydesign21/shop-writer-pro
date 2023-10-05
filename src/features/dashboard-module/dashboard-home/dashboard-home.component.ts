@@ -61,7 +61,7 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
     private ticketQuery: TicketQuery,
     private ticketStore: TicketStore,
     private messageService: NzMessageService,
-  ) {}
+  ) { }
 
   handleSubmitTicketClicked() {
     this.modalService.create({
@@ -106,6 +106,18 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
         }),
       )
       .subscribe();
+  }
+
+  handleTicketSubmitted(): void {
+    this.dataLoading$.next(true);
+    this.ticketService.getUserTickets(this.userSession)
+      .pipe(take(1))
+      .subscribe((tickets) => {
+        this.ticketStore.set(tickets);
+        this.updateData(tickets);
+        this.cd.detectChanges();
+        this.dataLoading$.next(false);
+      });
   }
 
   updateData(tickets: Ticket[]) {

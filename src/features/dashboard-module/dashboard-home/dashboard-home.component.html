@@ -121,7 +121,7 @@
 <ng-template #submitTicketModal>
   <swp-ticketing
     class="min-h-[100dvh] sm:min-h-[auto]"
-    (ticketSubmitted)="loadData()"
+    (ticketSubmitted)="handleTicketSubmitted()"
   ></swp-ticketing>
 </ng-template>
 <ng-template #loadingIndicator>

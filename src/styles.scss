@@ -50,3 +50,11 @@ input:-internal-autofill-selected {
 textarea {
   min-height: 4rem;
 }
+
+@media screen and (max-width: 768px) {
+  ::ng-deep {
+    .ant-modal-body {
+      padding: 0;
+    }
+  }
+}

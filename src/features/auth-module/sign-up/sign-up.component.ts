@@ -31,7 +31,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     private cd: ChangeDetectorRef,
     private router: Router,
     private modalService: NzModalService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -110,31 +110,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
     }
     this.cd.detectChanges();
   }
-
-  // handleErrorResponse(errorCode: string) {
-  //   if (!errorCode) {
-  //     //TODO write logic to handle userUnauthExcep
-  //   }
-
-  //   switch (errorCode) {
-  //     case 'AuthError':
-  //       // this.handleAuthError();
-  //       break;
-  //     case 'UserNotFoundException':
-  //       // this.handleUserNotFoundError();
-  //       this.form.setErrors({})
-  //       break;
-  //     case 'InvalidParameterException':
-  //       console.log(errorCode);
-  //       break;
-  //     case 'UserNotConfirmedException':
-  //       // this.handleUserNotConfirmedError();
-  //       break;
-  //     default:
-  //       // this.handleLoginFail();
-  //       break;
-  //   }
-  // }
 
   handleTermsConditionsClicked() {
     this.modalService.create({

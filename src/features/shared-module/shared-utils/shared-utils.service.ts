@@ -13,7 +13,7 @@ export class SharedUtilsService {
   constructor(
     private http: HttpClient,
     private authService: AuthService,
-  ) {}
+  ) { }
 
   getVehichleByVin(vin: string): Observable<any> {
     return from(
@@ -85,12 +85,10 @@ export class SharedUtilsService {
       headers,
       ...options,
     });
-    console.log('req', req);
     return req;
   }
 
   executeRequest(request: HttpRequest<any>) {
-    console.log('executeRequest', request);
     return this.http.request(request).pipe(
       filter((event) => event instanceof HttpResponse),
       map((res: HttpResponse<any>) => res.body),

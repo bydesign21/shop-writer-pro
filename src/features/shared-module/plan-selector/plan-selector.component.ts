@@ -18,11 +18,10 @@ export class PlanSelectorComponent implements OnInit {
   @Input() selectedPlan: any;
   @Output() planSelected = new EventEmitter<any>();
 
-  constructor(private cd: ChangeDetectorRef) {}
+  constructor(private cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     if (this.selectedPlan) {
-      console.log('selectedPlan', this.selectedPlan);
       this.planSelected.emit(this.selectedPlan);
       this.cd.detectChanges();
     }

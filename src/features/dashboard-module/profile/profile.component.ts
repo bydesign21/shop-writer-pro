@@ -49,7 +49,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private cd: ChangeDetectorRef,
     private messageService: NzMessageService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loading$.next(true);
@@ -94,10 +94,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
           this.fileList = [];
           this.messageService.success('Profile updated successfully');
           this.cd.detectChanges();
-          console.log('success callback executed');
         }),
       )
-      .subscribe((res) => console.log(res));
+      .subscribe();
   }
 
   handleAddressChange(address: any): void {

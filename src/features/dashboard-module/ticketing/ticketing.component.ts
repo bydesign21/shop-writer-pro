@@ -32,7 +32,7 @@ export class TicketingComponent implements OnInit, OnDestroy {
   destroy$ = new Subject();
   ticketsInOrder: Partial<Ticket>[] = [];
 
-  @Output() ticketSubmitted = new EventEmitter<boolean>(false);
+  @Output() ticketSubmitted = new EventEmitter<Partial<Ticket>[]>(false);
 
   steps = [
     {
@@ -78,7 +78,7 @@ export class TicketingComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (this.paymentSuccess) {
-      this.ticketSubmitted.emit(true);
+      this.ticketSubmitted.emit(this.ticketsInOrder);
       this.ticketSubmitted.complete();
     }
     this.destroy$.next(true);
@@ -232,10 +232,10 @@ export class TicketingComponent implements OnInit, OnDestroy {
         .pipe(take(1), takeUntil(this.destroy$))
         .subscribe({
           next: (res) => {
+            this.ticketSubmitted.emit(this.ticketsInOrder);
             this.messageService.success('Ticket Submitted Successfully');
           },
           error: (err: Error) => {
-            this.ticketSubmitted.next(false);
             this.messageService.error(`Error Submitting Ticket ${err.message}`);
           },
         });

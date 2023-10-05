@@ -1,23 +1,20 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProfileCardComponent } from './profile-card.component';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzAvatarModule } from 'ng-zorro-antd/avatar';
-import { NzGridModule } from 'ng-zorro-antd/grid';
-import { NzLayoutModule } from 'ng-zorro-antd/layout';
-import { NzUploadModule } from 'ng-zorro-antd/upload';
-import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
 
-
+import { ProfileCardComponent } from './profile-card.component';
 
 @NgModule({
-  declarations: [
-    ProfileCardComponent
-  ],
+  declarations: [ProfileCardComponent],
   imports: [
     CommonModule,
     NzCardModule,
@@ -30,10 +27,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     ReactiveFormsModule,
     NzToolTipModule,
     NzInputModule,
-    NzButtonModule
+    NzButtonModule,
   ],
-  exports: [
-    ProfileCardComponent
-  ]
+  exports: [ProfileCardComponent],
 })
-export class ProfileCardModule { }
+export class ProfileCardModule {}

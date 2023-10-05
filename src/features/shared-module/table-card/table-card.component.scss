@@ -1,36 +1,26 @@
-::ng-deep .ant-spin.ant-spin-spinning {
-  display: flex !important;
-  justify-content: center;
-  align-items: center;
+/* Add these styles in your Tailwind CSS configuration or global styles */
+.table-card {
+  @apply p-2;
 }
 
-::ng-deep nz-table.table-card__table {
-  overflow: scroll !important;
+.table-card__table {
+  @apply min-w-full overflow-x-auto;
 }
 
-::ng-deep nz-card.table-card {
-  padding: 0.5rem;
-  .ant-card-body {
-    padding: 0 !important;
-  }
+.cell-content {
+  @apply min-w-full overflow-hidden overflow-ellipsis whitespace-nowrap;
 }
 
-::ng-deep .cell-content {
-  min-width: 100% !important;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.assignment_tag {
+  @apply py-1 px-2;
 }
 
-::ng-deep .assignment_tag {
-  padding: 0.33rem;
-}
+
 
 ::ng-deep {
-  .ant-table tfoot > tr > td,
-  .ant-table tfoot > tr > th,
-  .ant-table-tbody > tr > td,
-  .ant-table-thead > tr > th {
-    padding: 0.25rem !important;
+  .table-card__container {
+    div.ant-spin-container {
+      min-width: 100% !important;
+    }
   }
 }

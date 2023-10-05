@@ -1,0 +1,62 @@
+<div class="w-full px[0.25rem] sm:px-8">
+  <div>
+    <nz-collapse class="review-form" nzGhost>
+      <nz-collapse-panel
+        *ngFor="let panel of panels"
+        [nzHeader]="panel.name"
+        [nzActive]="panel.active"
+        [nzDisabled]="panel.disabled"
+      >
+        <div *ngIf="panel.id === 1">
+          <nz-card
+            [nzTitle]="formValues.step1.plan.name"
+            [nzExtra]="'$' + formValues?.step1?.plan?.cost"
+          >
+            <p>{{ formValues?.step1?.plan?.description }}</p>
+          </nz-card>
+        </div>
+        <div *ngIf="panel.id === 2">
+          <nz-card [nzTitle]="'Vehicle Details'">
+            <p>Vin: {{ formValues.step2.vin }}</p>
+            <p>Year: {{ formValues.step2.year }}</p>
+            <p>Make: {{ formValues.step2.make }}</p>
+            <p>Model: {{ formValues.step2.model }}</p>
+            <p>Mileage: {{ formValues.step2.mileage }}</p>
+          </nz-card>
+        </div>
+        <div *ngIf="panel.id === 3">
+          <nz-card [nzTitle]="'Vehicle Damage'">
+            <p>{{ formValues.step4.damage }}</p>
+          </nz-card>
+        </div>
+        <div *ngIf="panel.id === 4">
+          <nz-card [nzTitle]="'Uploaded Images'">
+            <div>
+              <nz-image-group>
+                <img
+                  alt="Damage Photo"
+                  nz-image
+                  class="review-form__img"
+                  *ngFor="let img of formValues.step3.imageUpload"
+                  nzSrc="{{ img.response.Location }}"
+                />
+              </nz-image-group>
+            </div>
+          </nz-card>
+        </div>
+      </nz-collapse-panel>
+    </nz-collapse>
+    <div class="mt-12">
+      <span class="block text-gray-600"
+        >Want to add another vehicle to your order?</span
+      >
+      <button
+        class="my-2 btn btn-primary"
+        nz-button
+        (click)="addAdditionalVehicle()"
+      >
+        Add Vehicle
+      </button>
+    </div>
+  </div>
+</div>

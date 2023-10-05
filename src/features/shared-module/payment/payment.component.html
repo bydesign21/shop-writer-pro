@@ -1,0 +1,36 @@
+<div>
+  <div>
+    <div *ngIf="paymentSuccess" class="success-icon">
+      <span
+        class="success-circle mt-5"
+        nz-icon
+        [nzType]="'check-circle'"
+        [nzTheme]="'twotone'"
+        [nzTwotoneColor]="'#52c41a'"
+      ></span>
+    </div>
+    <swp-spinner
+      name="payment-spinner"
+      [fullscreen]="false"
+      class="payment-spinner relative top-[4rem]"
+    ></swp-spinner>
+    <div
+      *ngIf="!paymentSuccess"
+      [ngClass]="{
+        loading: (formLoaded$ | async) === false,
+        loaded: (formLoaded$ | async)
+      }"
+      id="payment-form"
+    >
+      <!-- Payment Form Elements -->
+      <div id="link-authentication-element"></div>
+      <div class="mb-5" id="payment-element"></div>
+      <swp-button
+        *ngIf="formLoaded$ | async"
+        id="submit"
+        [content]="'Pay Now $' + calculateOrderTotal()"
+        (click)="submitPayment()"
+      ></swp-button>
+    </div>
+  </div>
+</div>

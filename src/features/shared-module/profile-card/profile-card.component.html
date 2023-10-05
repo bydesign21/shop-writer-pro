@@ -1,58 +1,114 @@
-<nz-layout class="user-profile__container">
-  <nz-content class="user-profile__content">
-    <div class="user-profile">
-      <div *ngIf="(user$ | async) as user" class="avatar-container">
-        <nz-avatar class="avatar-image" nzSize="large" [nzSrc]="user['custom:avatarUrl']" *ngIf="!editing"></nz-avatar>
-        <div *ngIf="editing">
-          <span class="upload-icon" nz-icon [nzType]="(loading$ | async) ? 'loading' : null"></span>
-          <nz-upload
-
-            [nzAction]="'https://jsonplaceholder.typicode.com/posts/'"
-            nzListType="picture-card"
-            [(nzFileList)]="fileList"
-            [nzMultiple]="false"
-            [nzCustomRequest]="customReq"
-            (nzChange)="handleChange($event)"
-            nzLimit='1'
-            [nzPreview]="null"
-            (nzFileListChange)="handleFileListChange($event)"
-          >
-            <i nz-icon nzType="plus"></i>
-            <div class="ant-upload-text">Upload</div>
-          </nz-upload>
+<div
+  *ngIf="(loading$ | async) === false; else loadingIndicator"
+  class="flex flex-col md:flex-row bg-white p-4 md:p-6 rounded-lg shadow-lg"
+>
+  <div class="mb-4 md:mb-0 md:mr-4 flex-shrink-0">
+    <img
+      [src]="user['custom:avatarUrl']"
+      class="rounded-full h-24 w-24 md:h-32 md:w-32 object-cover mb-4"
+      *ngIf="!editing"
+    />
+    <div *ngIf="editing" class="relative h-24 w-24 md:h-32 md:w-32">
+      <nz-upload
+        class="h-full w-full"
+        [nzAction]="'https://jsonplaceholder.typicode.com/posts/'"
+        [(nzFileList)]="fileList"
+        [nzMultiple]="false"
+        [nzCustomRequest]="customReq"
+        (nzChange)="handleChange($event)"
+        nzLimit="1"
+        [nzPreview]="null"
+        (nzFileListChange)="handleFileListChange($event)"
+      >
+        <div
+          class="absolute inset-0 flex items-center justify-center bg-gray-200 text-gray-500 rounded-full"
+        >
+          <i nz-icon nzType="plus"></i>
+          <div>Upload</div>
         </div>
-      </div>
-      <div *ngIf="(user$ | async) as user" class="user-details">
-        <div *ngIf="!editing" >
-          <h3 #nameEl class="truncate" nz-tooltip [nzTooltipTitle]="isTextTruncated ? user['name'] : null">{{ user['name'] }}</h3>
-          <p #emailEl class="truncate" nz-tooltip [nzTooltipTitle]="isTextTruncated ? user['email'] : null">{{ user['email'] }}</p>
-          <p #phoneNumberEl class="truncate" nz-tooltip [nzTooltipTitle]="isTextTruncated ? user['phone_number'] : null">{{ user['phone_number'] }}</p>
-          <p #companyNameEl class="truncate" nz-tooltip [nzTooltipTitle]="isTextTruncated ? user['custom:companyName'] : null">{{ user['custom:companyName'] }}</p>
-          <p #addressEl class="truncate" nz-tooltip [nzTooltipTitle]="isTextTruncated ? user['address'] : null">{{ user['address'] }}</p>
-        </div>
-        <div class="profile-form-edit">
-          <form nz-form *ngIf="editing" [formGroup]="userForm">
-              <nz-form-label>Name:</nz-form-label><input nz-input formControlName="name">
-              <nz-form-label>Email:</nz-form-label><input nz-input formControlName="email">
-              <nz-form-label>Phone:</nz-form-label><input nz-input formControlName="phone_number">
-              <nz-form-label>Company:</nz-form-label><input nz-input formControlName="custom:companyName">
-              <nz-form-label>Address:</nz-form-label><input nz-input formControlName="address">
-            <input nz-input formControlName="custom:avatarUrl" hidden="true">
-          </form>
-        </div>
-      </div>
-      <div style="display: flex; justify-content: space-between;" class="control-buttons">
-        <div class="edit-btn">
-          <button nz-button (click)="toggleEdit()" [nzType]="editing ? 'default' : 'primary'">
-            {{ editing ? 'Cancel' : 'Edit' }}
-          </button>
-        </div>
-        <div *ngIf="editing" class="edit-btn">
-          <button nz-button nzType="primary" (click)="saveUserDetails()" [nzLoading]="loading$ | async" [disabled]="!userForm.valid && userForm.untouched">
-            Save
-          </button>
-        </div>
-      </div>
+      </nz-upload>
     </div>
-  </nz-content>
-</nz-layout>
+  </div>
+  <div class="flex-grow space-y-4 md:space-y-2">
+    <div *ngIf="!editing">
+      <h3 class="text-lg font-semibold mb-2">{{ user.name }}</h3>
+      <p class="text-gray-500">{{ user.email }}</p>
+      <p class="text-gray-500">{{ user.phone_number }}</p>
+      <p class="text-gray-500">{{ user["custom:companyName"] }}</p>
+      <p class="text-gray-500">{{ user.address }}</p>
+    </div>
+    <form *ngIf="editing" [formGroup]="userForm">
+      <div
+        class="flex flex-col space-y-2 md:space-y-0 md:space-x-4 md:flex-row"
+      >
+        <input
+          nz-input
+          formControlName="name"
+          placeholder="Name"
+          class="flex-grow p-2 border rounded"
+        />
+        <input
+          nz-input
+          formControlName="email"
+          placeholder="Email"
+          class="flex-grow p-2 border rounded"
+        />
+      </div>
+      <div
+        class="flex flex-col space-y-2 md:space-y-0 md:space-x-4 md:flex-row mt-2"
+      >
+        <input
+          nz-input
+          formControlName="phone_number"
+          placeholder="Phone Number"
+          class="flex-grow p-2 border rounded"
+        />
+        <input
+          nz-input
+          formControlName="custom:companyName"
+          placeholder="Company Name"
+          class="flex-grow p-2 border rounded"
+        />
+      </div>
+      <input
+        ngx-google-places-autocomplete
+        id="address"
+        nz-input
+        (onAddressChange)="handleAddressChange($event)"
+        formControlName="address"
+        placeholder="Address"
+        class="mt-2 p-2 border rounded w-full"
+      />
+      <input nz-input formControlName="custom:avatarUrl" hidden="true" />
+    </form>
+  </div>
+</div>
+
+<div class="flex justify-between my-6">
+  <button
+    (click)="toggleEdit()"
+    class="py-2 px-4 rounded bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+  >
+    {{ editing ? "Cancel" : "Edit" }}
+  </button>
+  <button
+    *ngIf="editing"
+    (click)="saveUserDetails()"
+    [disabled]="!userForm.valid && userForm.untouched"
+    class="py-2 px-4 rounded bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
+  >
+    Save
+  </button>
+</div>
+
+<ng-template #loadingIndicator>
+  <div
+    class="flex h-[12rem] items-center justify-center flex-auto md:flex-row bg-white p-6 rounded-lg shadow-lg"
+  >
+    <span
+      class="[&>*]:text-[3rem] [&>*]:relative"
+      nz-icon
+      nzType="loading"
+    ></span>
+  </div>
+</ng-template>

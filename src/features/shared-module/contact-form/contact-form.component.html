@@ -1,0 +1,56 @@
+<form nz-form [formGroup]="form" [nzLayout]="'vertical'">
+  <nz-form-item>
+    <nz-input-group nzPrefixIcon="user">
+      <input formControlName="name" nz-input placeholder="Full Name" required />
+    </nz-input-group>
+    <swp-form-control-error
+      [control]="form.get('name')"
+      [errorMessages]="{ required: 'Name is required.' }"
+    ></swp-form-control-error>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-input-group nzPrefixIcon="mail">
+      <input
+        formControlName="email"
+        nz-input
+        type="email"
+        placeholder="Email"
+        required
+      />
+    </nz-input-group>
+    <swp-form-control-error
+      [control]="form.get('email')"
+      [errorMessages]="{
+        required: 'Email is required.',
+        email: 'Please enter a valid email address.'
+      }"
+    ></swp-form-control-error>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-input-group nzPrefixIcon="message">
+      <textarea
+        rows="4"
+        formControlName="message"
+        nz-input
+        placeholder="Message"
+        required
+      ></textarea>
+    </nz-input-group>
+    <swp-form-control-error
+      [control]="form.get('message')"
+      [errorMessages]="{ required: 'Message is required.' }"
+    ></swp-form-control-error>
+  </nz-form-item>
+
+  <nz-form-item>
+    <swp-button
+      style="max-width: fit-content"
+      [disabled]="form?.invalid"
+      (mousedown)="handleFormSubmit()"
+      nzType="dashed"
+      content="Submit"
+    ></swp-button>
+  </nz-form-item>
+</form>

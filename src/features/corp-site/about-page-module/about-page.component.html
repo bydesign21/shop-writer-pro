@@ -1,41 +1,45 @@
-<nz-layout style="height: 100%">
-  <nz-content>
-    <nz-row class="about-container">
+<nz-layout class="bg-gray-100 min-h-screen">
+  <nz-content
+    class="max-w-4xl mt-10 mb-10 mx-auto p-8 md:p-6 sm:p-4 bg-white shadow-lg rounded-lg"
+  >
+    <nz-row>
       <nz-col nzSpan="24">
-        <h1>About Us</h1>
-        <p>
-          Shop Writer Pro was developed by experienced body shop owners who
-          encountered the challenge of lacking in- house estimators but were
-          determined to virtualize the process while keeping the accuracy and
-          quality of estimates at a high standard. Our goal is to keep the
-          process cost effective and time efficient while still providing an
-          estimate/supplement that is beneficial for the body shop.
-        </p>
-
-        <h2>Our Values</h2>
-        <p>
-          We value the importance of writing accurate estimates, with OEM
-          procedures to show the safe and proper techniques to repair the
-          vehicle. Giving an accurate estimate to the Insurance/customer shows
-          an accurate game plan to repair the vehicle back to its OEM
-          specifications. Safety, Accuracy, and the Body Shop owner's peace of
-          mind are what we value and strive to achieve.
-        </p>
-
-        <h2>Our Technology</h2>
-        <p>
-          ShopWriterPro and our Estimators use CCC estimating technology, and
-          industry leading software to write the estimate and/or supplement
-          needed. Each Estimator also has access to OEM procedures for each make
-          and model they are estimating. AI technology is used to detect the
-          damage through photos, giving our estimators a second set of eyes when
-          searching for all of the accident-related damages.
-        </p>
+        <h1 class="text-3xl font-semibold mt-6 mb-6 text-gray-800">About Us</h1>
+        <nz-card class="mb-6 p-4">
+          <p>
+            Shop Writer Pro was developed by experienced body shop owners who
+            encountered the challenge of lacking in-house estimators but were
+            determined to virtualize the process while keeping the accuracy and
+            quality of estimates at a high standard. Our goal is to keep the
+            process cost effective and time efficient while still providing an
+            estimate/supplement that is beneficial for the body shop.
+          </p>
+        </nz-card>
+        <nz-card class="mb-6 p-4">
+          <h2 class="text-2xl font-semibold mb-4 text-gray-700">Our Values</h2>
+          <p>
+            We value the importance of writing accurate estimates, with OEM
+            procedures to show the safe and proper techniques to repair the
+            vehicle. Giving an accurate estimate to the Insurance/customer shows
+            an accurate game plan to repair the vehicle back to its OEM
+            specifications. Safety, Accuracy, and the Body Shop owner's peace of
+            mind are what we value and strive to achieve.
+          </p>
+        </nz-card>
+        <nz-card class="mb-6 p-4">
+          <h2 class="text-2xl font-semibold mb-4 text-gray-700">
+            Our Technology
+          </h2>
+          <p>
+            ShopWriterPro and our Estimators use CCC estimating technology, and
+            industry leading software to write the estimate and/or supplement
+            needed. Each Estimator also has access to OEM procedures for each
+            make and model they are estimating. AI technology is used to detect
+            the damage through photos, giving our estimators a second set of
+            eyes when searching for all of the accident-related damages.
+          </p>
+        </nz-card>
       </nz-col>
     </nz-row>
   </nz-content>
 </nz-layout>
-
-<ng-template #avatarTemplate>
-  <nz-avatar [nzIcon]="'assets/images/logo.png'" [nzText]="'Icon'"> </nz-avatar>
-</ng-template>

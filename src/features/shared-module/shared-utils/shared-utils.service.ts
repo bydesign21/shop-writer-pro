@@ -1,57 +1,73 @@
-import { HttpClient, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpResponse } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
-import { AuthService } from 'src/features/auth-module/auth-service.service';
-import { Observable, from, lastValueFrom, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
+import { Observable, from, throwError } from 'rxjs';
+import { catchError, filter, map, switchMap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
+import { AuthService } from 'src/features/auth-module/auth-service.service';
 import { TicketStatus } from 'src/models/model';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SharedUtilsService {
-
   constructor(
     private http: HttpClient,
     private authService: AuthService,
-  ) { }
+  ) {}
 
   getVehichleByVin(vin: string): Observable<any> {
-    return from(this
-      .createRequest(
+    return from(
+      this.createRequest(
         'GET',
-        `https://mcbwuxn2ri.execute-api.us-east-1.amazonaws.com/staging/core/utils/vin-decoder/vehicles`,
+        `${environment.API_BASE_URL}/core/utils/vin-decoder/vehicles`,
         {
-          'vin': vin
+          vin: vin,
         },
         null,
         {
-          withCredentials: false
-        }
-      )).pipe(
-        switchMap(request => this.executeRequest(request))
-      )
+          withCredentials: false,
+        },
+      ),
+    ).pipe(switchMap((request) => this.executeRequest(request)));
   }
 
   getUserProfileData(userId: string) {
     return from(
       this.createRequest(
         'GET',
-        `https://mcbwuxn2ri.execute-api.us-east-1.amazonaws.com/staging/core/query/users/profile`,
+        `${environment.API_BASE_URL}/core/query/users/profile`,
         { userId },
         null,
         {
-          withCredentials: false
-        }
-      )
-    )
-      .pipe(
-        switchMap(request => this.executeRequest(request)),
-      )
+          withCredentials: false,
+        },
+      ),
+    ).pipe(switchMap((request) => this.executeRequest(request)));
   }
 
+  adminUpdateUserProfile(payload: any, username: string) {
+    return from(
+      this.createRequest(
+        'POST',
+        `${environment.API_BASE_URL}/core/query/users/profile`,
+        { username },
+        { ...payload },
+        {
+          withCredentials: false,
+        },
+      ),
+    ).pipe(switchMap((request) => this.executeRequest(request)));
+  }
 
-  async createRequest(method: string, url: string, queryParams: any = {}, body: any = null, options: any = {}) {
-    const cognitoKey = await this.authService?.getCurrentUserCognitoKey() || null;
+  async createRequest(
+    method: string,
+    url: string,
+    queryParams: any = {},
+    body: any = null,
+    options: any = {},
+  ) {
+    const cognitoKey =
+      (await this.authService?.getCurrentUserCognitoKey()) || null;
     let headers = new HttpHeaders();
     if (cognitoKey) {
       headers = new HttpHeaders().set('Authorization', `Bearer ${cognitoKey}`);
@@ -67,7 +83,7 @@ export class SharedUtilsService {
     }
     const req = new HttpRequest(method, fullUrl, body, {
       headers,
-      ...options
+      ...options,
     });
     console.log('req', req);
     return req;
@@ -75,18 +91,10 @@ export class SharedUtilsService {
 
   executeRequest(request: HttpRequest<any>) {
     console.log('executeRequest', request);
-    return this.http.request(request)
-      .pipe(
-        map(
-          (res: any) => {
-            // Check if the response is an object that has a body property
-            if (typeof res === 'object' && res.body !== undefined) {
-              return res.body;
-            }
-            // Otherwise, return the response as is
-            return res;
-          }
-        ));
+    return this.http.request(request).pipe(
+      filter((event) => event instanceof HttpResponse),
+      map((res: HttpResponse<any>) => res.body),
+    );
   }
 
   getTicketStatusPillColor(status: TicketStatus) {
@@ -107,19 +115,25 @@ export class SharedUtilsService {
   }
 
   sendEmail(options: EmailOptions, emailType: string): Observable<any> {
-    return from(this.createRequest(
-      'POST',
-      `https://mcbwuxn2ri.execute-api.us-east-1.amazonaws.com/staging/core/utils/email/send-email`,
-      {},
-      {
-        options,
-        emailType,
-      },
-      {
-        withCredentials: false
-      }
-    )).pipe(
-      switchMap(request => this.executeRequest(request))
+    return from(
+      this.createRequest(
+        'POST',
+        `${environment.API_BASE_URL}/core/utils/email/send-email`,
+        {},
+        {
+          options,
+          emailType,
+        },
+        {
+          withCredentials: false,
+        },
+      ),
+    ).pipe(
+      switchMap((request) => this.executeRequest(request)),
+      catchError((error) => {
+        console.error('Error in sendEmail:', error);
+        return throwError(error);
+      }),
     );
   }
 }
@@ -128,4 +142,4 @@ export type EmailOptions = {
   email: string;
   name: string;
   [key: string]: string;
-}
+};

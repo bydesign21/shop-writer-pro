@@ -26,37 +26,16 @@
   .ant-drawer-close {
     color: black !important;
   }
-  .header {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-    & .__logo {
-      height: 32px;
-      margin: 16px;
-      margin-right: 0px;
-      max-width: 30px;
 
-      img {
-        scale: 0.5;
-        display: flex;
-        justify-content: flex-start;
-        position: relative;
-        bottom: 2rem;
-        right: 6rem;
-      }
+  .__menu-button {
+    margin-right: 2rem;
+
+    ::ng-deep span {
+      font-size: x-large;
+      border: 1px solid #f0f2f5;
     }
-
-    & .__menu-button {
-      margin-right: 2rem;
-      margin-top: 0.25rem;
-
-      ::ng-deep span {
-        font-size: x-large;
-        border: 1px solid #f0f2f5;
-      }
-      span:hover {
-        border: 1px solid black;
-      }
+    span:hover {
+      border: 1px solid black;
     }
   }
 
@@ -68,10 +47,9 @@
       top: 0.3rem;
     }
   }
-
 }
 
 ::ng-deep .ant-layout-header {
-    background: #fff;
-    padding: 0;
-  }
+  background: #fff;
+  padding: 0;
+}

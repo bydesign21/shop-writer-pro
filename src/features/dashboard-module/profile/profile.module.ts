@@ -1,20 +1,21 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NzAvatarModule } from 'ng-zorro-antd/avatar'
-import { ProfileComponent } from './profile.component';
-import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NzLayoutModule } from 'ng-zorro-antd/layout';
-import { NzGridModule } from 'ng-zorro-antd/grid';
-import { NzUploadModule } from 'ng-zorro-antd/upload';
-import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
-import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { RouterModule } from '@angular/router';
+import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { BreadcrumbModule } from 'src/features/shared-module/breadcrumb/breadcrumb.module';
+import { ProfileCardModule } from 'src/features/shared-module/profile-card/profile-card.module';
+
+import { ProfileComponent } from './profile.component';
 
 @NgModule({
   declarations: [ProfileComponent],
@@ -32,10 +33,10 @@ import { RouterModule } from '@angular/router';
     NzAutocompleteModule,
     NzIconModule,
     NzToolTipModule,
-    GooglePlaceModule,
-    NzBreadCrumbModule,
-    RouterModule
+    RouterModule,
+    BreadcrumbModule,
+    ProfileCardModule,
   ],
-  exports: [ProfileComponent]
+  exports: [ProfileComponent],
 })
-export class ProfileModule { }
+export class ProfileModule {}

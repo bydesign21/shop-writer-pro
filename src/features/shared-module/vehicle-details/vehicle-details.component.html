@@ -1,0 +1,130 @@
+<div class="w-full mb-8" [formGroup]="vehicleDetailsForm">
+  <div>
+    <nz-form-item>
+      <nz-form-control>
+        <p>Please Select Your Insurance Company</p>
+        <input
+          nz-input
+          placeholder="eg: State Farm"
+          formControlName="insurance"
+          type="text"
+          [nzAutocomplete]="auto"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight w-full focus:outline-none focus:shadow-outline"
+        />
+        <div
+          *ngIf="isInvalidAndDirty('insurance')"
+          class="text-red-500 text-xs italic"
+        >
+          {{ getErrorMessage(vehicleDetailsForm.get("insurance")) }}
+        </div>
+        <nz-autocomplete
+          [nzDataSource]="insuranceList"
+          nzBackfill
+          #auto
+        ></nz-autocomplete>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <p>Please Enter The Vehicle Identification Number (V.I.N)</p>
+        <input
+          nz-input
+          placeholder="eg: 2JK42JK57KFW9"
+          formControlName="vin"
+          type="text"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight w-full focus:outline-none focus:shadow-outline"
+        />
+        <div
+          *ngIf="isInvalidAndDirty('vin')"
+          class="text-red-500 text-xs italic"
+        >
+          {{ getErrorMessage(vehicleDetailsForm.get("vin")) }}
+        </div>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <p>Please Enter The Vehicle Year</p>
+        <input
+          nz-input
+          placeholder="eg: 2001"
+          formControlName="year"
+          type="text"
+          maxlength="4"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight w-full focus:outline-none focus:shadow-outline"
+          (input)="
+            vehicleDetailsForm
+              .get('year')
+              .setValue(formatInputToNumericalOnlyValue($event.target['value']))
+          "
+        />
+        <div
+          *ngIf="isInvalidAndDirty('year')"
+          class="text-red-500 text-xs italic"
+        >
+          {{ getErrorMessage(vehicleDetailsForm.get("year")) }}
+        </div>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <p>Please Enter The Vehicle Make</p>
+        <input
+          nz-input
+          placeholder="eg: FORD"
+          formControlName="make"
+          type="text"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight w-full focus:outline-none focus:shadow-outline"
+        />
+        <div
+          *ngIf="isInvalidAndDirty('make')"
+          class="text-red-500 text-xs italic"
+        >
+          {{ getErrorMessage(vehicleDetailsForm.get("make")) }}
+        </div>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <p>Please Enter The Vehicle Model</p>
+        <input
+          nz-input
+          placeholder="eg: MUSTANG"
+          formControlName="model"
+          type="text"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight w-full focus:outline-none focus:shadow-outline"
+        />
+        <div
+          *ngIf="isInvalidAndDirty('make')"
+          class="text-red-500 text-xs italic"
+        >
+          {{ getErrorMessage(vehicleDetailsForm.get("make")) }}
+        </div>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <p>Please Enter The Vehicle Mileage</p>
+        <input
+          nz-input
+          placeholder="eg: 100,000"
+          formControlName="mileage"
+          type="text"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight w-full focus:outline-none focus:shadow-outline"
+          (input)="
+            vehicleDetailsForm
+              .get('mileage')
+              .setValue(formatNumberWithCommas($event.target['value']))
+          "
+          maxlength="9"
+        />
+        <div
+          *ngIf="isInvalidAndDirty('mileage')"
+          class="text-red-500 text-xs italic"
+        >
+          {{ getErrorMessage(vehicleDetailsForm.get("mileage")) }}
+        </div>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+</div>

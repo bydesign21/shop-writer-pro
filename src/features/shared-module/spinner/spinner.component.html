@@ -1,12 +1,21 @@
 <ng-container *ngIf="!fullscreen; else fullscreenSpinner">
-    <div class="container">
-      <ngx-spinner [fullScreen]="false" [name]="name" [color]="'black'" type="ball-clip-rotate" size="medium"></ngx-spinner>
-    </div>
-  </ng-container>
-  <ng-template #fullscreenSpinner>
-      <ngx-spinner [fullScreen]="true" [name]="'app-spinner'" type="ball-clip-rotate" size="medium">
-        <p class="spinner-description">
-            Loading...
-        </p>
-    </ngx-spinner>
-  </ng-template>
+  <div class="container">
+    <ngx-spinner
+      [fullScreen]="false"
+      [name]="name"
+      [color]="'black'"
+      type="ball-clip-rotate"
+      size="medium"
+    ></ngx-spinner>
+  </div>
+</ng-container>
+<ng-template #fullscreenSpinner>
+  <ngx-spinner
+    [fullScreen]="true"
+    [name]="'app-spinner'"
+    type="ball-clip-rotate"
+    size="medium"
+  >
+    <p class="spinner-description">Loading...</p>
+  </ngx-spinner>
+</ng-template>

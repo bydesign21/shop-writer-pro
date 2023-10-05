@@ -1,0 +1,40 @@
+<!-- Dependencies -->
+<ng-template #fileTypeTooltip>
+  <span>Supported File Types:</span>
+  <p>.jpg, .jpeg, .png, .pdf</p>
+</ng-template>
+
+<div>
+  <nz-form-item>
+    <nz-form-control>
+      <nz-upload
+        nzType="drag"
+        [nzMultiple]="true"
+        (nzChange)="handleChange($event)"
+        [nzCustomRequest]="customReq"
+        [nzListType]="'picture'"
+        [nzFileList]="selectedFiles"
+        [nzRemove]="handleImageRemove"
+      >
+        <p class="ant-upload-drag-icon">
+          <span nz-icon nzType="inbox"></span>
+        </p>
+        <p class="ant-upload-text">
+          Click or drag file to this area to upload
+          <span
+            class="absolute top-[1rem] right-[1rem] align-bottom ml-4 h-[1.5rem] w-[1.5rem] hover:text-blue-500 cursor-pointer"
+            nz-tooltip
+            [nzTooltipTitle]="fileTypeTooltip"
+            [inlineSVG]="'../../../assets/images/info-icon.svg'"
+          >
+          </span>
+        </p>
+        <p class="ant-upload-hint">
+          Support for a single or bulk upload.
+          <br />
+          <span class="text-red-500">Maximum Upload Size: 5MB</span>
+        </p>
+      </nz-upload>
+    </nz-form-control>
+  </nz-form-item>
+</div>

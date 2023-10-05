@@ -1,26 +1,26 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TicketViewerComponent } from './ticket-viewer.component';
-import { NzCollapseModule } from 'ng-zorro-antd/collapse';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzImageModule } from 'ng-zorro-antd/image';
+import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzGridModule } from 'ng-zorro-antd/grid';
-import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
-import { NzUploadModule } from 'ng-zorro-antd/upload';
-import { NzSelectModule } from 'ng-zorro-antd/select';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
-import { HttpClientModule } from '@angular/common/http';
-import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzImageModule } from 'ng-zorro-antd/image';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzModalModule } from 'ng-zorro-antd/modal';
-import { TableCardModule } from '../table-card/table-card.module';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
+import { TicketViewerComponent } from './ticket-viewer.component';
 
 @NgModule({
   declarations: [TicketViewerComponent],
@@ -44,7 +44,8 @@ import { NzTableModule } from 'ng-zorro-antd/table';
     HttpClientModule,
     NzTagModule,
     NzModalModule,
-    NzTableModule
+    NzTableModule,
+    NzToolTipModule,
   ],
   exports: [TicketViewerComponent],
 })

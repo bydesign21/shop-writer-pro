@@ -1,0 +1,16 @@
+.option-card {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+  margin-bottom: 1rem;
+
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-0.25rem);
+  }
+}
+
+.selected {
+  border: 2px solid blue;
+}

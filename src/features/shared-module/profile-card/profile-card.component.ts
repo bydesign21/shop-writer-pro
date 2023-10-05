@@ -1,24 +1,40 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzUploadChangeParam, NzUploadFile, NzUploadXHRArgs } from 'ng-zorro-antd/upload';
-import { takeUntil, take, tap, Subject } from 'rxjs';
-import { AuthService } from 'src/features/auth-module/auth-service.service';
+import {
+  NzUploadChangeParam,
+  NzUploadFile,
+  NzUploadXHRArgs,
+} from 'ng-zorro-antd/upload';
+import { takeUntil, Subject } from 'rxjs';
 import { TicketService } from 'src/features/dashboard-module/ticketing/ticket.service';
-
 @Component({
   selector: 'swp-profile-card',
   templateUrl: './profile-card.component.html',
-  styleUrls: ['./profile-card.component.scss']
+  styleUrls: ['./profile-card.component.scss'],
 })
 export class ProfileCardComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('nameEl') nameElement: ElementRef<HTMLParagraphElement>;
-  @ViewChild('companyNameEl') companyNameElement: ElementRef<HTMLParagraphElement>;
+  @ViewChild('companyNameEl')
+  companyNameElement: ElementRef<HTMLParagraphElement>;
   @ViewChild('phoneNumberEl') phoneElement: ElementRef<HTMLParagraphElement>;
   @ViewChild('emailEl') emailElement: ElementRef<HTMLParagraphElement>;
   @ViewChild('addressEl') addressElement: ElementRef<HTMLParagraphElement>;
-  @Input() user$;
+  @Input() user: any;
   @Input() loading$: Subject<boolean>;
+  @Output() userUpdated = new EventEmitter<any>();
   editing = false;
   isTextTruncated = false;
   fileList = [];
@@ -26,12 +42,11 @@ export class ProfileCardComponent implements OnInit, AfterViewInit, OnDestroy {
   destroy$ = new Subject();
 
   constructor(
-    private authService: AuthService,
     private messageService: NzMessageService,
     private cd: ChangeDetectorRef,
     private ticketService: TicketService,
-    private fb: FormBuilder
-  ) { }
+    private fb: FormBuilder,
+  ) {}
 
   @HostListener('window:resize')
   onResize() {
@@ -45,17 +60,30 @@ export class ProfileCardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.user$?.subscribe((user) => {
-      this.userForm = this.fb.group({
-        name: [user?.name, [Validators.required]],
-        email: [user?.email, [Validators.required, Validators.email]],
-        phone_number: [user?.phone_number, [Validators.required]],
-        address: [user?.address, [Validators.required]],
-        'custom:companyName': [user['custom:companyName'], null],
-        'custom:avatarUrl': [user['custom:avatarUrl'], null]
-      });
-      this.userForm.get('email').disable();
-      this.userForm.markAsUntouched();
+    this.initForm();
+  }
+
+  private initForm(): void {
+    this.userForm = this.fb.group({
+      name: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      phone_number: ['', [Validators.required]],
+      address: ['', [Validators.required]],
+      'custom:companyName': [null],
+      'custom:avatarUrl': [null],
+    });
+
+    this.userForm.get('email').disable();
+  }
+
+  private updateFormValues(user: any): void {
+    this.userForm.patchValue({
+      name: user.name,
+      email: user.email,
+      phone_number: user.phone_number,
+      address: user.address,
+      'custom:companyName': user['custom:companyName'],
+      'custom:avatarUrl': user['custom:avatarUrl'],
     });
   }
 
@@ -66,41 +94,39 @@ export class ProfileCardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   toggleEdit(): void {
     this.editing = !this.editing;
-    const user = this.user$.getValue();
+    this.updateFormValues(this.user);
     if (!this.editing) {
       this.fileList = [];
-      this.userForm.patchValue({
-        name: user.name,
-        email: user.email,
-        phone_number: user.phone_number,
-        address: user.address,
-        'custom:companyName': user['custom:companyName'],
-        'custom:avatarUrl': user['custom:avatarUrl']
-      });
       this.userForm.markAsUntouched();
       this.cd.detectChanges();
     }
   }
 
   saveUserDetails(): void {
-    // const oldUsername = this.user.email;
-    // const newUsername = this.userForm.get('email').value;
-    this.authService.handleUpdateProfile({ ...this.userForm.value })
-      .pipe(
-        take(1),
-        tap(_ => {
-          this.editing = false;
-          this.fileList = [];
-          this.messageService.success('Profile updated successfully');
-          this.cd.detectChanges();
-          console.log('success callback executed')
-        }),
-      ).subscribe(res => console.log(res))
+    if (this.userForm.invalid) {
+      return;
+    }
+
+    const payload = this.preparePayload();
+    this.userUpdated.next(payload);
+    this.editing = false;
+    this.fileList = [];
+    this.user = { ...payload, email: this.user.email };
+  }
+
+  private preparePayload() {
+    return {
+      ...this.userForm.value,
+      'custom:avatarUrl':
+        this.userForm.get('custom:avatarUrl').value ||
+        this.user['custom:avatarUrl'] ||
+        '',
+    };
   }
 
   handleAddressChange(address: any): void {
     this.userForm.patchValue({
-      address: address.formatted_address
+      address: address.formatted_address,
     });
   }
 
@@ -110,20 +136,26 @@ export class ProfileCardComponent implements OnInit, AfterViewInit, OnDestroy {
       this.userForm.get('custom:avatarUrl').patchValue(file.response.Location);
       this.cd.detectChanges();
     } else if (status === 'error') {
-      this.messageService.error('There Was An Error Uploading Your Profile Picture')
+      this.messageService.error(
+        'There Was An Error Uploading Your Profile Picture',
+      );
     }
   }
 
   handleFileListChange($event: NzUploadFile[]) {
     this.fileList = $event;
-    const uploadEl = document.getElementsByClassName('ant-upload-select')[0] as HTMLElement;
+    const uploadEl = document.getElementsByClassName(
+      'ant-upload-select',
+    )[0] as HTMLElement;
     uploadEl.hidden = !uploadEl.hidden;
   }
 
   public customReq = (item: NzUploadXHRArgs) => {
-    return this.ticketService.uploadMedia(item).pipe(takeUntil(this.destroy$)).subscribe();
+    return this.ticketService
+      .uploadMedia(item)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe();
   };
-
 
   setActiveTooltips() {
     const elementArr: HTMLParagraphElement[] = [
@@ -131,9 +163,9 @@ export class ProfileCardComponent implements OnInit, AfterViewInit, OnDestroy {
       this.emailElement?.nativeElement,
       this.phoneElement?.nativeElement,
       this.companyNameElement?.nativeElement,
-      this.addressElement?.nativeElement
+      this.addressElement?.nativeElement,
     ];
-    this.isTextTruncated = elementArr.some(el => {
+    this.isTextTruncated = elementArr.some((el) => {
       return el?.offsetWidth < el?.scrollWidth;
     });
     this.cd.detectChanges();

@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+
 import { AuthGuard } from '../auth-module/auth.guard';
+
 import { AboutPageComponent } from './about-page-module/about-page.component';
 import { ContactComponent } from './contact-module/contact.component';
 import { CorpSiteContainerComponent } from './corp-site-container/corp-site-container.component';
@@ -11,7 +13,7 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: 'home',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: '',
@@ -24,22 +26,22 @@ const routes: Routes = [
       },
       {
         path: 'about',
-        component: AboutPageComponent
+        component: AboutPageComponent,
       },
       {
         path: 'contact',
-        component: ContactComponent
+        component: ContactComponent,
       },
       {
         path: 'pricing',
-        component: PricingPageComponent
-      }
-    ]
-  }
+        component: PricingPageComponent,
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class CorpSiteRoutingModule {}

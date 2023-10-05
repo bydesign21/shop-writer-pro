@@ -1,7 +1,7 @@
 export enum UserRole {
   USER = 'user',
   EMPLOYEE = 'employee',
-  ADMIN = 'admin'
+  ADMIN = 'admin',
 }
 
 export enum TicketStatus {
@@ -10,19 +10,16 @@ export enum TicketStatus {
   IN_PROGRESS = 'in progress',
   PENDING = 'pending',
   CANCELLED = 'cancelled',
-  REFUNDED = 'refunded'
+  REFUNDED = 'refunded',
 }
 
-export const NonAdminRoles = [
-  UserRole.USER,
-  UserRole.EMPLOYEE
-];
+export const NonAdminRoles = [UserRole.USER, UserRole.EMPLOYEE];
 
 export const closedTicketStatuses = [
   TicketStatus.COMPLETED,
   TicketStatus.CANCELLED,
   TicketStatus.REFUNDED,
-  TicketStatus.RESOLVED
+  TicketStatus.RESOLVED,
 ];
 
 export enum UploadFileStatus {
@@ -30,5 +27,5 @@ export enum UploadFileStatus {
   SUCCESS = 'success',
   UPLOADING = 'uploading',
   DONE = 'done',
-  REMOVED = 'removed'
+  REMOVED = 'removed',
 }

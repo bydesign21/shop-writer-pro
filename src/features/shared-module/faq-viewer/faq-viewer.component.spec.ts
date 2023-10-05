@@ -8,9 +8,8 @@ describe('FaqViewerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FaqViewerComponent ]
-    })
-    .compileComponents();
+      declarations: [FaqViewerComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(FaqViewerComponent);
     component = fixture.componentInstance;

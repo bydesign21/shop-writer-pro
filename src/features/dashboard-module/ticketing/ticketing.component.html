@@ -1,184 +1,79 @@
-<nz-layout class="ticketing-wrapper">
-  <nz-row nzJustify="center">
-    <div
-      nz-col
-      style="min-width: 100%"
-      nzXs="20"
-      nzSm="20"
-      nzMd="16"
-      nzLg="12"
-      nzXl="8"
-      nzXXl="4"
-    >
-      <div class="container">
-        <nz-progress
-          class=""
-          [nzShowInfo]="false"
-          [nzPercent]="steps[currentStep - 1].percentage"
-        ></nz-progress>
-        <nz-steps
-          [nzStatus]="paymentSuccess ? 'finish' : 'process'"
-          [nzCurrent]="currentStep - 1"
-        >
-          <nz-step></nz-step>
-          <nz-step></nz-step>
-          <nz-step></nz-step>
-          <nz-step></nz-step>
-          <nz-step></nz-step>
-          <nz-step></nz-step>
-        </nz-steps>
+<!-- Layout -->
+<div class="flex flex-col items-center h-auto">
+  <!-- Row -->
+  <div class="flex justify-center w-full">
+    <!-- Column -->
+    <div class="w-full min-w-full">
+      <div class="container p-4">
+        <!-- Progress -->
+        <div class="relative">
+          <nz-progress
+            class="absolute top-1 inset-0 z-0 max-w-[98%]"
+            [nzShowInfo]="false"
+            [nzPercent]="steps[currentStep - 1].percentage"
+          ></nz-progress>
+          <!-- Steps -->
+          <nz-steps
+            class="z-10"
+            [nzStatus]="paymentSuccess ? 'finish' : 'process'"
+            [nzCurrent]="currentStep - 1"
+          >
+            <nz-step></nz-step>
+            <nz-step></nz-step>
+            <nz-step></nz-step>
+            <nz-step></nz-step>
+            <nz-step></nz-step>
+            <nz-step></nz-step>
+          </nz-steps>
+        </div>
 
-        <nz-form style="height: 100vh" [formGroup]="forms">
-          <div class="steps-content">
+        <!-- Form -->
+        <nz-form class="h-screen" [formGroup]="forms">
+          <div
+            class="mt-4 border-dashed border rounded bg-gray-50 text-center py-1 overflow-y-scroll h-[60vh] max-h-[60vh]"
+          >
+            <!-- Step 1 Content -->
             <div
-              class="step-content-wrapper"
+              class="w-full px-[0.25rem] sm:px-8"
               formGroupName="step1"
               *ngIf="currentStep === 1"
             >
-              <span>Choose your plan</span>
-              <h1>What Plan Do You Need?</h1>
-              <nz-form-item>
-                <nz-radio-group
-                  nz-input
-                  formControlName="plan"
-                  class="plan-group"
-                >
-                  <div onclick="" class="plan-card" *ngFor="let plan of plans">
-                    <nz-row class="plan-row" nzJustify="center" nzAlign="middle">
-                      <label nz-radio [nzValue]="plan" class="plan-option">
-                        <div class="plan-header">{{ plan.name }}</div>
-                        <img [src]="plan.image" class="plan-image" />
-                        <div class="plan-description">
-                          {{ plan.description }}
-                        </div>
-                      </label>
-                    </nz-row>
-                  </div>
-                </nz-radio-group>
-              </nz-form-item>
+              <div class="slide-heading">
+                <span>Choose your plan</span>
+                <h1>What Plan Do You Need?</h1>
+              </div>
+              <swp-plan-selector
+                [selectedPlan]="formValues?.step1.plan"
+                (planSelected)="handlePlanSelected($event)"
+              ></swp-plan-selector>
             </div>
-
+            <!-- Step 2 Content -->
             <div
-              class="step-content-wrapper"
+              class="w-full px-[0.25rem] sm:px-8"
               formGroupName="step2"
               *ngIf="currentStep === 2"
             >
-              <div class="step-content-header">
+              <div class="slide-heading">
                 <span>Vehicle Details</span>
                 <h1>Let's Get Started</h1>
                 <h4>Please fill in the details below to get started.</h4>
               </div>
-              <div class="form-wrapper">
-                <div class="form-inner">
-                  <nz-form-item>
-                    <nz-form-control>
-                      <p>Please Select Your Insurance From The List</p>
-                      <input
-                        nz-input
-                        placeholder="eg: State Farm"
-                        formControlName="insurance"
-                        type="text"
-                        [nzAutocomplete]="auto"
-                      />
-                      <nz-autocomplete
-                        [nzDataSource]="insuranceList"
-                        nzBackfill
-                        #auto
-                      ></nz-autocomplete>
-                      <!-- <nz-form-explain *ngIf="forms.get('step2.address').invalid && forms.get('step2.address').touched">
-                                          Please enter a valid address.
-                                      </nz-form-explain> -->
-                    </nz-form-control>
-                  </nz-form-item>
-
-                  <nz-form-item>
-                    <nz-form-control>
-                      <p>
-                        Please Enter The Vehicle Identification Number (V.I.N)
-                      </p>
-                      <input
-                        (keydown)="onVinKeydown($event)"
-                        nz-input
-                        placeholder="eg: 2JK42JK57KFW9"
-                        formControlName="vin"
-                        type="text"
-                      />
-                      <!-- <nz-form-explain *ngIf="forms.get('step2.address').invalid && forms.get('step2.address').touched">
-                                          Please enter a valid address.
-                                      </nz-form-explain> -->
-                    </nz-form-control>
-                  </nz-form-item>
-
-                  <nz-form-item>
-                    <nz-form-control>
-                      <p>Please Enter The Vehicle Mileage</p>
-                      <input
-                        nz-input
-                        [(ngModel)]="vehicleMileage"
-                        (input)="numberFormatter(vehicleMileage)"
-                        placeholder="eg: 100,000"
-                        formControlName="mileage"
-                        type="text"
-                      />
-                      <!-- <nz-form-explain *ngIf="forms.get('step2.address').invalid && forms.get('step2.address').touched">
-                                          Please enter a valid address.
-                                      </nz-form-explain> -->
-                    </nz-form-control>
-                  </nz-form-item>
-
-                  <nz-form-item>
-                    <nz-form-control>
-                      <p>Please Enter The Vehicle Year</p>
-                      <input
-                        nz-input
-                        placeholder="eg: 2001"
-                        formControlName="year"
-                        type="text"
-                      />
-                      <!-- <nz-form-explain *ngIf="forms.get('step2.address').invalid && forms.get('step2.address').touched">
-                                          Please enter a valid address.
-                                      </nz-form-explain> -->
-                    </nz-form-control>
-                  </nz-form-item>
-
-                  <nz-form-item>
-                    <nz-form-control>
-                      <p>Please Enter The Vehicle Make</p>
-                      <input
-                        nz-input
-                        placeholder="eg: FORD"
-                        formControlName="make"
-                        type="text"
-                      />
-                      <!-- <nz-form-explain *ngIf="forms.get('step2.address').invalid && forms.get('step2.address').touched">
-                                          Please enter a valid address.
-                                      </nz-form-explain> -->
-                    </nz-form-control>
-                  </nz-form-item>
-
-                  <nz-form-item>
-                    <nz-form-control>
-                      <p>Please Enter The Vehicle Model</p>
-                      <input
-                        nz-input
-                        placeholder="eg: MUSTANG"
-                        formControlName="model"
-                        type="text"
-                      />
-                      <!-- <nz-form-explain *ngIf="forms.get('step2.address').invalid && forms.get('step2.address').touched">
-                                          Please enter a valid address.
-                                      </nz-form-explain> -->
-                    </nz-form-control>
-                  </nz-form-item>
+              <div>
+                <div>
+                  <swp-vehicle-details
+                    [vehicleDetails]="formValues?.step2"
+                    (vehicleDetailsOutput)="handleVehicleDetails($event)"
+                  ></swp-vehicle-details>
                 </div>
               </div>
             </div>
+            <!-- Step 3 Content -->
             <div
-              class="step-content-wrapper"
+              class="w-full px-[0.25rem] sm:px-8"
               formGroupName="step3"
               *ngIf="currentStep === 3"
             >
-              <div class="step-content-header">
+              <div class="slide-heading">
                 <span>Vehicle Details</span>
                 <h1>Upload Documents</h1>
                 <h4>
@@ -186,254 +81,93 @@
                   original estimate to be supplemented if applicable.
                 </h4>
               </div>
-              <div class="form-wrapper">
-                <div class="form-inner">
-                  <nz-form-item>
-                    <nz-form-control>
-                      <nz-upload
-                        formControlName="imageUpload"
-                        ngDefaultControl
-                        nzType="drag"
-                        [nzMultiple]="true"
-                        (nzChange)="handleChange($event)"
-                        [nzCustomRequest]="customReq"
-                        [nzListType]="'picture'"
-                        [nzFileList]="selectedFiles"
-                        [nzRemove]="handleImageRemove"
-                      >
-                        <p class="ant-upload-drag-icon">
-                          <span nz-icon nzType="inbox"></span>
-                        </p>
-                        <p class="ant-upload-text">
-                          Click or drag file to this area to upload
-                          <span
-                            class="info-icon"
-                            nz-tooltip
-                            [nzTooltipTitle]="fileTypeTooltip"
-                            [inlineSVG]="'../../../assets/images/info-icon.svg'"
-                          ></span>
-                        </p>
-                        <p class="ant-upload-hint">
-                          Support for a single or bulk upload. <br /><span
-                            class="max-upload-text"
-                            >Maximum Upload Size: 5MB</span
-                          >
-                        </p>
-                      </nz-upload>
-                    </nz-form-control>
-                  </nz-form-item>
-                </div>
-              </div>
+              <swp-upload-documents
+                [selectedFiles]="formValues.step3.imageUpload || []"
+                (filesUploaded)="handleFiles($event)"
+              ></swp-upload-documents>
             </div>
 
+            <!-- Step 4 Content -->
             <div
-              class="step-content-wrapper"
+              class="w-full px-[0.25rem] sm:px-8"
               formGroupName="step4"
               *ngIf="currentStep === 4"
             >
-              <div class="step-content-header">
-                <span>Vehicle Details</span>
-                <h1>A Few More Steps</h1>
-                <h4>
+              <div class="slide-heading mb-4">
+                <span class="block text-gray-500">Vehicle Details</span>
+                <h1 class="text-2xl font-semibold">A Few More Steps</h1>
+                <h4 class="text-lg text-gray-400">
                   Just a few more details about your vehicle are needed...
                 </h4>
               </div>
-              <div class="form-wrapper">
-                <div class="form-inner">
-                  <nz-form-item>
-                    <nz-form-control>
-                      <p>Please Describe The Vehicle's Damage</p>
-                      <textarea
-                        nz-input
-                        formControlName="damage"
-                        placeholder="Describe the damage to your vehicle. If applicable, please include any missing info from your previous estimate."
-                        type="text"
-                      ></textarea>
-                      <!-- <nz-form-explain *ngIf="forms.get('step2.address').invalid && forms.get('step2.address').touched">
-                                          Please enter a valid address.
-                                      </nz-form-explain> -->
-                    </nz-form-control>
-                  </nz-form-item>
-                </div>
-              </div>
+              <swp-vehicle-details-damage
+                [damage]="formValues.step4.damage"
+                (additionalDetailsOutput)="handleVehicleDetailsDamage($event)"
+              ></swp-vehicle-details-damage>
             </div>
-
+            <!-- Step 5 Content -->
             <div
-              class="step-content-wrapper"
+              class="w-full px-[0.25rem] sm:px-8"
               formGroupName="step5"
               *ngIf="currentStep === 5"
             >
-              <div class="step-content-header">
+              <div class="slide-heading">
                 <span>Review</span>
                 <h1>Review your Order</h1>
                 <h4>
                   Please review your order details below before proceeding.
                 </h4>
               </div>
-              <div class="form-wrapper">
-                <div class="form-inner">
-                  <nz-collapse class="review-form" nzGhost>
-                    <nz-collapse-panel
-                      *ngFor="let panel of panels"
-                      [nzHeader]="panel.name"
-                      [nzActive]="panel.active"
-                      [nzDisabled]="panel.disabled"
-                    >
-                      <div *ngIf="panel.id === 1">
-                        <nz-card
-                          [nzTitle]="formValues.step1.plan.name"
-                          [nzExtra]="'$' + formValues?.step1?.plan?.cost"
-                        >
-                          <p>{{ formValues?.step1?.plan?.description }}</p>
-                        </nz-card>
-                      </div>
-                      <div *ngIf="panel.id === 2">
-                        <nz-card [nzTitle]="'Vehicle Details'">
-                          <p>Vin: {{ formValues.step2.vin }}</p>
-                          <p>Year: {{ formValues.step2.year }}</p>
-                          <p>Make: {{ formValues.step2.make }}</p>
-                          <p>Model: {{ formValues.step2.model }}</p>
-                          <p>Mileage: {{ formValues.step2.mileage }}</p>
-                        </nz-card>
-                      </div>
-                      <div *ngIf="panel.id === 3">
-                        <nz-card [nzTitle]="'Vehicle Damage'">
-                          <p>{{ formValues.step4.damage }}</p>
-                        </nz-card>
-                      </div>
-                      <div *ngIf="panel.id === 4">
-                        <nz-card [nzTitle]="'Uploaded Images'">
-                          <div>
-                            <nz-image-group>
-                              <img
-                                nz-image
-                                class="review-form__img"
-                                *ngFor="let img of formValues.step3.imageUpload"
-                                nzSrc="{{ img }}"
-                              />
-                            </nz-image-group>
-                          </div>
-                        </nz-card>
-                      </div>
-                    </nz-collapse-panel>
-                  </nz-collapse>
-                  <div style="margin-top: 3rem">
-                    <span>Want to add another vehicle to your order?</span
-                    ><br />
-                    <button
-                      style="padding-top: 5px"
-                      nz-button
-                      (click)="addAdditionalVehicle()"
-                    >
-                      Add Vehicle
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <swp-review-order
+                [formValues]="formValues"
+                (addVehicle)="handleAddVehicle()"
+              >
+              </swp-review-order>
             </div>
 
+            <!-- Step 6 Content -->
             <div
-              class="step-content-wrapper"
+              class="w-full px-[0.25rem] sm:px-8"
               formGroupName="step6"
               *ngIf="currentStep === 6"
             >
-              <div
-                *ngIf="!paymentSuccess; else paymentTemplate"
-                class="step-content-header"
-              >
+              <div class="slide-heading" *ngIf="!paymentSuccess">
                 <span>Payment</span>
                 <h1>Submit Order</h1>
                 <h4>Please proceed through checkout to submit your order.</h4>
               </div>
-              <ng-container>
-                <ng-template #paymentTemplate>
-                  <div class="step-content-header">
-                    <span>Payment</span>
-                    <h1>Payment Successful</h1>
-                    <h4>
-                      Your order has been submitted. View recent orders in your
-                      <a (click)="handleModalClose();">Dashboard</a>
-                    </h4>
-                  </div>
-                </ng-template>
-              </ng-container>
-              <div class="form-wrapper">
-                <div class="form-inner">
-                  <div *ngIf="paymentSuccess" class="success-icon">
-                    <span
-                      class="success-circle"
-                      nz-icon
-                      [nzType]="'check-circle'"
-                      [nzTheme]="'twotone'"
-                      [nzTwotoneColor]="'#52c41a'"
-                    ></span>
-                  </div>
-                  <app-spinner
-                    name="payment-spinner"
-                    [fullscreen]="false"
-                    class="payment-spinner"
-                  ></app-spinner>
-                  <form
-                    *ngIf="!paymentSuccess"
-                    [ngClass]="{
-                      loading: (formLoaded$ | async) === false,
-                      loaded: (formLoaded$ | async)
-                    }"
-                    id="payment-form"
-                  >
-                    <div id="link-authentication-element">
-                      <!--Stripe.js injects the Link Authentication Element-->
-                    </div>
-                    <div id="payment-element">
-                      <!--Stripe.js injects the Payment Element-->
-                    </div>
-                    <swp-button
-                      *ngIf="formLoaded$ | async"
-                      class="submit-payment__button"
-                      id="submit"
-                      [content]="'Pay Now $' + calculateOrderTotal()"
-                      (click)="submitPayment()"
-                    >
-                    </swp-button>
-                    <nz-form-control class="hidden-field">
-                      <nz-form-item>
-                        <label
-                          [formControlName]="'paymentSuccess'"
-                          [hidden]="true"
-                          [nzValue]="paymentSuccess"
-                          nz-radio
-                          >Payment Proccessed</label
-                        >
-                      </nz-form-item>
-                    </nz-form-control>
-                  </form>
-                </div>
+              <div *ngIf="paymentSuccess" class="slide-heading">
+                <span>Payment</span>
+                <h1>Payment Successful</h1>
+                <h4>
+                  Your order has been submitted. View recent orders in your
+                  <a (click)="handleModalClose()">Dashboard</a>
+                </h4>
               </div>
+              <swp-payment
+                [ticketsInOrder]="ticketsInOrder"
+                (paymentStatus)="handlePaymentStatusChange($event)"
+              >
+              </swp-payment>
             </div>
           </div>
-          <div class="steps-action">
+          <!-- Steps Action -->
+          <div class="mt-4 flex justify-between mb-4">
             <swp-button
               content="Previous"
               [disabled]="currentStep === 1 || paymentSuccess"
               nz-button
               (click)="prevStep()"
-            >
-            </swp-button>
+            ></swp-button>
             <swp-button
               content="Next"
               [disabled]="!isStepValid() || paymentSuccess || currentStep === 6"
               nz-button
               (click)="nextStep()"
-            >
-            </swp-button>
+            ></swp-button>
           </div>
         </nz-form>
       </div>
     </div>
-  </nz-row>
-</nz-layout>
-
-<ng-template #fileTypeTooltip>
-  <span>Supported File Types:</span>
-  <p>.jpg, .jpeg, .png, .pdf</p>
-</ng-template>
+  </div>
+</div>

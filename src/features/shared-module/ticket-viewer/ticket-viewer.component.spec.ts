@@ -8,9 +8,8 @@ describe('TicketViewerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TicketViewerComponent ]
-    })
-    .compileComponents();
+      declarations: [TicketViewerComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(TicketViewerComponent);
     component = fixture.componentInstance;

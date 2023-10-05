@@ -1,19 +1,26 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { Subject, take, takeUntil } from 'rxjs';
-import { AuthService } from '../auth-service.service';
 import { SessionService } from 'src/app/session-store/domain-state/session.service';
 import { SessionState } from 'src/app/session-store/domain-state/session.store';
 import { SpinnerService } from 'src/features/shared-module/spinner/spinner.service';
-import { NzModalService } from 'ng-zorro-antd/modal';
+
+import { AuthService } from '../auth-service.service';
 
 @Component({
   selector: 'swp-sign-in',
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SignInComponent implements OnInit, OnDestroy {
   form: FormGroup = new FormGroup({});
@@ -28,8 +35,8 @@ export class SignInComponent implements OnInit, OnDestroy {
     private cd: ChangeDetectorRef,
     private spinner: SpinnerService,
     private activatedRoute: ActivatedRoute,
-    private modalService: NzModalService
-  ) { }
+    private modalService: NzModalService,
+  ) {}
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
@@ -44,19 +51,19 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.spinner.show();
     const { username, password, rememberMe } = this.form.getRawValue();
     this.loggedUsername = username;
-    this.authService.handleLogIn({ username, password })
-      .pipe(
-        takeUntil(this.destroy$),
-        take(1)
-      )
+    this.authService
+      .handleLogIn({ username, password })
+      .pipe(takeUntil(this.destroy$), take(1))
       .subscribe(
-        loginRes => {
+        (loginRes) => {
           this.session.setSession(this.mapLoginResToSession(loginRes));
-          this.messageService.success(`Welcome, ${loginRes?.attributes?.name}!`);
+          this.messageService.success(
+            `Welcome, ${loginRes?.attributes?.name}!`,
+          );
           this.cd.detectChanges();
         },
-        error => {
-          console.log(error)
+        (error) => {
+          console.log(error);
           this.handleErrorResponse(error?.name);
           this.spinner.hide();
           this.messageService.error(error.message);
@@ -64,15 +71,15 @@ export class SignInComponent implements OnInit, OnDestroy {
         () => {
           this.router.navigate(['/dashboard']);
           this.spinner.hide();
-        });
-
+        },
+      );
   }
 
   initForm() {
     this.form = new FormGroup({
       username: new FormControl(null, Validators.required),
       password: new FormControl(null, Validators.required),
-      rememberMe: new FormControl(null)
+      rememberMe: new FormControl(null),
     });
   }
 
@@ -87,7 +94,7 @@ export class SignInComponent implements OnInit, OnDestroy {
         break;
       case 'UserNotFoundException':
         this.handleUserNotFoundError();
-        this.form.setErrors({})
+        this.form.setErrors({});
         break;
       case 'NotAuthorizedException':
         this.handleNotAuthError();
@@ -103,27 +110,32 @@ export class SignInComponent implements OnInit, OnDestroy {
 
   //TODO Write logic to handle various login errors
   handleAuthError() {
-    console.log('authError')
+    console.log('authError');
   }
 
   handleUserNotFoundError() {
-    console.log('userNotFound')
+    console.log('userNotFound');
   }
 
   handleNotAuthError() {
-    console.log('notAuth')
+    console.log('notAuth');
   }
 
   handleUserNotConfirmedError() {
-    this.router.navigate(['confirm-account'], { queryParams: { userId: this.loggedUsername.trim().toLowerCase() }, relativeTo: this.activatedRoute });
+    this.router.navigate(['confirm-account'], {
+      queryParams: { userId: this.loggedUsername.trim().toLowerCase() },
+      relativeTo: this.activatedRoute,
+    });
   }
 
   handleForgotPassword() {
-    this.router.navigate(['forgot-password'], { relativeTo: this.activatedRoute });
+    this.router.navigate(['forgot-password'], {
+      relativeTo: this.activatedRoute,
+    });
   }
 
   handleLoginFail() {
-    console.log('Login Failed IDK')
+    console.log('Login Failed IDK');
   }
 
   public mapLoginResToSession(loginRes: any): SessionState {
@@ -138,14 +150,14 @@ export class SignInComponent implements OnInit, OnDestroy {
       isAuthenticated: true,
       'custom:avatarUrl': loginRes?.attributes['custom:avatarUrl'],
       'custom:companyName': loginRes?.attributes['custom:companyName'],
-      role: loginRes?.attributes['custom:role']
-    }
+      role: loginRes?.attributes['custom:role'],
+    };
   }
 
   handleTermsConditionsClicked() {
     this.modalService.create({
       nzTitle: 'Terms and Conditions',
-      nzStyle: {top: '20px'},
+      nzStyle: { top: '20px' },
       nzContent: `<p><em>Virtual Appraiser Corp. d/b/a Shop Writer Pro (hereafter “Shop Writer Pro”) provides virtual estimates to individuals and auto body repair shops for informational purposes only. These virtual estimates are based on visual video inspections of damage to motor vehicles conducted by automobile collision damage experts. The calculations are based on local labor and materials/parts pricing.</em></p>
       <p><em>The virtual estimate provided is limited to the visible damage and any damage that is concealed, not exposed to view, or inaccessible is not reflected in the virtual estimate. Therefore, the user must assume all risk for any concealed damage and accept the calculations provided in the virtual estimate as a guideline and resource for preparing a final estimate.</em></p>
       <p><strong>Accuracy and Reliability</strong></p>
@@ -159,7 +171,7 @@ export class SignInComponent implements OnInit, OnDestroy {
       <p><strong>Agreement to Terms and Conditions</strong></p>
       <p><em>By using Shop Writer Pro's services, the user acknowledges that they have read and understood these terms and conditions, and agree to be bound by them.</em></p>`,
       nzWidth: 900,
-      nzCancelDisabled: true
-    })
+      nzCancelDisabled: true,
+    });
   }
 }

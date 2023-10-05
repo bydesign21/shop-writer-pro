@@ -1,28 +1,36 @@
-<nz-layout>
+<nz-layout class="relative">
   <nz-content>
-    <nz-row class="app-hero-wrapper">
-      <nz-col [nzXs]="24" [nzSm]="24" [nzMd]="24" [nzLg]="24" [nzXl]="24">
-        <div class="hero-banner-overlay"></div>
-        <div class="hero-banner-content">
-          <div class="hero-banner-text-container">
-            <h1 class="hero-banner-title">Estimates Made Easy</h1>
-            <p class="hero-banner-description">
-              At Shop Writer Pro, we offer an excellent alternative to paying
-              the salary of an in-house adjuster at your collision shop. With
-              our team of licensed and experienced adjusters, we provide
-              accurate estimates benefiting body shops when negotiating with
-              insurance companies. Have your estimates written more efficiently,
-              accurate, and cost effective with no appointment needed.
-            </p>
+    <nz-row
+      class="relative bg-cover bg-center h-screen"
+      style="
+        background-image: url(&quot;../../assets/images/hero-banner-image.jpg&quot;);
+      "
+    >
+      <div class="absolute inset-0 bg-black opacity-60"></div>
+      <nz-col
+        nzSpan="24"
+        class="relative z-10 flex items-center justify-center text-center"
+      >
+        <div class="space-y-6">
+          <h1 class="text-4xl md:text-5xl text-white font-bold">
+            Estimates Made Easy
+          </h1>
+          <p class="text-lg md:text-xl text-white max-w-2xl mx-auto">
+            At Shop Writer Pro, we offer an excellent alternative to paying the
+            salary of an in-house adjuster at your collision shop. With our team
+            of licensed and experienced adjusters, we provide accurate estimates
+            benefiting body shops when negotiating with insurance companies.
+            Have your estimates written more efficiently, accurate, and
+            cost-effective with no appointment needed.
+          </p>
+          <div class="space-x-4">
             <swp-button
-              class="hero-banner-button"
               [routerLink]="['/auth/login']"
               [nzSize]="'large'"
               [nzType]="'primary'"
               [content]="'Log In'"
             ></swp-button>
             <swp-button
-              class="hero-banner-button"
               (click)="onLearnMoreClick()"
               [nzSize]="'large'"
               [content]="'Pricing'"
@@ -31,75 +39,36 @@
         </div>
       </nz-col>
     </nz-row>
-    <nz-row nzGutter="16" class="card-container">
-      <nz-col [nzXs]="24" [nzSm]="12" [nzMd]="6" [nzLg]="6" [nzXl]="6">
+    <nz-row class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-8">
+      <nz-col class="flex justify-center" *ngFor="let card of cards">
         <swp-card
-          [title]="'Enter VIN'"
-          [photo]="'../../assets/images/barcode-icon.png'"
-          [description]="
-            'Enter the VIN number of your vehicle to help us accurately diagnose any issues.'
-          "
-        >
-        </swp-card>
-      </nz-col>
-      <nz-col [nzXs]="24" [nzSm]="12" [nzMd]="6" [nzLg]="6" [nzXl]="6">
-        <swp-card
-          [title]="'Describe Issues'"
-          [photo]="'../../assets/images/notepad-icon.png'"
-          [description]="
-            'Describe the issues you are experiencing in detail to help us better understand the problem.'
-          "
-        >
-        </swp-card>
-      </nz-col>
-      <nz-col [nzXs]="24" [nzSm]="12" [nzMd]="6" [nzLg]="6" [nzXl]="6">
-        <swp-card
-          [title]="'Submit Photos'"
-          [photo]="'../../assets/images/upload-icon.png'"
-          [description]="
-            'Easily submit photos of any issues you are experiencing with your vehicle.'
-          "
-        >
-        </swp-card>
-      </nz-col>
-      <nz-col [nzXs]="24" [nzSm]="12" [nzMd]="6" [nzLg]="6" [nzXl]="6">
-        <swp-card
-          [title]="'Make Payment'"
-          [photo]="'../../assets/images/payment-icon.png'"
-          [description]="
-            'Easily make a payment to finalize the submission of your ticket.'
-          "
-        >
-        </swp-card>
+          [title]="card.title"
+          [photo]="card.photo"
+          [description]="card.description"
+        ></swp-card>
       </nz-col>
     </nz-row>
-    <nz-row nzGutter="24">
-      <nz-col class="two-col-section" nzSpan="24" nzLg="12">
-        <div class="left-text">
-          <h2>No More Hassle</h2>
-          <h3>
+    <nz-row class="grid grid-cols-1 lg:grid-cols-2 gap-6 p-8 items-center">
+      <nz-col>
+        <div class="space-y-4 pl-4 pr-4 md:pl-8 md:pr-8">
+          <h2 class="text-2xl font-semibold">No More Hassle</h2>
+          <p>
             Oftentimes, writing estimates for incoming damaged cars can be
-            tedious.
-          </h3>
-          <p>
-            If done incorrectly, parts and repair procedures may be missing from
-            the estimate, delaying the repair process with supplements later
-            being needed.
-          </p>
-          <p>
-            If you're constantly struggling with writing accurate estimates,
-            hiring reliable adjusters, or spending too much time & money on
-            estimates and supplements, then Shop Writer Pro is for you!
+            tedious. If done incorrectly, parts and repair procedures may be
+            missing from the estimate, delaying the repair process with
+            supplements later being needed. If you're constantly struggling with
+            writing accurate estimates, hiring reliable adjusters, or spending
+            too much time & money on estimates and supplements, then Shop Writer
+            Pro is for you!
           </p>
         </div>
       </nz-col>
-      <nz-col class="two-col-section" nzSpan="24" nzLg="12">
-        <div class="right-image">
-          <img
-            src="../../assets/images/content1.png"
-            alt="Fast Estimates With Shop Writer Pro"
-          />
-        </div>
+      <nz-col class="flex justify-center">
+        <img
+          src="../../assets/images/content1.png"
+          alt="Fast Estimates With Shop Writer Pro"
+          class="max-w-md rounded-lg shadow-lg"
+        />
       </nz-col>
     </nz-row>
   </nz-content>

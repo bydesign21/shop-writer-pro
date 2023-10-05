@@ -1,1 +1,16 @@
-<button [disabled]="disabled" nz-button [nzType]="nzType" [nzSize]="nzSize">{{content}}</button>
+<button
+  [disabled]="disabled"
+  [ngClass]="{
+    'bg-white text-black hover:bg-opacity-60': nzType === 'default',
+    'bg-black text-white hover:bg-opacity-60': nzType === 'primary',
+    'bg-white text-black border border-gray-300 hover:bg-gray-300':
+      nzType === 'dashed',
+    'bg-white text-black hover:bg-white': nzType === 'link',
+    'bg-white text-black': nzType === 'text' || nzType === null
+  }"
+  class="transition-all ease-in-out duration-300 font-semibold text-xl h-12 w-20 uppercase hover:text-gray-800 tracking-wider shadow-md hover:shadow-lg focus:outline-none w-fit h-full rounded-full mx-1"
+  nz-button
+  [nzSize]="nzSize"
+>
+  <span style="font-size: small">{{ content }}</span>
+</button>

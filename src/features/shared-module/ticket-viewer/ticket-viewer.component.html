@@ -1,200 +1,300 @@
-<nz-card
-  [nzTitle]="updatedTicket.plan"
-  [nzExtra]="'$' + updatedTicket.totalUSD"
->
-  <p>Summary: {{ updatedTicket.description }}</p>
-  <span class="admin-tags" *ngIf="rules === userRole.ADMIN">
-    <p>Customer: <nz-tag (click)="handleUserProfileClick($event.target, 'user')" [nzColor]="'grey'">{{updatedTicket.userId}}</nz-tag></p>
-    <p>Assigned To: <nz-tag (click)="handleUserProfileClick($event.target, 'employee')" [nzColor]="'black'">{{updatedTicket.assignedTo}}</nz-tag></p>
-  </span>
-
-</nz-card>
-<nz-collapse class="review-form" nzGhost>
-  <nz-collapse-panel
-    *ngFor="let panel of panels"
-    [nzHeader]="panel.name"
-    [nzActive]="panel.active"
-    [nzDisabled]="panel.disabled"
+<div class="overflow-y-scroll h-[55vh] p-4 bg-gray-50">
+  <!-- Card Section -->
+  <nz-card
+    class="mb-4 sm:text-left text-center text-sm shadow-lg border border-gray-300 p-4 bg-white rounded-md space-y-3"
+    [nzTitle]="updatedTicket.plan"
+    [nzExtra]="'$' + updatedTicket.totalUSD"
   >
-    <div *ngIf="panel.id === 2">
-      <span
-        nz-icon
-        *ngIf="updatedTicket.status === ticketStatusEnum.PENDING"
-        nzType="edit"
-        (click)="handleEditButtonTrigger($event)"
-        class="edit-button"
-      ></span>
-      <nz-card
-        style="display: flex; flex-direction: column"
-        [nzTitle]="'Vehicle Details'"
-      >
-        <nz-form-item>
-          <nz-form-label>Insurance</nz-form-label>
-          <input
-            nz-input
-            required="true"
-            [disabled]="!editVehicleInfo"
-            [placeholder]="updatedTicket.insurance || 'N/A'"
-            [(ngModel)]="updatedTicket.insurance"
-            [nzAutocomplete]="auto"
-          />
-          <nz-autocomplete
-            [nzDataSource]="insuranceList"
-            nzBackfill
-            #auto
-          ></nz-autocomplete>
-        </nz-form-item>
-
-        <nz-form-item>
-          <nz-form-label>Vin</nz-form-label>
-          <input
-            nz-input
-            required="true"
-            [disabled]="!editVehicleInfo"
-            [placeholder]="updatedTicket.vin"
-            [(ngModel)]="updatedTicket.vin"
-          />
-        </nz-form-item>
-
-        <nz-form-item>
-          <nz-form-label>Year</nz-form-label>
-          <input
-            nz-input
-            required="true"
-            [disabled]="!editVehicleInfo"
-            [placeholder]="updatedTicket.year"
-            [(ngModel)]="updatedTicket.year"
-          />
-        </nz-form-item>
-        <nz-form-item>
-          <nz-form-label>Make</nz-form-label>
-          <input
-            nz-input
-            required="true"
-            [disabled]="!editVehicleInfo"
-            [placeholder]="updatedTicket.make"
-            [(ngModel)]="updatedTicket.make"
-          />
-        </nz-form-item>
-        <nz-form-item>
-          <nz-form-label>Model</nz-form-label>
-          <input
-            nz-input
-            required="true"
-            [disabled]="!editVehicleInfo"
-            [placeholder]="updatedTicket.model"
-            [(ngModel)]="updatedTicket.model"
-          />
-        </nz-form-item>
-        <nz-form-item>
-          <nz-form-label>Mileage</nz-form-label>
-          <input
-            nz-input
-            required="true"
-            [disabled]="!editVehicleInfo"
-            [placeholder]="updatedTicket.mileage | number : '1.0-0'"
-            [ngModel]="updatedTicket.mileage | number : '1.0-0'"
-            (ngModelChange)="updatedTicket.mileage = $event.replaceAll(',', '')"
-          />
-        </nz-form-item>
-        <nz-button-group *ngIf="editVehicleInfo" class="">
-          <button
-            nz-button
-            (click)="handleEditVehicleInfo($event)"
-            type="submit"
-          >
-            Save Changes
-          </button>
-        </nz-button-group>
-      </nz-card>
-    </div>
-    <div *ngIf="panel.id === 3">
-      <span
-        nz-icon
-        *ngIf="updatedTicket.status === ticketStatusEnum.PENDING"
-        nzType="edit"
-        (click)="handleEditButtonTrigger($event)"
-        class="edit-button"
-      ></span>
-      <nz-card
-        style="display: flex; flex-direction: column"
-        [nzTitle]="'Vehicle Damage'"
-      >
-        <nz-form-item>
-          <nz-form-label>Damage Description</nz-form-label>
-          <textarea
-            nz-input
-            rows="10"
-            required="true"
-            [disabled]="!editVehicleInfo"
-            [(ngModel)]="updatedTicket.description"
-            (ngModelChange)="updatedTicket.description = $event"
-          ></textarea>
-        </nz-form-item>
-        <nz-button-group *ngIf="editVehicleInfo">
-          <button
-            nz-button
-            (click)="handleEditVehicleInfo($event)"
-            type="button"
-          >
-            Save Changes
-          </button>
-        </nz-button-group>
-      </nz-card>
-    </div>
-    <div *ngIf="panel.id === 4">
-      <nz-card [nzTitle]="'Uploaded Images'">
-        <div>
-          <nz-image-group>
-            <img
-              nz-image
-              class="review-form__img"
-              *ngFor="let img of updatedTicket.images"
-              nzSrc="{{ img }}"
-            />
-          </nz-image-group>
-        </div>
-      </nz-card>
-    </div>
-    <div *ngIf="panel.id === 5">
-      <nz-card [nzTitle]="panel.name" [nzExtra]="ticketStatusRef">
-        <nz-upload
-          ngDefaultControl
-          nzType="drag"
-          [nzCustomRequest]="customReq"
-          [nzMultiple]="true"
-          (nzChange)="handleUploadChange($event)"
-          [nzListType]="'picture'"
-          [nzFileList]="selectedFiles"
-          [nzRemove]="handleFileRemove"
-          [nzDownload]="handleFileDownload"
-          [nzShowUploadList]="{showPreviewIcon: true, showRemoveIcon: true, showDownloadIcon: true}"
+    <p class="text-gray-700">Summary: {{ updatedTicket.description }}</p>
+    <div
+      class="admin-tags text-gray-500 space-y-2"
+      *ngIf="rules === userRole.ADMIN"
+    >
+      <div class="flex text-center sm:text-left items-center flex-wrap">
+        <span class="mr-2">Customer:</span>
+        <nz-tag
+          class="cursor-pointer mt-2 ml-2 rounded-3xl bg-gray-200 px-2 py-1 rounded hover:bg-gray-300 transition-colors duration-200 ease-in-out whitespace-nowrap overflow-hidden"
+          (click)="handleUserProfileClick($event.target, 'user')"
+          [nzColor]="'processing'"
+          [nz-tooltip]="updatedTicket.userId"
         >
-          <p class="ant-upload-drag-icon">
-            <span nz-icon nzType="inbox"></span>
-          </p>
-          <p class="ant-upload-text">
-            Click or drag file to this area to upload
-          </p>
-          <p class="ant-upload-hint">
-            Support for a single or bulk upload. Strictly prohibit from
-            uploading company data or other band files
-          </p>
-        </nz-upload>
-      </nz-card>
+          {{ updatedTicket.userId }}
+        </nz-tag>
+      </div>
+      <div class="flex items-center flex-wrap">
+        <span class="mr-2">Assigned To:</span>
+        <nz-tag
+          class="cursor-pointer mt-2 ml-2 bg-gray-200 rounded-3xl px-2 py-1 rounded hover:bg-gray-300 transition-colors duration-200 ease-in-out whitespace-nowrap overflow-hidden"
+          (click)="handleUserProfileClick($event.target, 'employee')"
+          [nzColor]="'success'"
+          [nz-tooltip]="updatedTicket.assignedTo"
+        >
+          {{ updatedTicket.assignedTo }}
+        </nz-tag>
+      </div>
     </div>
-  </nz-collapse-panel>
-</nz-collapse>
+  </nz-card>
 
-<ng-container>
-  <ng-template #ticketStatusRef>
-    <nz-select
-      style="width: 15rem; max-height: 4rem;"
-      (ngModelChange)="handleTicketStatusChange($event)"
-      [(ngModel)]="updatedTicket.status"
-      [nzPlaceHolder]="'Ticket Status'"
-      [nzOptions]="ticketStatusOptions"
-      [nzDropdownClassName]="'ticket-status-dropdown'"
-    ></nz-select>
-  </ng-template>
-</ng-container>
+  <!-- Collapse Section -->
+  <nz-collapse class="review-form text-sm" nzGhost>
+    <nz-collapse-panel
+      *ngFor="let panel of panels"
+      [nzHeader]="panel.name"
+      [nzActive]="panel.active"
+      [nzDisabled]="panel.disabled"
+    >
+      <!-- Panel for Vehicle Details -->
+      <div
+        class="relative bg-white p-4 rounded-md shadow-lg border border-gray-300 mb-4"
+        *ngIf="panel.id === 2"
+      >
+        <!-- Edit Button -->
+        <span
+          nz-icon
+          *ngIf="updatedTicket.status === ticketStatusEnum.PENDING"
+          nzType="edit"
+          (click)="handleEditButtonTrigger($event)"
+          class="edit-button relative bottom-2 right-2 text-xl text-white bg-gray-500 p-2 rounded-full cursor-pointer"
+        ></span>
+        <!-- Vehicle Details Card -->
+        <nz-card [nzTitle]="'Vehicle Details'" class="flex flex-col">
+          <!-- Insurance Form Item -->
+          <nz-form-item>
+            <nz-form-label>Insurance</nz-form-label>
+            <input
+              nz-input
+              required="true"
+              [disabled]="!editVehicleInfo"
+              [placeholder]="updatedTicket.insurance || 'N/A'"
+              [(ngModel)]="updatedTicket.insurance"
+              [nzAutocomplete]="auto"
+            />
+            <nz-autocomplete
+              [nzDataSource]="insuranceList"
+              nzBackfill
+              #auto
+            ></nz-autocomplete>
+          </nz-form-item>
+
+          <!-- Vin Form Item -->
+          <nz-form-item>
+            <nz-form-label>Vin</nz-form-label>
+            <input
+              nz-input
+              required="true"
+              [disabled]="!editVehicleInfo"
+              [placeholder]="updatedTicket.vin"
+              [(ngModel)]="updatedTicket.vin"
+            />
+          </nz-form-item>
+
+          <!-- Year Form Item -->
+          <nz-form-item>
+            <nz-form-label>Year</nz-form-label>
+            <input
+              nz-input
+              required="true"
+              [disabled]="!editVehicleInfo"
+              [placeholder]="updatedTicket.year"
+              [(ngModel)]="updatedTicket.year"
+            />
+          </nz-form-item>
+
+          <!-- Make Form Item -->
+          <nz-form-item>
+            <nz-form-label>Make</nz-form-label>
+            <input
+              nz-input
+              required="true"
+              [disabled]="!editVehicleInfo"
+              [placeholder]="updatedTicket.make"
+              [(ngModel)]="updatedTicket.make"
+            />
+          </nz-form-item>
+
+          <!-- Model Form Item -->
+          <nz-form-item>
+            <nz-form-label>Model</nz-form-label>
+            <input
+              nz-input
+              required="true"
+              [disabled]="!editVehicleInfo"
+              [placeholder]="updatedTicket.model"
+              [(ngModel)]="updatedTicket.model"
+            />
+          </nz-form-item>
+
+          <!-- Mileage Form Item -->
+          <nz-form-item>
+            <nz-form-label>Mileage</nz-form-label>
+            <input
+              nz-input
+              required="true"
+              [disabled]="!editVehicleInfo"
+              [placeholder]="updatedTicket.mileage | number: '1.0-0'"
+              [ngModel]="updatedTicket.mileage | number: '1.0-0'"
+              (ngModelChange)="
+                updatedTicket.mileage = $event.replaceAll(',', '')
+              "
+            />
+          </nz-form-item>
+
+          <!-- Save Changes Button -->
+          <nz-button-group *ngIf="editVehicleInfo">
+            <button
+              nz-button
+              (click)="handleEditVehicleInfo($event)"
+              type="submit"
+            >
+              Save Changes
+            </button>
+          </nz-button-group>
+        </nz-card>
+      </div>
+
+      <!-- Panel for Vehicle Damage -->
+      <div
+        class="relative bg-white p-4 rounded-md shadow-lg border border-gray-300 mb-4"
+        *ngIf="panel.id === 3"
+      >
+        <!-- Edit Button -->
+        <span
+          nz-icon
+          *ngIf="updatedTicket.status === ticketStatusEnum.PENDING"
+          nzType="edit"
+          (click)="handleEditButtonTrigger($event)"
+          class="edit-button relative bottom-2 right-2 text-xl text-white bg-gray-500 p-2 rounded-full cursor-pointer"
+        ></span>
+        <!-- Vehicle Damage Card -->
+        <nz-card [nzTitle]="'Vehicle Damage'" class="flex flex-col">
+          <!-- Damage Description Form Item -->
+          <nz-form-item>
+            <nz-form-label>Damage Description</nz-form-label>
+            <textarea
+              nz-input
+              rows="10"
+              required="true"
+              [disabled]="!editVehicleInfo"
+              [(ngModel)]="updatedTicket.description"
+            ></textarea>
+          </nz-form-item>
+          <!-- Save Changes Button -->
+          <nz-button-group *ngIf="editVehicleInfo">
+            <button
+              nz-button
+              (click)="handleEditVehicleInfo($event)"
+              type="button"
+            >
+              Save Changes
+            </button>
+          </nz-button-group>
+        </nz-card>
+      </div>
+
+      <!-- Panel for Uploaded Images -->
+      <div class="relative" *ngIf="panel.id === 4">
+        <!-- Uploaded Images Card -->
+        <nz-card [nzTitle]="'Uploaded Images'">
+          <div>
+            <nz-image-group
+              class="[&>.cdk-drag]:flex [&>.cdk-drag]:align-center [&>.cdk-drag]:justify-center"
+            >
+              <img
+                nz-image
+                class="review-form__img"
+                *ngFor="let img of updatedTicket.images"
+                [nzSrc]="img"
+              />
+            </nz-image-group>
+          </div>
+        </nz-card>
+      </div>
+
+      <!-- Panel for Upload -->
+      <div class="relative" *ngIf="panel.id === 5">
+        <!-- Upload Card -->
+        <nz-card [nzTitle]="panel.name" [nzExtra]="ticketStatusRef">
+          <nz-upload
+            ngDefaultControl
+            nzType="drag"
+            [nzCustomRequest]="customReq"
+            [nzMultiple]="true"
+            (nzChange)="handleUploadChange($event)"
+            [nzListType]="'picture'"
+            [nzFileList]="selectedFiles"
+            [nzRemove]="handleFileRemove"
+            [nzDownload]="handleFileDownload"
+            [nzShowUploadList]="{
+              showPreviewIcon: true,
+              showRemoveIcon: true,
+              showDownloadIcon: true
+            }"
+          >
+            <p class="ant-upload-drag-icon">
+              <span nz-icon nzType="inbox"></span>
+            </p>
+            <p class="ant-upload-text">
+              Click or drag file to this area to upload
+            </p>
+            <p class="ant-upload-hint">
+              Support for a single or bulk upload. Strictly prohibit from
+              uploading company data or other band files
+            </p>
+          </nz-upload>
+        </nz-card>
+      </div>
+
+      <!-- Uploaded Files Card Customer-->
+      <div class="relative" *ngIf="panel.id === 6">
+        <nz-card [nzTitle]="panel.name">
+          <div
+            *ngFor="let document of selectedFiles"
+            class="mb-4 p-3 bg-gray-100 shadow-md rounded-lg transition-all hover:shadow-xl hover:bg-gray-100"
+          >
+            <button
+              (click)="downloadFile(document.response.Location, document.name)"
+              class="flex justify-between min-w-full items-center space-x-2"
+            >
+              <!-- File Icon -->
+              <span
+                nz-icon
+                nzType="file"
+                nzTheme="outline"
+                class="text-blue-500"
+              ></span>
+
+              <!-- File Name -->
+              <span class="text-blue-600 hover:underline">
+                {{ document.name }}
+              </span>
+
+              <!-- Download Icon -->
+              <span
+                nz-icon
+                nzType="download"
+                nzTheme="outline"
+                class="ml-auto text-gray-400 hover:text-blue-500"
+              ></span>
+            </button>
+          </div>
+        </nz-card>
+      </div>
+
+      <!-- Other panels remain the same, apply similar styling as above for consistency -->
+    </nz-collapse-panel>
+  </nz-collapse>
+
+  <!-- Ticket Status Dropdown Template -->
+  <ng-container>
+    <ng-template #ticketStatusRef>
+      <nz-select
+        class="w-[10rem] bg-white border border-gray-300 rounded shadow-lg"
+        (ngModelChange)="handleTicketStatusChange($event)"
+        [(ngModel)]="updatedTicket.status"
+        [nzPlaceHolder]="'Ticket Status'"
+        [nzOptions]="ticketStatusOptions"
+        [nzDropdownClassName]="'ticket-status-dropdown'"
+      ></nz-select>
+    </ng-template>
+  </ng-container>
+</div>

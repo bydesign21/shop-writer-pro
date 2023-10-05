@@ -1,16 +1,23 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { Subject, take, takeUntil } from 'rxjs';
+
 import { AuthService } from '../auth-service.service';
 
 @Component({
   selector: 'swp-sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SignUpComponent implements OnInit, OnDestroy {
   form: FormGroup = new FormGroup({});
@@ -23,12 +30,11 @@ export class SignUpComponent implements OnInit, OnDestroy {
     private messageService: NzMessageService,
     private cd: ChangeDetectorRef,
     private router: Router,
-    private modalService: NzModalService
+    private modalService: NzModalService,
   ) {}
 
   ngOnInit(): void {
     this.initForm();
-    this.authService.handleSignOut();
   }
 
   ngOnDestroy(): void {
@@ -57,36 +63,40 @@ export class SignUpComponent implements OnInit, OnDestroy {
       name,
       company,
       password,
-      passwordConfirm
+      passwordConfirm,
     } = this.form.getRawValue();
     //TODO Do Not HardCode Country Code
     const formattedPhoneNumber = '+1' + phoneNumber;
     //TODO Form Validation before sign up
     if (password === passwordConfirm && isFormValid) {
-      this.authService.handleSignUp({
-        email,
-        password,
-        attributes: {
+      this.authService
+        .handleSignUp({
           email,
-          phone_number: formattedPhoneNumber,
-          address,
-          name,
-          "custom:companyName": company,
-          "custom:role": 'user'
-        }
-      })
-        .pipe(
-          take(1),
-          takeUntil(this.destroy$)
-        )
-        .subscribe(signUpRes => {
-          this.messageService.success(`A code has been sent to ${signUpRes?.user['username']}`);
-          this.router.navigate(['auth/login/confirm-account'], { queryParams: { userId: signUpRes.user['username'] } });
-        },
-          err => {
-            this.messageService.error(err.message)
+          password,
+          attributes: {
+            email,
+            phone_number: formattedPhoneNumber,
+            address,
+            name,
+            'custom:companyName': company,
+            'custom:role': 'user',
+          },
+        })
+        .pipe(take(1), takeUntil(this.destroy$))
+        .subscribe(
+          (signUpRes) => {
+            this.messageService.success(
+              `A code has been sent to ${signUpRes?.user['username']}`,
+            );
+            this.router.navigate(['auth/login/confirm-account'], {
+              queryParams: { userId: signUpRes.user['username'] },
+            });
+          },
+          (err) => {
+            this.messageService.error(err.message);
             // this.handleErrorResponse(err.code);
-          })
+          },
+        );
     } else {
       this.messageService.error('Please fill all the required fields');
     }
@@ -129,7 +139,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   handleTermsConditionsClicked() {
     this.modalService.create({
       nzTitle: 'Terms and Conditions',
-      nzStyle: {top: '20px'},
+      nzStyle: { top: '20px' },
       nzContent: `<p><em>Virtual Appraiser Corp. d/b/a Shop Writer Pro (hereafter “Shop Writer Pro”) provides virtual estimates to individuals and auto body repair shops for informational purposes only. These virtual estimates are based on visual video inspections of damage to motor vehicles conducted by automobile collision damage experts. The calculations are based on local labor and materials/parts pricing.</em></p>
       <p><em>The virtual estimate provided is limited to the visible damage and any damage that is concealed, not exposed to view, or inaccessible is not reflected in the virtual estimate. Therefore, the user must assume all risk for any concealed damage and accept the calculations provided in the virtual estimate as a guideline and resource for preparing a final estimate.</em></p>
       <p><strong>Accuracy and Reliability</strong></p>
@@ -143,7 +153,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
       <p><strong>Agreement to Terms and Conditions</strong></p>
       <p><em>By using Shop Writer Pro's services, the user acknowledges that they have read and understood these terms and conditions, and agree to be bound by them.</em></p>`,
       nzWidth: 900,
-      nzCancelDisabled: true
-    })
+      nzCancelDisabled: true,
+    });
   }
 }

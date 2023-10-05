@@ -1,13 +1,14 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTagModule } from 'ng-zorro-antd/tag';
-import { TableCardComponent } from './table-card.component'
-import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+
 import { TicketViewerModule } from '../ticket-viewer/ticket-viewer.module';
 
-
+import { TableCardComponent } from './table-card.component';
 
 @NgModule({
   declarations: [TableCardComponent],
@@ -17,8 +18,9 @@ import { TicketViewerModule } from '../ticket-viewer/ticket-viewer.module';
     NzTagModule,
     NzSpinModule,
     TicketViewerModule,
-    NzTableModule
+    NzTableModule,
+    NzToolTipModule,
   ],
-  exports: [TableCardComponent]
+  exports: [TableCardComponent],
 })
-export class TableCardModule { }
+export class TableCardModule {}

@@ -16,7 +16,6 @@
             ? 'Open Tickets'
             : 'Recent Orders'
         "
-        [loadingIndicatorRef]="loadingIndicator"
         [isLoading$]="dataLoading$"
         [pageLimit]="tableLimit"
         [data$]="openOrders$"
@@ -105,7 +104,6 @@
           ? 'Recent Tickets'
           : 'Recent Assignments'
       "
-      [loadingIndicatorRef]="loadingIndicator"
       [assignmentTable]="userSession.role === userRoles.ADMIN ? true : false"
       [isLoading$]="dataLoading$"
       [pageLimit]="tableLimit"
@@ -123,12 +121,4 @@
     class="min-h-[100dvh] sm:min-h-[auto]"
     (ticketSubmitted)="handleTicketSubmitted()"
   ></swp-ticketing>
-</ng-template>
-<ng-template #loadingIndicator>
-  <span
-    nz-icon
-    nzType="loading"
-    nzTheme="outline"
-    class="[&>*]:text-6xl [&>*]:relative [&>*]:top-[2rem]"
-  ></span>
 </ng-template>

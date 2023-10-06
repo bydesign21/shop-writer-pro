@@ -31,7 +31,6 @@ export class TableCardComponent implements OnInit, OnDestroy {
   @Input() data$: BehaviorSubject<any[]>;
   @Input() pageLimit: number;
   @Input() noResultRef: TemplateRef<any> | string;
-  @Input() loadingIndicatorRef: TemplateRef<any>;
   @Input() isLoading$: BehaviorSubject<boolean>;
   @Input() cardTitle: string;
   @Input() rules: UserRole | string = UserRole.USER;
@@ -122,16 +121,16 @@ export class TableCardComponent implements OnInit, OnDestroy {
     private cd: ChangeDetectorRef,
     private utilService: SharedUtilsService,
     private router: Router,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.isLoading$.pipe(takeUntil(this.destroy$)).subscribe((isLoading) => {
       this.pagedData = !isLoading
         ? this.updatePagedData(
-            this.data$.getValue(),
-            this.pageIndex,
-            this.pageLimit,
-          )
+          this.data$.getValue(),
+          this.pageIndex,
+          this.pageLimit,
+        )
         : [];
       this.cd.detectChanges();
     });

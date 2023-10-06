@@ -15,12 +15,35 @@
   @apply py-1 px-2;
 }
 
-
-
 ::ng-deep {
   .table-card__container {
     div.ant-spin-container {
       min-width: 100% !important;
+    }
+  }
+}
+
+@media (min-width: 800px) {
+  .table-card__mobile {
+    display: none;
+  }
+}
+
+@media (max-width: 800px) {
+  .table-card {
+    display: none;
+  }
+
+  ::ng-deep {
+    nz-spin.spinner-mobile > .ng-star-inserted > .ant-spin {
+      display: flex;
+      justify-content: center;
+      vertical-align: middle;
+      align-items: center;
+      swp-spinner-template > span > svg {
+        position: relative;
+        top: 0 !important;
+      }
     }
   }
 }

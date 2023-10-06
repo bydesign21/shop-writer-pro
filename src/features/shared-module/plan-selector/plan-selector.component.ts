@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -14,13 +15,14 @@ import {
   styleUrls: ['./plan-selector.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PlanSelectorComponent implements OnInit {
+export class PlanSelectorComponent implements AfterViewInit {
   @Input() selectedPlan: any;
   @Output() planSelected = new EventEmitter<any>();
 
-  constructor(private cd: ChangeDetectorRef) {}
+  constructor(private cd: ChangeDetectorRef) { }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
+    console.log('plans', this.plans);
     if (this.selectedPlan) {
       console.log('selectedPlan', this.selectedPlan);
       this.planSelected.emit(this.selectedPlan);

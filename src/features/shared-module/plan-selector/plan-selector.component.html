@@ -1,6 +1,6 @@
 <div
   *ngFor="let plan of plans"
-  [ngClass]="{ selected: selectedPlan === plan }"
+  [ngClass]="{ selected: selectedPlan?.id === plan?.id }"
   (click)="selectPlan(plan)"
   class="option-card bg-white rounded shadow transition-all duration-300 mb-4 hover:shadow-lg hover:-translate-y-1 transform mt-4"
 >

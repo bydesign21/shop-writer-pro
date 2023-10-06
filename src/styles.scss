@@ -1,6 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../node_modules/ng-zorro-antd/ng-zorro-antd.min.css";
-@import "~@aws-amplify/ui-angular/theme.css";
 
 body,
 span,
@@ -51,10 +50,27 @@ textarea {
   min-height: 4rem;
 }
 
-@media screen and (max-width: 768px) {
-  ::ng-deep {
-    .ant-modal-body {
-      padding: 0;
+.ant-modal-close-icon {
+  position: relative;
+  bottom: 1rem;
+  left: 0.8rem;
+}
+
+@media screen and (max-width: 800px) {
+  .ant-modal-body {
+    padding: 0;
+  }
+  nz-modal-container {
+    overflow-y: hidden !important;
+  }
+  .ant-modal {
+    overflow-y: hidden !important;
+    height: 100%;
+    top: unset !important;
+
+    .ant-modal-content {
+      height: 100%;
+      border-radius: 0;
     }
   }
 }

@@ -10,7 +10,6 @@
       [isLoading$]="dataLoading$"
       [noResultRef]="(dataLoading$ | async) ? null : 'No results'"
       [pageLimit]="openOrderTableLimit"
-      [loadingIndicatorRef]="loadingIndicator"
       [rules]="userSession.role"
       (ticketUpdated)="handleTicketUpdated($event)"
     ></swp-table-card>
@@ -24,13 +23,4 @@
     [ticket]="selectedTicket"
     (ticketSubmitted)="loadData()"
   ></swp-ticket-viewer>
-</ng-template>
-
-<!-- Loading Indicator -->
-<ng-template #loadingIndicator>
-  <span
-    class="[&>*]:text-[3rem] [&>*]:relative [&>*]:top-[2rem]"
-    nz-icon
-    nzType="loading"
-  ></span>
 </ng-template>

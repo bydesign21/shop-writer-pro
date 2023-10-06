@@ -33,4 +33,17 @@
   .table-card {
     display: none;
   }
+
+  ::ng-deep {
+    nz-spin.spinner-mobile > .ng-star-inserted > .ant-spin {
+      display: flex;
+      justify-content: center;
+      vertical-align: middle;
+      align-items: center;
+      swp-spinner-template > span > svg {
+        position: relative;
+        top: 0 !important;
+      }
+    }
+  }
 }

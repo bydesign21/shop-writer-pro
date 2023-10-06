@@ -17,11 +17,7 @@
       [noResultRef]="(dataLoading$ | async) ? null : 'No results'"
       [pageLimit]="tableLimit"
       [rules]="profileRole$ | async"
-      [loadingIndicatorRef]="loadingIndicator"
       (ticketUpdated)="handleTicketUpdated($event)"
     ></swp-table-card>
   </nz-col>
 </nz-row>
-<ng-template #loadingIndicator>
-  <span style="font-size: xxx-large" nz-icon nzType="loading"></span>
-</ng-template>

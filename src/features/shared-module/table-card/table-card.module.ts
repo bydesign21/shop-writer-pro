@@ -7,6 +7,7 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
+import { SpinnerTemplateModule } from '../spinner-template/spinner-template.module';
 import { TicketViewerModule } from '../ticket-viewer/ticket-viewer.module';
 
 import { TableCardComponent } from './table-card.component';
@@ -21,7 +22,8 @@ import { TableCardComponent } from './table-card.component';
     TicketViewerModule,
     NzTableModule,
     NzToolTipModule,
-    NzPaginationModule
+    NzPaginationModule,
+    SpinnerTemplateModule,
   ],
   exports: [TableCardComponent],
 })

@@ -4,13 +4,13 @@
     <nz-spin
       class="flex justify-center items-center table-card__container"
       [nzSpinning]="isLoading$ | async"
-      [nzIndicator]="loadingIndicatorRef"
+      [nzIndicator]="loadingIndicator"
     >
       <nz-table
         #filterTable
         class="min-w-full"
         [nzLoading]="isLoading$ | async"
-        [nzLoadingIndicator]="loadingIndicatorRef"
+        [nzLoadingIndicator]="loadingIndicator"
         [nzPageIndex]="pageIndex"
         [nzTotal]="(data$ | async)?.length"
         [nzNoResult]="noResultRef"
@@ -66,13 +66,13 @@
       <nz-spin
         class="flex justify-center items-center table-card__container"
         [nzSpinning]="isLoading$ | async"
-        [nzIndicator]="loadingIndicatorRef"
+        [nzIndicator]="loadingIndicator"
       >
         <nz-table
           #filterTable
           class="min-w-full"
           [nzLoading]="isLoading$ | async"
-          [nzLoadingIndicator]="loadingIndicatorRef"
+          [nzLoadingIndicator]="loadingIndicator"
           [nzPageIndex]="pageIndex"
           [nzTotal]="(data$ | async)?.length"
           [nzNoResult]="noResultRef"
@@ -128,13 +128,13 @@
 <nz-card
   *ngIf="!assignmentTable"
   [nzTitle]="cardTitle"
-  class="table-card__mobile mt-4 p-4"
+  class="table-card__mobile min-h-[20rem] mt-4 p-4"
 >
-  <div class="overflow-x-auto overflow-y-hidden">
+  <div class="overflow-x-auto min-h-[20rem] overflow-y-hidden">
     <nz-spin
-      class="flex justify-center items-center table-card__container"
+      class="flex justify-center min-h-[20rem] items-center spinner-mobile table-card__container"
       [nzSpinning]="isLoading$ | async"
-      [nzIndicator]="loadingIndicatorRef"
+      [nzIndicator]="loadingIndicator"
     >
       <div
         *ngFor="let item of pagedData"
@@ -147,11 +147,20 @@
             {{ item.date | date: "MMM, dd. yyyy." }}
           </span>
         </div>
-        <div class="block-card__model text-xs font-light text-gray-500">
+        <div class="block-card__model text-xs mb-2 font-light text-gray-500">
           Model:
           <span class="ml-1 text-gray-800 font-semibold">
             {{ item.model }}
           </span>
+        </div>
+        <div class="block-card__status text-xs font-light text-gray-500">
+          Status:
+          <nz-tag
+            class="rounded-full inline-block"
+            [nzColor]="getTicketStatusPillColor(item.status)"
+          >
+            {{ item?.status }}
+          </nz-tag>
         </div>
       </div>
 
@@ -161,7 +170,7 @@
         [nzTotal]="(data$ | async)?.length"
         [nzPageSize]="pageLimit"
         (nzPageIndexChange)="handlePageChange($event)"
-        class="mt-4"
+        class="mt-4 flex flex-auto justify-center align-center"
       ></nz-pagination>
     </nz-spin>
   </div>
@@ -171,13 +180,13 @@
 <nz-card
   *ngIf="assignmentTable"
   [nzTitle]="cardTitle"
-  class="table-card__mobile mt-4 p-4"
+  class="table-card__mobile min-h-[40rem] mt-4 p-4"
 >
-  <div class="overflow-x-auto overflow-y-hidden">
+  <div class="overflow-x-auto min-h-[40rem] overflow-y-hidden">
     <nz-spin
-      class="flex justify-center items-center table-card__container"
+      class="flex justify-center min-h-[40rem] items-center table-card__container"
       [nzSpinning]="isLoading$ | async"
-      [nzIndicator]="loadingIndicatorRef"
+      [nzIndicator]="loadingIndicator"
     >
       <div
         *ngFor="let item of pagedData"
@@ -207,7 +216,7 @@
         [nzTotal]="(data$ | async)?.length"
         [nzPageSize]="pageLimit"
         (nzPageIndexChange)="handlePageChange($event)"
-        class="mt-4"
+        class="mt-4 flex flex-auto justify-center align-center"
       ></nz-pagination>
     </nz-spin>
   </div>
@@ -220,4 +229,8 @@
     [rules]="rules"
     [ticket]="selectedItem"
   ></swp-ticket-viewer>
+</ng-template>
+
+<ng-template #loadingIndicator>
+  <swp-spinner-template></swp-spinner-template>
 </ng-template>

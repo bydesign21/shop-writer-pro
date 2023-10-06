@@ -1,4 +1,4 @@
-<!-- The first card -->
+<!-- The first card DESKTOP VIEW -->
 <nz-card *ngIf="!assignmentTable" class="table-card" [nzTitle]="cardTitle">
   <div class="overflow-x-auto min-w-[100%]">
     <nz-spin
@@ -59,7 +59,7 @@
   </div>
 </nz-card>
 
-<!-- The second card -->
+<!-- The second card DESKTOP VIEW -->
 <nz-card *ngIf="assignmentTable" class="table-card" [nzTitle]="cardTitle">
   <div class="overflow-x-auto">
     <div>
@@ -121,6 +121,95 @@
         </nz-table>
       </nz-spin>
     </div>
+  </div>
+</nz-card>
+
+<!-- FIRST CARD Block Format UI for Mobile Screens -->
+<nz-card
+  *ngIf="!assignmentTable"
+  [nzTitle]="cardTitle"
+  class="table-card__mobile mt-4 p-4"
+>
+  <div class="overflow-x-auto overflow-y-hidden">
+    <nz-spin
+      class="flex justify-center items-center table-card__container"
+      [nzSpinning]="isLoading$ | async"
+      [nzIndicator]="loadingIndicatorRef"
+    >
+      <div
+        *ngFor="let item of pagedData"
+        class="block-card mb-6 p-5 bg-white rounded-lg border border-slate-200 transition-shadow hover:shadow-xl cursor-pointer"
+        (click)="viewTableRow(item)"
+      >
+        <div class="block-card__date text-xs font-light text-gray-500 mb-2">
+          Date:
+          <span class="ml-1 text-gray-800 font-semibold">
+            {{ item.date | date: "MMM, dd. yyyy." }}
+          </span>
+        </div>
+        <div class="block-card__model text-xs font-light text-gray-500">
+          Model:
+          <span class="ml-1 text-gray-800 font-semibold">
+            {{ item.model }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Pagination for Mobile -->
+      <nz-pagination
+        [nzPageIndex]="pageIndex"
+        [nzTotal]="(data$ | async)?.length"
+        [nzPageSize]="pageLimit"
+        (nzPageIndexChange)="handlePageChange($event)"
+        class="mt-4"
+      ></nz-pagination>
+    </nz-spin>
+  </div>
+</nz-card>
+
+<!-- SECOND CARD Block Format UI for Mobile Screens -->
+<nz-card
+  *ngIf="assignmentTable"
+  [nzTitle]="cardTitle"
+  class="table-card__mobile mt-4 p-4"
+>
+  <div class="overflow-x-auto overflow-y-hidden">
+    <nz-spin
+      class="flex justify-center items-center table-card__container"
+      [nzSpinning]="isLoading$ | async"
+      [nzIndicator]="loadingIndicatorRef"
+    >
+      <div
+        *ngFor="let item of pagedData"
+        class="block-card mb-6 p-5 bg-white rounded-lg border border-slate-200 transition-shadow hover:shadow-xl cursor-pointer"
+        (click)="handleAssignedToClick(item.ticket.assignedTo)"
+      >
+        <div class="block-card__date text-sm text-gray-500 mb-1">
+          Date:
+          <span class="font-medium">{{
+            item.date | date: "MMM, dd. yyyy."
+          }}</span>
+        </div>
+        <div class="block-card__status text-sm text-gray-500">
+          Status:
+          <nz-tag
+            class="rounded-full inline-block"
+            [nzColor]="getTicketStatusPillColor(item.status)"
+          >
+            {{ item?.ticket?.status }}
+          </nz-tag>
+        </div>
+      </div>
+
+      <!-- Pagination for Mobile -->
+      <nz-pagination
+        [nzPageIndex]="pageIndex"
+        [nzTotal]="(data$ | async)?.length"
+        [nzPageSize]="pageLimit"
+        (nzPageIndexChange)="handlePageChange($event)"
+        class="mt-4"
+      ></nz-pagination>
+    </nz-spin>
   </div>
 </nz-card>
 

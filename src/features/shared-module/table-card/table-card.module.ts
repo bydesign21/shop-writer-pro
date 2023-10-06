@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTagModule } from 'ng-zorro-antd/tag';
@@ -20,7 +21,8 @@ import { TableCardComponent } from './table-card.component';
     TicketViewerModule,
     NzTableModule,
     NzToolTipModule,
+    NzPaginationModule
   ],
   exports: [TableCardComponent],
 })
-export class TableCardModule {}
+export class TableCardModule { }

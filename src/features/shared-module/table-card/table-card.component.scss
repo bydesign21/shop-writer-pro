@@ -15,12 +15,22 @@
   @apply py-1 px-2;
 }
 
-
-
 ::ng-deep {
   .table-card__container {
     div.ant-spin-container {
       min-width: 100% !important;
     }
+  }
+}
+
+@media (min-width: 800px) {
+  .table-card__mobile {
+    display: none;
+  }
+}
+
+@media (max-width: 800px) {
+  .table-card {
+    display: none;
   }
 }

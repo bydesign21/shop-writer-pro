@@ -5,7 +5,7 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { Observable, take, map } from 'rxjs';
+import { Observable, take, map, shareReplay } from 'rxjs';
 
 import { AuthService } from './auth-service.service';
 
@@ -16,7 +16,7 @@ export class DashboardGuard {
   constructor(
     private authService: AuthService,
     private router: Router,
-  ) {}
+  ) { }
 
   public canActivate(
     route: ActivatedRouteSnapshot,
@@ -28,6 +28,7 @@ export class DashboardGuard {
     | UrlTree {
     return this.authService.loggedInUser$.pipe(
       take(1),
+      shareReplay(1),
       map((user) => {
         if (user) {
           return true;

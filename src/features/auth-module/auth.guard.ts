@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router, UrlTree } from '@angular/router';
-import { map, Observable, take } from 'rxjs';
+import { map, Observable, shareReplay, take } from 'rxjs';
 
 import { AuthService } from './auth-service.service';
 
@@ -19,6 +19,7 @@ export class AuthGuard {
     | UrlTree {
     return this.authService.loggedInUser$.pipe(
       take(1),
+      shareReplay(1),
       map((user) => {
         if (user) {
           this.router.navigate(['../dashboard/home']);

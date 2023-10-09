@@ -30,7 +30,6 @@ export class TableCardComponent implements OnInit, OnDestroy {
   viewRowRef: TemplateRef<TicketViewerComponent>;
   @Input() data$: BehaviorSubject<any[]>;
   @Input() pageLimit: number;
-  @Input() noResultRef: TemplateRef<any> | string;
   @Input() isLoading$: BehaviorSubject<boolean>;
   @Input() cardTitle: string;
   @Input() rules: UserRole | string = UserRole.USER;

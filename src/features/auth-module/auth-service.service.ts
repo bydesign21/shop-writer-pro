@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Auth } from 'aws-amplify';
 import { catchError, from, map, Observable, of, switchMap, tap } from 'rxjs';
 import { SessionService } from 'src/app/session-store/domain-state/session.service';
+import { SessionState } from 'src/app/session-store/domain-state/session.store';
 import awsmobile from 'src/aws-exports';
 
 @Injectable({
@@ -14,9 +15,11 @@ export class AuthService {
       return of(false);
     }
     return from(
-      Auth.currentAuthenticatedUser()
+      Auth.currentAuthenticatedUser({ bypassCache: true })
         .then((res) => {
-          console.log(res);
+          const session = this.mapLoginResToSession(res);
+          console.log('getting session from logged in users', session);
+          this.sessionService.updateSession(session);
           return res;
         })
         .catch((e) => {
@@ -160,5 +163,21 @@ export class AuthService {
       console.log('Failed to get User Cognito Key', error);
       return null;
     }
+  }
+
+  public mapLoginResToSession(loginRes: any): SessionState {
+    return {
+      id: loginRes?.attributes?.sub,
+      name: loginRes?.attributes?.name,
+      email: loginRes?.attributes?.email,
+      phone_number: loginRes?.attributes?.phone_number,
+      emailVerified: loginRes?.attributes?.email_verified,
+      phoneVerified: loginRes?.attributes?.phone_number_verified,
+      address: loginRes?.attributes?.address,
+      isAuthenticated: true,
+      'custom:avatarUrl': loginRes?.attributes['custom:avatarUrl'],
+      'custom:companyName': loginRes?.attributes['custom:companyName'],
+      role: loginRes?.attributes['custom:role'],
+    };
   }
 }

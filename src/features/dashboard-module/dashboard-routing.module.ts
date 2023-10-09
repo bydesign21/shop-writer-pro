@@ -23,18 +23,22 @@ const routes: Routes = [
       {
         path: 'home',
         component: DashboardHomeComponent,
+        canActivate: [DashboardGuard],
       },
       {
         path: 'transactions',
         component: TransactionContainerComponent,
+        canActivate: [DashboardGuard],
       },
       {
         path: 'profile',
         component: ProfileComponent,
+        canActivate: [DashboardGuard],
       },
       {
         path: 'profile/data',
         component: ProfileDataComponent,
+        canActivate: [DashboardGuard],
       },
     ],
   },
@@ -44,4 +48,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class DashboardRoutingModule {}
+export class DashboardRoutingModule { }

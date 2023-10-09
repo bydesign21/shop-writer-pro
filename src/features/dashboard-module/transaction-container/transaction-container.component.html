@@ -8,7 +8,6 @@
       [data$]="openOrders$"
       [cardTitle]="'All Transactions'"
       [isLoading$]="dataLoading$"
-      [noResultRef]="(dataLoading$ | async) ? null : 'No results'"
       [pageLimit]="openOrderTableLimit"
       [rules]="userSession.role"
       (ticketUpdated)="handleTicketUpdated($event)"

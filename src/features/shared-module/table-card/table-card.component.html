@@ -136,57 +136,44 @@
       [nzSpinning]="isLoading$ | async"
       [nzIndicator]="loadingIndicator"
     >
-      <div
-        *ngIf="!pagedData?.length && (isLoading$ | async) === false"
-        class="empty-state flex flex-col justify-center items-center min-h-[30rem]"
-      >
-        <span
-          nz-icon
-          nzType="folder-open"
-          nzTheme="outline"
-          class="text-gray-400 [&>*]:text-6xl mb-4"
-        ></span>
-        <h3 class="text-xl font-semibold text-gray-700 mb-2">
-          No Data Available
-        </h3>
-        <p class="text-gray-500 mb-4">We couldn't find any results.</p>
-      </div>
-      <div
-        *ngFor="let item of pagedData"
-        class="block-card mb-6 p-5 bg-white rounded-lg border border-slate-200 transition-shadow hover:shadow-xl cursor-pointer"
-        (click)="viewTableRow(item)"
-      >
-        <div class="block-card__date text-xs font-light text-gray-500 mb-2">
-          Date:
-          <span class="ml-1 text-gray-800 font-semibold">
-            {{ item.date | date: "MMM, dd. yyyy." }}
-          </span>
+      <div *ngIf="pagedData?.length; else noResultRef">
+        <div
+          *ngFor="let item of pagedData"
+          class="block-card mb-6 p-5 bg-white rounded-lg border border-slate-200 transition-shadow hover:shadow-xl cursor-pointer"
+          (click)="viewTableRow(item)"
+        >
+          <div class="block-card__date text-xs font-light text-gray-500 mb-2">
+            Date:
+            <span class="ml-1 text-gray-800 font-semibold">
+              {{ item.date | date: "MMM, dd. yyyy." }}
+            </span>
+          </div>
+          <div class="block-card__model text-xs mb-2 font-light text-gray-500">
+            Model:
+            <span class="ml-1 text-gray-800 font-semibold">
+              {{ item.model }}
+            </span>
+          </div>
+          <div class="block-card__status text-xs font-light text-gray-500">
+            Status:
+            <nz-tag
+              class="rounded-full inline-block"
+              [nzColor]="getTicketStatusPillColor(item.status)"
+            >
+              {{ item?.status }}
+            </nz-tag>
+          </div>
         </div>
-        <div class="block-card__model text-xs mb-2 font-light text-gray-500">
-          Model:
-          <span class="ml-1 text-gray-800 font-semibold">
-            {{ item.model }}
-          </span>
-        </div>
-        <div class="block-card__status text-xs font-light text-gray-500">
-          Status:
-          <nz-tag
-            class="rounded-full inline-block"
-            [nzColor]="getTicketStatusPillColor(item.status)"
-          >
-            {{ item?.status }}
-          </nz-tag>
-        </div>
-      </div>
 
-      <!-- Pagination for Mobile -->
-      <nz-pagination
-        [nzPageIndex]="pageIndex"
-        [nzTotal]="(data$ | async)?.length"
-        [nzPageSize]="pageLimit"
-        (nzPageIndexChange)="handlePageChange($event)"
-        class="mt-4 flex flex-auto justify-center align-center"
-      ></nz-pagination>
+        <!-- Pagination for Mobile -->
+        <nz-pagination
+          [nzPageIndex]="pageIndex"
+          [nzTotal]="(data$ | async)?.length"
+          [nzPageSize]="pageLimit"
+          (nzPageIndexChange)="handlePageChange($event)"
+          class="mt-4 flex flex-auto justify-center align-center"
+        ></nz-pagination>
+      </div>
     </nz-spin>
   </div>
 </nz-card>
@@ -203,51 +190,38 @@
       [nzSpinning]="isLoading$ | async"
       [nzIndicator]="loadingIndicator"
     >
-      <div
-        *ngIf="!pagedData?.length && (isLoading$ | async) === false"
-        class="empty-state flex flex-col justify-center items-center min-h-[30rem]"
-      >
-        <span
-          nz-icon
-          nzType="folder-open"
-          nzTheme="outline"
-          class="text-gray-400 [&>*]:text-6xl mb-4"
-        ></span>
-        <h3 class="text-xl font-semibold text-gray-700 mb-2">
-          No Data Available
-        </h3>
-        <p class="text-gray-500 mb-4">We couldn't find any results.</p>
-      </div>
-      <div
-        *ngFor="let item of pagedData"
-        class="block-card mb-6 p-5 bg-white rounded-lg border border-slate-200 transition-shadow hover:shadow-xl cursor-pointer"
-        (click)="handleAssignedToClick(item.ticket.assignedTo)"
-      >
-        <div class="block-card__date text-sm text-gray-500 mb-1">
-          Date:
-          <span class="font-medium">{{
-            item.date | date: "MMM, dd. yyyy."
-          }}</span>
+      <div *ngIf="pagedData?.length; else noResultRef">
+        <div
+          *ngFor="let item of pagedData"
+          class="block-card mb-6 p-5 bg-white rounded-lg border border-slate-200 transition-shadow hover:shadow-xl cursor-pointer"
+          (click)="handleAssignedToClick(item.ticket.assignedTo)"
+        >
+          <div class="block-card__date text-sm text-gray-500 mb-1">
+            Date:
+            <span class="font-medium">{{
+              item.date | date: "MMM, dd. yyyy."
+            }}</span>
+          </div>
+          <div class="block-card__status text-sm text-gray-500">
+            Status:
+            <nz-tag
+              class="rounded-full inline-block"
+              [nzColor]="getTicketStatusPillColor(item.status)"
+            >
+              {{ item?.ticket?.status }}
+            </nz-tag>
+          </div>
         </div>
-        <div class="block-card__status text-sm text-gray-500">
-          Status:
-          <nz-tag
-            class="rounded-full inline-block"
-            [nzColor]="getTicketStatusPillColor(item.status)"
-          >
-            {{ item?.ticket?.status }}
-          </nz-tag>
-        </div>
-      </div>
 
-      <!-- Pagination for Mobile -->
-      <nz-pagination
-        [nzPageIndex]="pageIndex"
-        [nzTotal]="(data$ | async)?.length"
-        [nzPageSize]="pageLimit"
-        (nzPageIndexChange)="handlePageChange($event)"
-        class="mt-4 flex flex-auto justify-center align-center"
-      ></nz-pagination>
+        <!-- Pagination for Mobile -->
+        <nz-pagination
+          [nzPageIndex]="pageIndex"
+          [nzTotal]="(data$ | async)?.length"
+          [nzPageSize]="pageLimit"
+          (nzPageIndexChange)="handlePageChange($event)"
+          class="mt-4 flex flex-auto justify-center align-center"
+        ></nz-pagination>
+      </div>
     </nz-spin>
   </div>
 </nz-card>
@@ -263,4 +237,20 @@
 
 <ng-template #loadingIndicator>
   <swp-spinner-template></swp-spinner-template>
+</ng-template>
+
+<ng-template #noResultRef>
+  <div
+    *ngIf="!pagedData?.length && (isLoading$ | async) === false"
+    class="empty-state flex flex-col justify-center items-center min-h-[5rem] sm:min-h-[20rem]"
+  >
+    <span
+      nz-icon
+      nzType="folder-open"
+      nzTheme="outline"
+      class="text-gray-400 [&>*]:text-6xl mb-4"
+    ></span>
+    <h3 class="text-xl font-semibold text-gray-700 mb-2">No Data Available</h3>
+    <p class="text-gray-500 mb-4">We couldn't find any results.</p>
+  </div>
 </ng-template>
